@@ -1,0 +1,313 @@
+---
+// Ejemplo guiado: el problema se resuelve paso a paso, pero cada paso empieza
+// con una pregunta («¿qué harías ahora?») y el desarrollo solo aparece cuando
+// el alumno lo pide. Así piensa antes de leer.
+import { getEntry } from 'astro:content';
+import ExerciseFigure from './ExerciseFigure.astro';
+import ExerciseMeta from './ExerciseMeta.astro';
+import SourceNote from './SourceNote.astro';
+import Icon from '../ui/Icon.astro';
+import { renderExercise } from '../../lib/exercise-render';
+import { getTopic, labUrl } from '../../lib/content';
+
+interface Props {
+	/** Identificador del ejercicio: "<tema>/<archivo>" */
+	id: string;
+	n?: number;
+}
+const { id, n } = Astro.props;
+const entry = await getEntry('ejercicios', id);
+if (!entry) throw new Error(`GuidedExample: no existe el ejercicio ${id}`);
+const ex = entry.data;
+const R = await renderExercise(ex);
+const topic = await getTopic(ex.tema);
+let k = 0;
+---
+
+<guided-example class="guided wide" id={`ejemplo-${id.split('/').pop()}`}>
+	<header class="g-head">
+		<p class="g-kicker">Ejemplo guiado{n ? ` ${n}` : ''}</p>
+		<h3>{ex.titulo}</h3>
+		<ExerciseMeta ex={ex} compact />
+	</header>
+	<div class="g-body">
+		<div class="statement" set:html={R.enunciado} />
+		{ex.figura && <ExerciseFigure figura={ex.figura} titulo={ex.titulo} />}
+
+		<div class="g-setup">
+			{
+				R.interpretacion && (
+					<section>
+						<p class="g-k"><Icon name="eye" size={15} /> Qué está pasando</p>
+						<Fragment set:html={R.interpretacion} />
+					</section>
+				)
+			}
+			{
+				R.datos.length > 0 && (
+					<section>
+						<p class="g-k"><Icon name="pencil" size={15} /> Datos (con signo y en el SI)</p>
+						<ul class="datos">
+							{R.datos.map((d) => (
+								<li>
+									<span set:html={d.simbolo} /> = <span set:html={d.valor} /> <span class="muted">({d.significado})</span>
+								</li>
+							))}
+						</ul>
+						{R.incognitas.length > 0 && (
+							<>
+								<p class="g-k">Nos piden</p>
+								<ul>
+									{R.incognitas.map((q) => (
+										<li set:html={q} />
+									))}
+								</ul>
+							</>
+						)}
+					</section>
+				)
+			}
+		</div>
+
+		{
+			R.apartados.map((p) => (
+				<section class="g-part">
+					{R.apartados.length > 1 && (
+						<p class="g-prompt">
+							<span class="pid">{p.id})</span> <span set:html={p.enunciado} />
+						</p>
+					)}
+					<ol class="g-steps">
+						{p.pasos.map((s) => {
+							const idx = k++;
+							return (
+								<li class="g-step" data-idx={idx} hidden={idx > 0}>
+									<p class="g-title" set:html={s.titulo} />
+									{s.piensa && (
+										<p class="g-think">
+											<Icon name="help" size={16} /> <span set:html={s.piensa} />
+										</p>
+									)}
+									<button class="btn btn-sm show-step" type="button">
+										Ver el paso <Icon name="chevron" size={16} />
+									</button>
+									<div class="g-work" hidden>
+										<Fragment set:html={s.desarrollo} />
+										{s.porque && (
+											<p class="g-why">
+												<strong>Por qué:</strong> <span set:html={s.porque} />
+											</p>
+										)}
+									</div>
+								</li>
+							);
+						})}
+					</ol>
+					<div class="g-result" hidden>
+						<p class="g-k">Resultado{R.apartados.length > 1 ? ` del apartado ${p.id})` : ''}</p>
+						<Fragment set:html={p.resultado} />
+					</div>
+				</section>
+			))
+		}
+
+		<div class="g-controls">
+			<button class="btn btn-ghost btn-sm show-all" type="button">Mostrar toda la resolución</button>
+		</div>
+
+		<div class="g-after" hidden>
+			{
+				R.errores.length > 0 && (
+					<section>
+						<p class="g-k"><Icon name="alert" size={15} /> Errores frecuentes</p>
+						<ul class="mistakes">
+							{R.errores.map((e) => (
+								<li>
+									<strong set:html={e.error} />
+									<div set:html={e.explicacion} />
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
+			{
+				R.alternativas.map((a) => (
+					<section>
+						<p class="g-k"><Icon name="compass" size={15} /> {a.titulo}</p>
+						<Fragment set:html={a.desarrollo} />
+					</section>
+				))
+			}
+			{
+				ex.laboratorio && (
+					<a class="btn" href={labUrl(topic, ex.laboratorio)}>
+						<Icon name="flask" /> Ver este ejemplo en el laboratorio
+					</a>
+				)
+			}
+			<SourceNote ex={ex} />
+		</div>
+	</div>
+</guided-example>
+
+<script>
+	import '../../scripts/exercise';
+</script>
+
+<style>
+	.guided {
+		display: block;
+		margin: 2rem 0 2.5rem;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		box-shadow: var(--shadow);
+		overflow: hidden;
+	}
+	.g-head {
+		padding: 1.1rem 1.3rem 1rem;
+		background: var(--surface-2);
+		border-bottom: 1px solid var(--line);
+	}
+	.g-kicker {
+		font: 650 0.78rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+		margin: 0 0 0.2rem;
+	}
+	.g-head h3 {
+		margin: 0 0 0.5rem;
+		font-size: 1.3rem;
+	}
+	.g-body {
+		padding: 1.1rem 1.3rem 1.3rem;
+	}
+	.statement {
+		font-size: 1.05rem;
+	}
+	.g-setup {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+		gap: 1rem;
+		margin: 1rem 0 1.25rem;
+	}
+	.g-setup section {
+		background: var(--surface-2);
+		border-radius: var(--radius);
+		padding: 0.85rem 1rem 0.2rem;
+		font-size: 0.96rem;
+	}
+	.g-k {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font: 650 0.78rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--ink-3);
+		margin: 0 0 0.45rem;
+	}
+	.datos {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 0.75rem;
+		display: grid;
+		gap: 0.2rem;
+	}
+	.g-part {
+		margin-top: 1.25rem;
+	}
+	.g-prompt {
+		font-weight: 700;
+		font-size: 1.05rem;
+	}
+	.pid {
+		color: var(--accent);
+		font-family: var(--font-display);
+	}
+	.g-steps {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.g-step {
+		position: relative;
+		padding: 0.1rem 0 1rem 1.4rem;
+		border-left: 2px solid var(--line);
+		margin-left: 0.4rem;
+	}
+	.g-step::before {
+		content: '';
+		position: absolute;
+		left: -7px;
+		top: 0.45rem;
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--surface);
+		border: 2px solid var(--accent);
+	}
+	.g-step.done::before {
+		background: var(--accent);
+	}
+	.g-title {
+		font-weight: 700;
+		margin-bottom: 0.25rem;
+	}
+	.g-think {
+		display: flex;
+		gap: 0.45rem;
+		align-items: baseline;
+		color: var(--accent);
+		font-weight: 600;
+		margin-bottom: 0.5rem;
+	}
+	.g-think :global(.icon) {
+		flex: none;
+		transform: translateY(2px);
+	}
+	.g-work {
+		margin-top: 0.25rem;
+	}
+	.g-why {
+		font-size: 0.93rem;
+		color: var(--ink-2);
+		background: var(--surface-2);
+		border-radius: 8px;
+		padding: 0.45rem 0.75rem;
+	}
+	.g-result {
+		margin: 0.25rem 0 0.5rem;
+		padding: 0.75rem 1rem 0.2rem;
+		border: 1.5px solid var(--ink);
+		border-radius: var(--radius);
+	}
+	.g-controls {
+		margin-top: 0.75rem;
+	}
+	.g-after {
+		margin-top: 1.25rem;
+		border-top: 1px solid var(--line);
+		padding-top: 1rem;
+		display: grid;
+		gap: 1rem;
+	}
+	.g-after[hidden] {
+		display: none;
+	}
+	.g-after > .btn {
+		justify-self: start;
+	}
+	.mistakes {
+		padding-left: 1.1em;
+		margin: 0;
+		display: grid;
+		gap: 0.5rem;
+		font-size: 0.96rem;
+	}
+	.mistakes :global(p) {
+		margin: 0.15rem 0 0;
+	}
+</style>

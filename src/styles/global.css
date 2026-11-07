@@ -1,0 +1,465 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+@import 'katex/dist/katex.min.css';
+@import './sims.css';
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Tokens
+   Código de color físico (el mismo en texto, fórmulas, simulaciones y
+   gráficas):  azul = horizontal (eje X) · naranja = vertical (eje Y) ·
+   verde agua = gravedad · tinta = velocidad total.
+   El violeta queda reservado para la interfaz (enlaces, botones, foco).
+   Paleta de magnitudes validada para daltonismo (ΔE CVD ≥ 9 en todos los pares).
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+	color-scheme: light;
+	--font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-display: 'Space Grotesk Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--font-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace;
+
+	--bg: #f6f5f1;
+	--surface: #ffffff;
+	--surface-2: #f0efe9;
+	--surface-3: #e7e5dd;
+	--ink: #15151b;
+	--ink-2: #45444f;
+	--ink-3: #6c6b75;
+	--line: #e0ded5;
+	--line-strong: #c9c6ba;
+	--grid: #ecebe5;
+
+	--accent: #4f3fd0;
+	--accent-hover: #4033b8;
+	--accent-ink: #ffffff;
+	--accent-soft: #edebfb;
+
+	/* marcas (flechas, líneas, puntos) */
+	--q-x: #2a78d6;
+	--q-y: #eb6834;
+	--q-g: #1baf7a;
+	--q-v: #15151b;
+	--q-ghost: #a9a7b3;
+	/* texto (≥ 4,5:1 sobre el fondo) */
+	--q-x-text: #1d63b8;
+	--q-y-text: #c2470f;
+	--q-g-text: #0b7a54;
+	--q-x-soft: #e6f0fc;
+	--q-y-soft: #fdece3;
+	--q-g-soft: #e0f5ec;
+
+	--ok: #0f7a2e;
+	--ok-soft: #e4f4e8;
+	--bad: #c2312f;
+	--bad-soft: #fbe7e6;
+	--warn: #8a5a00;
+	--warn-soft: #fdf2da;
+
+	--radius-lg: 20px;
+	--radius: 14px;
+	--radius-sm: 9px;
+	--shadow-sm: 0 1px 2px rgb(20 20 30 / 0.06);
+	--shadow: 0 1px 2px rgb(20 20 30 / 0.05), 0 10px 30px -16px rgb(20 20 30 / 0.22);
+	--focus: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent);
+
+	--page-max: 1180px;
+	--prose-max: 70ch;
+	--gutter: clamp(16px, 4vw, 32px);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
+		--bg: #111114;
+		--surface: #1a1a1f;
+		--surface-2: #222228;
+		--surface-3: #2c2c33;
+		--ink: #f1f0ec;
+		--ink-2: #c6c5cc;
+		--ink-3: #9a99a4;
+		--line: #2f2f37;
+		--line-strong: #44444e;
+		--grid: #26262d;
+		--accent: #a79dff;
+		--accent-hover: #bdb5ff;
+		--accent-ink: #15131f;
+		--accent-soft: #26233d;
+		--q-x: #3987e5;
+		--q-y: #d95926;
+		--q-g: #199e70;
+		--q-v: #f1f0ec;
+		--q-ghost: #6a6975;
+		--q-x-text: #72aef2;
+		--q-y-text: #f3925f;
+		--q-g-text: #3fcf9b;
+		--q-x-soft: #1b2a3d;
+		--q-y-soft: #3a2418;
+		--q-g-soft: #15302a;
+		--ok: #5bd27e;
+		--ok-soft: #173323;
+		--bad: #ff8a87;
+		--bad-soft: #3d1c1c;
+		--warn: #f0b545;
+		--warn-soft: #3a2c10;
+		--shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -18px rgb(0 0 0 / 0.7);
+	}
+}
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--bg: #111114;
+	--surface: #1a1a1f;
+	--surface-2: #222228;
+	--surface-3: #2c2c33;
+	--ink: #f1f0ec;
+	--ink-2: #c6c5cc;
+	--ink-3: #9a99a4;
+	--line: #2f2f37;
+	--line-strong: #44444e;
+	--grid: #26262d;
+	--accent: #a79dff;
+	--accent-hover: #bdb5ff;
+	--accent-ink: #15131f;
+	--accent-soft: #26233d;
+	--q-x: #3987e5;
+	--q-y: #d95926;
+	--q-g: #199e70;
+	--q-v: #f1f0ec;
+	--q-ghost: #6a6975;
+	--q-x-text: #72aef2;
+	--q-y-text: #f3925f;
+	--q-g-text: #3fcf9b;
+	--q-x-soft: #1b2a3d;
+	--q-y-soft: #3a2418;
+	--q-g-soft: #15302a;
+	--ok: #5bd27e;
+	--ok-soft: #173323;
+	--bad: #ff8a87;
+	--bad-soft: #3d1c1c;
+	--warn: #f0b545;
+	--warn-soft: #3a2c10;
+	--shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -18px rgb(0 0 0 / 0.7);
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────── */
+/* El atributo «hidden» siempre gana, aunque el componente fije un display. */
+[hidden] {
+	display: none !important;
+}
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+	scroll-padding-top: 88px;
+}
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--ink);
+	font-family: var(--font-body);
+	font-size: 1.0625rem;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+img,
+svg {
+	max-width: 100%;
+}
+h1,
+h2,
+h3,
+h4 {
+	font-family: var(--font-display);
+	line-height: 1.15;
+	letter-spacing: -0.015em;
+	margin: 0 0 0.5em;
+	text-wrap: balance;
+}
+h1 {
+	font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+	font-weight: 650;
+	letter-spacing: -0.03em;
+}
+h2 {
+	font-size: clamp(1.45rem, 1.2rem + 1vw, 2rem);
+	font-weight: 620;
+}
+h3 {
+	font-size: 1.2rem;
+	font-weight: 620;
+}
+p {
+	margin: 0 0 1em;
+	text-wrap: pretty;
+}
+a {
+	color: var(--accent);
+	text-underline-offset: 0.18em;
+	text-decoration-thickness: 1px;
+}
+a:hover {
+	color: var(--accent-hover);
+}
+:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: 6px;
+}
+::selection {
+	background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+hr {
+	border: 0;
+	border-top: 1px solid var(--line);
+	margin: 2.5rem 0;
+}
+code {
+	font-family: var(--font-mono);
+	font-size: 0.9em;
+	background: var(--surface-2);
+	padding: 0.1em 0.35em;
+	border-radius: 5px;
+}
+.visually-hidden {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+.num {
+	font-variant-numeric: tabular-nums;
+}
+
+/* Magnitudes coloreadas (macros \cx \cy \cg en LaTeX y clases en HTML) */
+.q-x {
+	color: var(--q-x-text);
+}
+.q-y {
+	color: var(--q-y-text);
+}
+.q-g {
+	color: var(--q-g-text);
+}
+
+/* KaTeX */
+.katex {
+	font-size: 1.08em;
+}
+.katex-display {
+	margin: 0.9em 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	padding: 0.2em 0;
+}
+.katex-display > .katex {
+	font-size: 1.16em;
+}
+
+/* ─── Estructura ───────────────────────────────────────────────────────── */
+.container {
+	width: 100%;
+	max-width: var(--page-max);
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+.section {
+	padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+}
+.eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	font-family: var(--font-display);
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--ink-3);
+	margin-bottom: 0.75rem;
+}
+.lead {
+	font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+	color: var(--ink-2);
+	line-height: 1.5;
+	max-width: 62ch;
+}
+.muted {
+	color: var(--ink-3);
+}
+
+/* ─── Botones ──────────────────────────────────────────────────────────── */
+.btn {
+	--btn-bg: var(--surface);
+	--btn-ink: var(--ink);
+	--btn-line: var(--line-strong);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5em;
+	min-height: 44px;
+	padding: 0.55em 1.05em;
+	border-radius: 999px;
+	border: 1px solid var(--btn-line);
+	background: var(--btn-bg);
+	color: var(--btn-ink);
+	font: 600 0.98rem/1.2 var(--font-body);
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		background 0.15s,
+		border-color 0.15s,
+		transform 0.1s;
+	white-space: nowrap;
+}
+.btn:hover {
+	color: var(--btn-ink);
+	border-color: var(--ink-3);
+}
+.btn:active {
+	transform: translateY(1px);
+}
+.btn[disabled] {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+.btn-primary {
+	--btn-bg: var(--accent);
+	--btn-ink: var(--accent-ink);
+	--btn-line: var(--accent);
+}
+.btn-primary:hover {
+	--btn-bg: var(--accent-hover);
+	border-color: var(--accent-hover);
+}
+.btn-ghost {
+	--btn-bg: transparent;
+	--btn-line: transparent;
+}
+.btn-ghost:hover {
+	background: var(--surface-2);
+	border-color: transparent;
+}
+.btn-sm {
+	min-height: 36px;
+	padding: 0.35em 0.8em;
+	font-size: 0.9rem;
+}
+.btn svg {
+	flex: none;
+}
+
+/* ─── Etiquetas ────────────────────────────────────────────────────────── */
+.tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35em;
+	padding: 0.18em 0.6em;
+	border-radius: 999px;
+	font-size: 0.8rem;
+	font-weight: 600;
+	line-height: 1.4;
+	background: var(--surface-2);
+	color: var(--ink-2);
+	border: 1px solid var(--line);
+	white-space: nowrap;
+}
+.tag-accent {
+	background: var(--accent-soft);
+	color: var(--accent);
+	border-color: transparent;
+}
+.tag-ok {
+	background: var(--ok-soft);
+	color: var(--ok);
+	border-color: transparent;
+}
+.tag-locked {
+	background: transparent;
+	color: var(--ink-3);
+	border-style: dashed;
+}
+
+/* ─── Tarjetas ─────────────────────────────────────────────────────────── */
+.card {
+	background: var(--surface);
+	border: 1px solid var(--line);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow-sm);
+}
+
+/* ─── Texto largo (lecciones) ──────────────────────────────────────────── */
+.prose {
+	max-width: var(--prose-max);
+}
+.prose > * + * {
+	margin-top: 0;
+}
+.prose h2 {
+	margin-top: 2.6em;
+	scroll-margin-top: 96px;
+}
+.prose h3 {
+	margin-top: 2em;
+	scroll-margin-top: 96px;
+}
+.prose ul,
+.prose ol {
+	padding-left: 1.3em;
+	margin: 0 0 1.1em;
+}
+.prose li + li {
+	margin-top: 0.35em;
+}
+.prose li::marker {
+	color: var(--ink-3);
+}
+.prose strong {
+	font-weight: 700;
+}
+.prose table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1.25em 0 1.5em;
+	font-size: 0.96rem;
+	display: block;
+	overflow-x: auto;
+}
+.prose th,
+.prose td {
+	border-bottom: 1px solid var(--line);
+	padding: 0.55em 0.75em;
+	text-align: left;
+	vertical-align: top;
+}
+.prose th {
+	font-family: var(--font-display);
+	font-weight: 600;
+	color: var(--ink-2);
+	border-bottom-color: var(--line-strong);
+	white-space: nowrap;
+}
+.prose blockquote {
+	margin: 1.2em 0;
+	padding: 0.2em 0 0.2em 1em;
+	border-left: 3px solid var(--line-strong);
+	color: var(--ink-2);
+}
+/* Los bloques anchos (simulaciones) se salen de la columna de texto */
+.prose > .wide {
+	max-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.001ms !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}

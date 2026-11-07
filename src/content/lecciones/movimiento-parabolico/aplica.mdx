@@ -1,0 +1,52 @@
+---
+tema: movimiento-parabolico
+etapa: aplica
+titulo: Cómo se resuelve un problema
+descripcion: Tres problemas típicos resueltos paso a paso. Antes de cada paso, piensa qué harías tú; después compáralo con el razonamiento.
+minutos: 30
+---
+
+## El método, siempre el mismo
+
+Casi todos los problemas de lanzamientos se resuelven con los mismos seis pasos. Es el método que se sigue en clase:
+
+1. **Haz un dibujo** con los ejes, el origen y el sentido positivo de cada eje.
+2. **Escribe los datos con su signo y en unidades del SI**: $x_0$, $y_0$, $v_0$ (descompuesta si hay ángulo) y $g = -9,8$ m/s².
+3. **Escribe la ecuación de cada eje.** Si hay dos objetos, una para cada uno.
+4. **Traduce la pregunta a una condición**: llega al suelo → $y = 0$; altura máxima → $v_y = 0$; se cruzan → posiciones iguales.
+5. **Despeja el tiempo** en un eje y **sustitúyelo** en el otro.
+6. **Comprueba** que el resultado tiene sentido: el signo, que el tiempo no sea negativo, la simetría…
+
+<Callout tipo="idea">
+	El paso 4 es el importante. Las ecuaciones son siempre las mismas; lo que cambia de un problema a otro es **qué condición** usas.
+</Callout>
+
+## Ejemplo 1: lanzamiento horizontal
+
+El caso más sencillo: toda la velocidad inicial es horizontal y el movimiento vertical es una caída libre.
+
+<GuidedExample id="movimiento-parabolico/ventana-20m" n={1} />
+
+## Ejemplo 2: lanzamiento oblicuo desde el suelo
+
+Ahora la velocidad tiene ángulo, así que el primer paso es descomponerla. Como sale y llega al suelo, el tiempo de vuelo se calcula sacando factor común.
+
+<GuidedExample id="movimiento-parabolico/problema-1-oblicuo" n={2} />
+
+## Ejemplo 3: lanzamiento oblicuo desde una altura
+
+El caso más completo. Al lanzar desde arriba, la ecuación del tiempo de vuelo es de segundo grado completa y una de sus soluciones hay que descartarla.
+
+<GuidedExample id="movimiento-parabolico/chorro-ventana" n={3} />
+
+## Antes de pasar a practicar
+
+Repasa esta lista. Recoge los fallos más habituales, muchos de ellos sacados del cuaderno de clase:
+
+- **Calculadora en grados** (DEG), no en radianes.
+- La gravedad, siempre **$-9,8$ m/s²** con nuestro convenio, y el término $-4,9\,t^2$ en la posición.
+- En la ecuación de la posición va la velocidad **inicial**.
+- $x = x_0 + v_{0x}\,t$ es una **suma**, y el coseno aparece una sola vez.
+- **No redondees** demasiado los pasos intermedios. Arrastrar 5,56 en lugar de 5,46 cambia la altura máxima de 1,52 m a 1,58 m.
+- Si un objeto sale más tarde que otro, su tiempo es $(t - t_0)$.
+- Diferencia **el instante** («el reloj marca 6,1 s») del **tiempo que lleva en el aire** («lleva 5,1 s volando»).

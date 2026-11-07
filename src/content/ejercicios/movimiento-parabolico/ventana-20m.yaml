@@ -1,0 +1,158 @@
+titulo: Objeto lanzado desde una ventana
+tema: movimiento-parabolico
+rol: ejemplo
+orden: 1
+procedencia: alumno
+fuente: cuaderno-alumno
+nota_fuente: Tema 2, ejemplo de clase de lanzamiento horizontal. El enunciado es el del cuaderno y los resultados se han recalculado.
+dificultad: basico
+habilidades: [planteamiento, matematicas, vectores]
+resumen: Lanzamiento horizontal desde 20 m a 15 m/s. Dónde toca el suelo y con qué velocidad llega.
+enunciado: |
+  Desde una ventana situada a **20 m** sobre el suelo se lanza **horizontalmente** un objeto a **15 m/s**. No hay rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 15
+  angulo: 0
+  h0: 20
+  soporte: edificio
+datos:
+  - { simbolo: 'x_0', valor: '0', significado: 'origen en el suelo, bajo la ventana' }
+  - { simbolo: 'y_0', valor: '20\un{m}', significado: 'altura de la ventana' }
+  - { simbolo: '\cx{v_{0x}}', valor: '15\un{m/s}', significado: 'toda la velocidad inicial es horizontal' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'se lanza horizontalmente' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo, por eso es negativa' }
+incognitas:
+  - Las ecuaciones $x(t)$ e $y(t)$.
+  - El punto del suelo donde cae, es decir, cuánto vale $x$ cuando $y = 0$.
+  - La velocidad al llegar (su módulo) y el ángulo que forma con la horizontal.
+interpretacion: |
+  El objeto sale con velocidad horizontal y empieza a caer desde el primer instante. En **horizontal** nada lo frena ni lo empuja, así que avanza 15 m cada segundo (MRU). En **vertical** se comporta exactamente como si lo hubiéramos soltado desde la ventana: es una caída libre desde 20 m.
+
+  Por eso tarda en llegar al suelo **lo mismo que si lo dejáramos caer**. La velocidad horizontal no influye en el tiempo de caída.
+conceptos:
+  - 'Eje X (MRU): $\cx{x} = x_0 + \cx{v_{0x}}\,t$'
+  - 'Eje Y (MRUA): $\cy{y} = y_0 + \cy{v_{0y}}\,t - 4,9\,t^2$ y $\cy{v_y} = \cy{v_{0y}} - 9,8\,t$'
+  - 'El objeto toca el suelo cuando $\cy{y} = 0$.'
+  - 'Módulo de un vector, $v = \sqrt{\cx{v_x}^2 + \cy{v_y}^2}$, y su ángulo, $\tan\alpha = |\cy{v_y}| / \cx{v_x}$.'
+apartados:
+  - id: a
+    enunciado: Escribe las ecuaciones del movimiento.
+    respuesta: { tipo: abierta, criterio: 'Necesitas cuatro: posición y velocidad en cada eje.' }
+    pistas:
+      - Escribe una ecuación para cada eje. ¿Qué tipo de movimiento hay en horizontal? ¿Y en vertical?
+      - 'En el eje Y, $y_0 = 20$ m y $v_{0y} = 0$, porque el lanzamiento es horizontal.'
+    pasos:
+      - titulo: Elige el origen y los ejes
+        piensa: ¿Dónde pondrías el origen para que las cuentas sean lo más sencillas posible?
+        desarrollo: |
+          Origen en el suelo, justo debajo de la ventana. Eje X positivo hacia donde se lanza y eje Y positivo hacia arriba. Así $x_0 = 0$ e $y_0 = 20$ m.
+        porque: Con el origen en el suelo, «llegar al suelo» se traduce en una condición muy simple, $y = 0$.
+      - titulo: 'Eje X: movimiento uniforme'
+        piensa: ¿Hay alguna fuerza horizontal? Entonces, ¿puede cambiar $v_x$?
+        desarrollo: |
+          $$\cx{x} = x_0 + \cx{v_{0x}}\,t = 0 + 15\,t \quad\Rightarrow\quad \cx{x = 15\,t}$$
+
+          $$\cx{v_x} = 15\un{m/s} \quad \text{(constante)}$$
+        porque: Sin rozamiento no actúa ninguna fuerza horizontal, así que la velocidad horizontal no cambia en todo el vuelo.
+      - titulo: 'Eje Y: caída libre'
+        piensa: ¿Cuánto vale la velocidad vertical inicial si se lanza horizontalmente?
+        desarrollo: |
+          $$\cy{y} = y_0 + \cy{v_{0y}}\,t + \tfrac12\,\cg{g}\,t^2 = 20 + 0\cdot t - 4,9\,t^2 \quad\Rightarrow\quad \cy{y = 20 - 4,9\,t^2}$$
+
+          $$\cy{v_y} = \cy{v_{0y}} + \cg{g}\,t \quad\Rightarrow\quad \cy{v_y = -9,8\,t}$$
+        porque: 'Lanzar «horizontalmente» significa que toda la velocidad inicial está en el eje X, así que $v_{0y} = 0$. El $-4,9$ sale de $\tfrac12\cdot(-9,8)$.'
+    resultado: |
+      $$\cx{x = 15\,t} \qquad \cy{y = 20 - 4,9\,t^2} \qquad \cx{v_x = 15} \qquad \cy{v_y = -9,8\,t} \qquad (\text{unidades del SI})$$
+  - id: b
+    enunciado: ¿Cuánto tarda en llegar al suelo y a qué distancia de la pared cae?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't'
+          etiqueta: Tiempo hasta el suelo
+          unidad: s
+          valor: 2.0203
+          trampas:
+            - { valor: 4.08, explicacion: 'Eso es $t^2$. Te falta hacer la raíz cuadrada.' }
+        - simbolo: '\cx{x}'
+          etiqueta: Distancia a la pared
+          unidad: m
+          valor: 30.30
+    pistas:
+      - ¿Qué vale la altura $y$ en el instante en que el objeto toca el suelo?
+      - 'Pon $y = 0$ en la ecuación del eje Y y despeja $t$. Luego usa ese $t$ en la ecuación del eje X.'
+    pasos:
+      - titulo: Traduce la pregunta a una condición
+        piensa: ¿Qué vale $y$ justo cuando el objeto toca el suelo?
+        desarrollo: 'En el suelo, $y = 0$. Lo sustituimos en la ecuación del eje Y, que es la única que contiene $y$.'
+        porque: El tiempo es lo que une los dos ejes. Primero lo sacamos del eje Y y después lo usamos en el eje X.
+      - titulo: Despeja el tiempo
+        desarrollo: |
+          $$0 = 20 - 4,9\,t^2 \;\Rightarrow\; 4,9\,t^2 = 20 \;\Rightarrow\; t^2 = \frac{20}{4,9} = 4,08 \;\Rightarrow\; t = \sqrt{4,08} = 2,02\un{s}$$
+
+          La raíz también tiene una solución negativa, $t = -2,02$ s, pero sería un instante anterior al lanzamiento y no tiene sentido físico.
+        porque: 'Al pasar $4,9\,t^2$ al otro lado cambia de signo. Por eso queda $t^2 = 20/4,9$.'
+      - titulo: Usa ese tiempo en el eje X
+        desarrollo: |
+          $$\cx{x} = 15 \cdot 2,02 = 30,3\un{m}$$
+        porque: El objeto avanza en horizontal durante todo el tiempo que tarda en caer.
+    resultado: 'Toca el suelo a los **2,02 s**, a **30,3 m** de la pared. Es el punto $(30,3;\ 0)$ m.'
+  - id: c
+    enunciado: ¿Con qué velocidad llega al suelo? ¿Qué ángulo forma con la horizontal?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\cy{v_y}'
+          etiqueta: Componente vertical al llegar
+          unidad: m/s
+          valor: -19.80
+        - simbolo: 'v'
+          etiqueta: Módulo de la velocidad
+          unidad: m/s
+          valor: 24.84
+          trampas:
+            - { valor: 34.8, explicacion: 'Has sumado $15 + 19,8$. Las componentes son perpendiculares: se combinan con Pitágoras, no se suman.' }
+        - simbolo: '\alpha'
+          etiqueta: Ángulo por debajo de la horizontal
+          unidad: '°'
+          valor: 52.85
+          trampas:
+            - { valor: 37.15, explicacion: 'Ese es el ángulo con la **vertical**. Con la horizontal, $\tan\alpha = |v_y| / v_x$.' }
+    pistas:
+      - Calcula cada componente de la velocidad en el instante en que llega al suelo ($t = 2,02$ s).
+      - 'La componente horizontal no ha cambiado. La vertical sale de $v_y = -9,8\,t$.'
+      - Las dos componentes forman un triángulo rectángulo con la velocidad total.
+    pasos:
+      - titulo: Componentes en el instante del impacto
+        piensa: ¿Cuánto vale $v_x$ al llegar al suelo? ¿Y $v_y$?
+        desarrollo: |
+          $$\cx{v_x} = 15\un{m/s} \qquad \cy{v_y} = -9,8 \cdot 2,02 = -19,8\un{m/s}$$
+        porque: '$v_x$ no cambia nunca. $v_y$ es negativa porque el objeto está bajando.'
+      - titulo: Módulo con Pitágoras
+        desarrollo: |
+          $$v = \sqrt{\cx{v_x}^2 + \cy{v_y}^2} = \sqrt{15^2 + 19,8^2} = \sqrt{617} = 24,8\un{m/s}$$
+        porque: 'Las dos componentes son perpendiculares: son los catetos y la velocidad total es la hipotenusa.'
+      - titulo: Ángulo con la tangente
+        desarrollo: |
+          $$\tan\alpha = \frac{|\cy{v_y}|}{\cx{v_x}} = \frac{19,8}{15} = 1,32 \;\Rightarrow\; \alpha = \arctan(1,32) = 52,9^\circ$$
+        porque: 'La tangente es «cateto opuesto entre cateto contiguo». Respecto a la horizontal, el opuesto es $v_y$ y el contiguo es $v_x$.'
+    resultado: 'Llega a **24,8 m/s** formando **52,9° por debajo** de la horizontal. Es más rápido que al salir porque la gravedad le ha añadido velocidad vertical.'
+errores:
+  - error: 'Escribir $t^2 = 4,9 / (-20)$ al despejar'
+    explicacion: 'El 4,9 pasa dividiendo al 20, no al revés. Además, un número negativo dentro de una raíz debe hacerte sospechar: un tiempo al cuadrado no puede ser negativo.'
+  - error: 'Llamar $v_y$ a la componente horizontal'
+    explicacion: 'La horizontal es $v_x = 15$ m/s y no cambia nunca. La vertical es $v_y$, que empieza valiendo 0 y crece hacia abajo.'
+  - error: Pensar que la velocidad horizontal alarga (o acorta) el tiempo de caída
+    explicacion: El tiempo de caída solo depende del movimiento vertical. Lanzado a 15 m/s o soltado sin más, tarda lo mismo, 2,02 s.
+  - error: Sumar 15 + 19,8 para obtener la velocidad final
+    explicacion: Las componentes son perpendiculares. Se combinan con Pitágoras, nunca se suman.
+alternativas:
+  - titulo: Calcular vᵧ sin pasar por el tiempo
+    desarrollo: |
+      En un MRUA también se cumple $v_y^2 = v_{0y}^2 + 2\,g\,\Delta y$, una ecuación que no contiene el tiempo. Con $\Delta y = 0 - 20 = -20$ m:
+
+      $$v_y^2 = 0 + 2\cdot(-9,8)\cdot(-20) = 392 \;\Rightarrow\; |v_y| = 19,8\un{m/s}$$
+
+      Como sabemos que baja, $v_y = -19,8$ m/s. Sale lo mismo y no arrastras el redondeo del tiempo.
+laboratorio: { v0: 15, angulo: 0, h0: 20 }

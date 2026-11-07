@@ -1,0 +1,63 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../../site';
+---
+
+<footer class="site-footer">
+	<div class="container grid">
+		<div>
+			<a class="brand" href="/"><Logo size={26} /> {SITE.name}</a>
+			<p class="muted">{SITE.tagline}.</p>
+		</div>
+		<div class="principle">
+			<p><strong>1.</strong> Entiende la física. <strong>2.</strong> Entiende las matemáticas. <strong>3.</strong> Aplícalo a los problemas.</p>
+		</div>
+		<div class="links">
+			<a href="/#temario">Temario</a>
+			<a href="/fuentes/">Fuentes y licencias</a>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		border-top: 1px solid var(--line);
+		padding-block: 2.5rem 3rem;
+		margin-top: 4rem;
+		font-size: 0.95rem;
+	}
+	.grid {
+		display: grid;
+		grid-template-columns: 1.2fr 1.5fr auto;
+		gap: 2rem;
+		align-items: start;
+	}
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		font-family: var(--font-display);
+		font-weight: 650;
+		color: var(--ink);
+		text-decoration: none;
+		margin-bottom: 0.5rem;
+	}
+	.principle p {
+		color: var(--ink-2);
+		margin: 0;
+	}
+	.links {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+	.links a {
+		color: var(--ink-2);
+	}
+	@media (max-width: 760px) {
+		.grid {
+			grid-template-columns: 1fr;
+			gap: 1.25rem;
+		}
+	}
+</style>

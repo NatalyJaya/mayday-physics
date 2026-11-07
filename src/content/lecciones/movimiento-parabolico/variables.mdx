@@ -1,0 +1,216 @@
+---
+tema: movimiento-parabolico
+etapa: variables
+titulo: Las magnitudes de un lanzamiento
+descripcion: Qué representa cada letra, en qué unidades se mide y qué le pasa al lanzamiento si la cambias. Incluye un repaso exprés de MRU y MRUA.
+minutos: 15
+---
+
+## Repaso exprés: MRU y MRUA
+
+El movimiento parabólico junta dos movimientos que ya has estudiado. Esto es todo lo que necesitas recordar de ellos:
+
+| | MRU (eje X) | MRUA (eje Y) |
+| --- | --- | --- |
+| Qué pasa | La velocidad no cambia | La velocidad cambia siempre al mismo ritmo |
+| Aceleración | $a = 0$ | $a = \text{constante}$ (aquí, $g = -9,8$ m/s²) |
+| Posición | $x = x_0 + v\,t$ | $y = y_0 + v_0\,t + \tfrac12\,a\,t^2$ |
+| Velocidad | $v = \text{constante}$ | $v = v_0 + a\,t$ |
+| Gráfica posición–tiempo | Recta | Parábola |
+| Gráfica velocidad–tiempo | Horizontal | Recta inclinada |
+
+<Callout tipo="repaso" titulo="El convenio de signos de clase">
+	- Eje X positivo hacia la derecha y eje Y positivo **hacia arriba**.
+	- Por eso la gravedad se escribe $g = -9,8$ m/s²: apunta hacia abajo.
+	- En todas las ecuaciones verticales aparece el término $-4,9\,t^2$, que sale de $\tfrac12\cdot(-9,8)$.
+	- Una velocidad **positiva** significa que sube (o va a la derecha) y una **negativa** que baja (o va a la izquierda). Una velocidad negativa **no significa que frene**: solo indica el sentido.
+</Callout>
+
+<Callout tipo="ojo">
+	En $y = y_0 + v_0\,t + \tfrac12\,a\,t^2$, la velocidad que aparece es la **inicial**, $v_0$. Si pones otra velocidad ahí, todo lo demás sale mal.
+</Callout>
+
+## Primero, un sistema de referencia
+
+Antes de dar ningún número hay que decidir **desde dónde medimos**. La elección más cómoda casi siempre es:
+
+- **Origen en el suelo**, justo debajo del punto de lanzamiento. Así «llega al suelo» se traduce en $y = 0$.
+- **Eje X** positivo hacia donde se lanza el objeto.
+- **Eje Y** positivo hacia arriba.
+
+Con este convenio, $x_0 = 0$ e $y_0$ es la altura desde la que se lanza.
+
+## Lo que decides al lanzar: las condiciones iniciales
+
+Son los datos que fijan todo el movimiento. Si los conoces, puedes calcular cualquier otra cosa.
+
+<VariableGrid>
+	<Variable
+		simbolo="v_0"
+		nombre="Velocidad inicial"
+		unidad="m/s"
+		tipo="vector"
+		mide="Lo rápido que sale el objeto, en la dirección en la que sale. Es un **vector**: tiene módulo (el número) y dirección (el ángulo)."
+		cambia="Si la duplicas, el objeto llega más alto y más lejos. Desde el suelo, el alcance y la altura máxima se multiplican por 4, porque dependen de $v_0^2$."
+		relacion="Se descompone en $\cx{v_{0x}}$ y $\cy{v_{0y}}$ con el ángulo $\alpha$."
+	/>
+	<Variable
+		simbolo="\alpha"
+		nombre="Ángulo de lanzamiento"
+		unidad="grados (°)"
+		mide="La inclinación de la velocidad inicial respecto a la **horizontal**. $\alpha = 0°$ es un lanzamiento horizontal; $\alpha = 90°$, uno vertical."
+		cambia="Más ángulo, más velocidad vertical: el objeto sube más y está más tiempo en el aire, pero avanza más despacio. Desde el suelo, el máximo alcance se consigue con 45°."
+		relacion="Reparte $v_0$ entre los dos ejes: $\cos\alpha$ para el horizontal y $\operatorname{sen}\alpha$ para el vertical."
+	/>
+	<Variable
+		simbolo="y_0"
+		nombre="Altura de lanzamiento"
+		unidad="m"
+		eje="y"
+		mide="Desde qué altura sobre el suelo sale el objeto (también se escribe $h_0$ o $h$)."
+		cambia="Cuanto más alto, más tiempo de caída y, por tanto, más alcance. No cambia la velocidad horizontal."
+		relacion="Aparece como término independiente en $\cy{y}(t)$ y hace que la ecuación del tiempo de vuelo sea de segundo grado completa."
+	/>
+	<Variable
+		simbolo="g"
+		nombre="Aceleración de la gravedad"
+		unidad="m/s²"
+		eje="g"
+		mide="Cuánto cambia la velocidad vertical cada segundo. En la Tierra, 9,8 m/s hacia abajo cada segundo; con nuestro convenio, $g = -9,8$ m/s²."
+		cambia="Con menos gravedad (en la Luna, 1,62 m/s²) todo dura más y llega más lejos y más alto. **No afecta** al movimiento horizontal."
+		relacion="Solo aparece en las ecuaciones del eje Y."
+	/>
+</VariableGrid>
+
+<Callout tipo="porque" titulo="¿Y la masa?">
+	Habrás notado que **la masa no aparece en ninguna parte**. Sin rozamiento con el aire, una bola de acero y una de goma lanzadas igual siguen exactamente la misma trayectoria. Por eso los problemas de cinemática no te dan la masa.
+</Callout>
+
+## Lo que cambia durante el vuelo
+
+Estas magnitudes dependen del **instante** $t$ que miremos.
+
+<VariableGrid>
+	<Variable
+		simbolo="t"
+		nombre="Tiempo"
+		unidad="s"
+		mide="El tiempo transcurrido desde el lanzamiento. Es el mismo reloj para los dos ejes."
+		relacion="Es el puente entre los ejes: lo calculas en uno y lo usas en el otro."
+	/>
+	<Variable
+		simbolo="x"
+		nombre="Posición horizontal"
+		unidad="m"
+		eje="x"
+		tipo="componente"
+		mide="Cuánto ha avanzado el objeto en horizontal desde el origen."
+		cambia="Crece lo mismo en cada segundo (MRU). Su gráfica frente a $t$ es una recta."
+		relacion="$\cx{x} = x_0 + \cx{v_{0x}}\,t$"
+	/>
+	<Variable
+		simbolo="y"
+		nombre="Altura"
+		unidad="m"
+		eje="y"
+		tipo="componente"
+		mide="A qué altura sobre el suelo está el objeto."
+		cambia="Sube cada vez más despacio, llega al máximo y baja cada vez más deprisa. Su gráfica es una parábola."
+		relacion="$\cy{y} = y_0 + \cy{v_{0y}}\,t - 4,9\,t^2$"
+	/>
+	<Variable
+		simbolo="v_x"
+		nombre="Velocidad horizontal"
+		unidad="m/s"
+		eje="x"
+		tipo="componente"
+		mide="La parte de la velocidad que lo hace avanzar en horizontal."
+		cambia="**Nunca cambia** durante el vuelo: vale $\cx{v_{0x}}$ todo el rato."
+		relacion="$\cx{v_x} = \cx{v_{0x}} = v_0\cos\alpha$"
+	/>
+	<Variable
+		simbolo="v_y"
+		nombre="Velocidad vertical"
+		unidad="m/s"
+		eje="y"
+		tipo="componente"
+		mide="La parte de la velocidad que lo hace subir (si es positiva) o bajar (si es negativa)."
+		cambia="Disminuye 9,8 m/s cada segundo. Vale 0 justo en el punto más alto y después se hace negativa."
+		relacion="$\cy{v_y} = \cy{v_{0y}} - 9,8\,t$"
+	/>
+	<Variable
+		simbolo="v"
+		nombre="Rapidez (módulo de la velocidad)"
+		unidad="m/s"
+		mide="Lo rápido que va el objeto, sin importar hacia dónde."
+		cambia="Es mínima en el punto más alto, donde solo queda la velocidad horizontal, y nunca vale cero salvo en un lanzamiento vertical."
+		relacion="$v = \sqrt{\cx{v_x}^2 + \cy{v_y}^2}$"
+	/>
+</VariableGrid>
+
+## Lo que suelen preguntar
+
+Casi todos los problemas acaban preguntando alguna de estas magnitudes. Las tres primeras dependen **solo de las condiciones iniciales**.
+
+| Magnitud | Símbolo | Unidad | Qué es |
+| --- | --- | --- | --- |
+| Tiempo de vuelo | $t_v$ | s | Cuánto tiempo pasa desde que sale hasta que toca el suelo |
+| Altura máxima | $h_{\text{máx}}$ | m | La altura del punto más alto de la trayectoria, medida desde el suelo |
+| Alcance | $R$ o $x_{\text{máx}}$ | m | La distancia horizontal entre el punto de lanzamiento y el punto donde cae |
+| Velocidad de impacto | $v$ y su ángulo | m/s y ° | Con qué rapidez y con qué inclinación llega al suelo |
+
+## Vectores: módulo y componentes
+
+La velocidad es un **vector**. Para un lanzamiento hay dos formas de darla:
+
+- En **coordenadas polares**: su módulo $v_0$ y su ángulo $\alpha$ con la horizontal. Es como suele venir en el enunciado: «a 8,5 m/s formando 40° con la horizontal».
+- En **coordenadas cartesianas**: sus dos componentes, $\cx{v_{0x}}$ y $\cy{v_{0y}}$. Son las «sombras» del vector sobre cada eje, y son las que necesitas para las ecuaciones.
+
+Pasar de una forma a otra es trigonometría de un triángulo rectángulo: $v_0$ es la hipotenusa, $\cx{v_{0x}}$ el cateto contiguo al ángulo y $\cy{v_{0y}}$ el opuesto.
+
+$$
+\cx{v_{0x}} = v_0\cos\alpha \qquad \cy{v_{0y}} = v_0\operatorname{sen}\alpha \qquad v_0 = \sqrt{\cx{v_{0x}}^2 + \cy{v_{0y}}^2}
+$$
+
+<VectorDecomposition v={20} a={35} />
+
+Prueba los casos extremos en el simulador:
+
+- Con $\alpha = 0°$, toda la velocidad es horizontal: $\cos 0° = 1$ y $\operatorname{sen} 0° = 0$. Es el lanzamiento horizontal.
+- Con $\alpha = 90°$, toda la velocidad es vertical: no avanza nada. Es el lanzamiento vertical del Tema 1.
+- Con $\alpha = 45°$, las dos componentes son iguales.
+
+<Predict
+	pregunta="Mantienes $v_0 = 20$ m/s y subes el ángulo de 30° a 60°. ¿Qué le pasa a la componente horizontal $v_{0x}$?"
+	opciones={[
+		{ texto: 'Aumenta, porque el ángulo es mayor.', explicacion: 'Al inclinar más el vector, su sombra sobre el eje horizontal se acorta. $\\cos 60° = 0,5$ es menor que $\\cos 30° \\approx 0,87$.' },
+		{ texto: 'Disminuye.', correcta: true, explicacion: 'Pasa de $20\\cos 30° = 17,3$ m/s a $20\\cos 60° = 10$ m/s. Lo que gana la componente vertical lo pierde la horizontal.' },
+		{ texto: 'No cambia, porque $v_0$ es la misma.', explicacion: 'El módulo es el mismo, pero se reparte de otra manera entre los dos ejes.' },
+	]}
+/>
+
+<Callout tipo="ojo" titulo="La calculadora, en grados">
+	Si la calculadora está en radianes, $\cos 40$ da $-0,67$ en lugar de $0,77$ y todo el problema sale mal (¡incluso con signo cambiado!). Comprueba que en la pantalla aparece **D** o **DEG** antes de empezar.
+</Callout>
+
+## Qué influye en qué
+
+Este resumen te ayuda a prever resultados y a detectar errores: si al aumentar la altura de lanzamiento te sale menos alcance, algo has hecho mal.
+
+| Si aumentas… | Tiempo de vuelo | Altura máxima | Alcance |
+| --- | --- | --- | --- |
+| $v_0$ (mismo ángulo) | Aumenta | Aumenta | Aumenta |
+| $\alpha$ (misma $v_0$) | Aumenta | Aumenta | Desde el suelo, aumenta hasta 45° y luego disminuye |
+| $y_0$ | Aumenta | Aumenta (la misma subida, desde más arriba) | Aumenta |
+| $g$ | Disminuye | Disminuye | Disminuye |
+| La masa | No influye | No influye | No influye |
+
+## Todo en unidades del SI
+
+Antes de sustituir números, pásalo todo a metros, segundos y m/s. El caso más habitual son las velocidades en km/h:
+
+$$
+72\ \frac{\text{km}}{\text{h}} \cdot \frac{1000\ \text{m}}{1\ \text{km}} \cdot \frac{1\ \text{h}}{3600\ \text{s}} = 20\ \text{m/s}
+$$
+
+Truco para comprobarlo: de km/h a m/s se **divide entre 3,6**. De m/s a km/h, se multiplica.

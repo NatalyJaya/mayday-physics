@@ -1,0 +1,81 @@
+titulo: El mismo lanzamiento en la Luna
+tema: movimiento-parabolico
+orden: 4
+procedencia: original
+dificultad: intermedio
+habilidades: [conceptual, matematicas]
+resumen: Cómo cambia un lanzamiento cuando cambia la gravedad, y qué no cambia.
+enunciado: |
+  Una astronauta lanza una piedra desde el suelo a **10 m/s** con un ángulo de **45°**. Compara lo que ocurre en la Tierra ($g = 9,8$ m/s²) y en la Luna ($g = 1,62$ m/s²). En la Luna no hay aire, y en la Tierra despreciamos su efecto.
+datos:
+  - { simbolo: 'v_0', valor: '10\un{m/s}', significado: 'igual en los dos sitios' }
+  - { simbolo: '\alpha', valor: '45^\circ', significado: 'el ángulo de máximo alcance desde el suelo' }
+  - { simbolo: '\cg{g_T},\ \cg{g_L}', valor: '9,8 \text{ y } 1,62\un{m/s^2}', significado: 'módulos de la gravedad en la Tierra y en la Luna' }
+incognitas:
+  - El alcance en cada sitio.
+  - Cuántas veces más lejos llega en la Luna, y por qué.
+interpretacion: |
+  La piedra sale igual en los dos sitios, así que su velocidad horizontal es la misma. Lo que cambia es lo deprisa que la gravedad le quita la velocidad vertical: en la Luna tarda mucho más en hacerlo, la piedra está más tiempo en el aire y, por tanto, avanza más.
+conceptos:
+  - 'Desde el suelo: $t_v = \dfrac{2\,\cy{v_{0y}}}{g}$ y $R = \dfrac{v_0^2\operatorname{sen}2\alpha}{g}$.'
+apartados:
+  - id: a
+    enunciado: ¿Qué alcance tiene la piedra en la Tierra y en la Luna?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'R_T', etiqueta: 'Alcance en la Tierra', unidad: m, valor: 10.20 }
+        - { simbolo: 'R_L', etiqueta: 'Alcance en la Luna', unidad: m, valor: 61.73 }
+    pistas:
+      - 'Con 45°, $\operatorname{sen}2\alpha = \operatorname{sen}90° = 1$.'
+    pasos:
+      - titulo: Fórmula del alcance en terreno llano
+        desarrollo: |
+          $$R = \frac{v_0^2\operatorname{sen}2\alpha}{g} = \frac{100\cdot 1}{g}$$
+        porque: Sale y llega a la misma altura, así que podemos usarla.
+      - titulo: Sustituye cada gravedad
+        desarrollo: |
+          $$R_T = \frac{100}{9,8} = 10,2\un{m} \qquad R_L = \frac{100}{1,62} = 61,7\un{m}$$
+    resultado: '**10,2 m** en la Tierra y **61,7 m** en la Luna.'
+  - id: b
+    enunciado: ¿Cuántas veces más lejos llega en la Luna? ¿Por qué?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: 'Unas 6 veces, porque el alcance es inversamente proporcional a $g$.'
+          correcta: true
+          explicacion: '$R_L/R_T = g_T/g_L = 9,8/1,62 \approx 6,05$. Si la gravedad es seis veces menor, el alcance es seis veces mayor.'
+        - texto: 'Unas 36 veces, porque depende del cuadrado.'
+          explicacion: 'Lo que va al cuadrado es la velocidad inicial, no la gravedad. $g$ aparece una sola vez, en el denominador.'
+        - texto: 'Unas 2,5 veces, porque depende de la raíz de $g$.'
+          explicacion: 'Eso pasaría con el tiempo de caída desde una altura fija, no con el alcance de un lanzamiento desde el suelo.'
+    pistas:
+      - 'Divide $R_L$ entre $R_T$ usando la fórmula. ¿Qué queda?'
+    pasos:
+      - titulo: Cociente de alcances
+        desarrollo: |
+          $$\frac{R_L}{R_T} = \frac{v_0^2\operatorname{sen}2\alpha/g_L}{v_0^2\operatorname{sen}2\alpha/g_T} = \frac{g_T}{g_L} = \frac{9,8}{1,62} \approx 6,05$$
+        porque: Todo lo que es igual en los dos lanzamientos se simplifica.
+    resultado: 'Llega **unas 6 veces más lejos**, porque $R \propto 1/g$.'
+  - id: c
+    enunciado: ¿Qué magnitud es exactamente igual en la Tierra y en la Luna durante el vuelo?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: El tiempo de vuelo.
+          explicacion: 'En la Luna la piedra está mucho más tiempo en el aire: 8,73 s frente a 1,44 s en la Tierra.'
+        - texto: La velocidad horizontal.
+          correcta: true
+          explicacion: 'Vale $10\cos 45° = 7,07$ m/s en los dos sitios. La gravedad solo actúa en vertical.'
+        - texto: La altura máxima.
+          explicacion: 'En la Luna sube mucho más: 15,4 m frente a 2,55 m.'
+    pistas:
+      - ¿En qué eje actúa la gravedad?
+    pasos:
+      - titulo: La gravedad solo actúa en vertical
+        desarrollo: '$\cx{v_x} = v_0\cos 45° = 7,07$ m/s en ambos casos y durante todo el vuelo.'
+    resultado: 'La **velocidad horizontal**.'
+errores:
+  - error: Pensar que en la Luna los objetos «flotan» y no caen
+    explicacion: En la Luna hay gravedad, aunque más débil. La piedra describe una parábola, solo que mucho más grande.
+laboratorio: { v0: 10, angulo: 45, h0: 0, g: 1.62 }

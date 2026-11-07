@@ -1,0 +1,110 @@
+titulo: El tiro a canasta perfecto
+tema: movimiento-parabolico
+orden: 2
+procedencia: original
+dificultad: examen
+habilidades: [planteamiento, matematicas, multipaso, vectores]
+resumen: Problema inverso. Con qué velocidad hay que lanzar para encestar, y si el balón entra bajando.
+enunciado: |
+  Una jugadora lanza a canasta. El balón sale de sus manos a **2,10 m** del suelo con un ángulo de **52°**. El aro está a **3,05 m** de altura y a **4,20 m** de distancia horizontal. Trata el balón como un punto y desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 7.178
+  angulo: 52
+  h0: 2.1
+  trayectoria: false
+  etiquetas: { v0: 'v₀ = ?', h0: '2,10 m' }
+  marcas:
+    - { tipo: canasta, x: 4.2, altura: 3.05, etiqueta: 'aro: 3,05 m' }
+  ancho: 5.2
+datos:
+  - { simbolo: 'y_0', valor: '2,10\un{m}', significado: 'altura de las manos' }
+  - { simbolo: '\alpha', valor: '52^\circ', significado: 'ángulo de lanzamiento' }
+  - { simbolo: '(x,\ y)_{\text{aro}}', valor: '(4,20;\ 3,05)\un{m}', significado: 'posición del aro' }
+incognitas:
+  - La velocidad inicial necesaria.
+  - El tiempo que tarda en llegar al aro y si llega subiendo o bajando.
+  - La altura máxima del balón.
+interpretacion: |
+  Ahora la incógnita es $v_0$, que aparece en **las dos** ecuaciones de posición. Tenemos dos ecuaciones (eje X y eje Y en el instante en que el balón llega al aro) y dos incógnitas ($v_0$ y $t$). Es un **sistema**.
+
+  Además, para que el balón entre, tiene que llegar al aro **bajando**: si llegara subiendo, chocaría con el aro por debajo.
+conceptos:
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2$.'
+  - 'Sistema de dos ecuaciones con dos incógnitas: se despeja una en una ecuación y se sustituye en la otra.'
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad tiene que lanzar el balón para encestar?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'v_0', etiqueta: 'Velocidad inicial', unidad: m/s, valor: 7.178 }
+    pistas:
+      - 'Escribe las dos ecuaciones en el instante en que el balón está en el aro: $x = 4,20$ m e $y = 3,05$ m.'
+      - 'De la ecuación del eje X despeja $t$ en función de $v_0$ y sustitúyelo en la del eje Y.'
+      - 'Te debería quedar $0,95 = 4,20\tan 52° - \dfrac{4,9\cdot 4,20^2}{v_0^2\cos^2 52°}$.'
+    pasos:
+      - titulo: Plantea el sistema
+        piensa: ¿Qué sabemos del balón en el instante en que llega al aro?
+        desarrollo: |
+          $$4,20 = v_0\cos 52^\circ\cdot t \qquad\qquad 3,05 = 2,10 + v_0\operatorname{sen}52^\circ\cdot t - 4,9\,t^2$$
+        porque: 'En ese instante, su posición es la del aro. Son dos ecuaciones con dos incógnitas, $v_0$ y $t$.'
+      - titulo: Elimina el tiempo
+        desarrollo: |
+          Del eje X, $t = \dfrac{4,20}{v_0\cos 52^\circ}$. Sustituyendo en el eje Y (fíjate en que $v_0\operatorname{sen}52°\cdot t = 4,20\tan 52°$):
+
+          $$0,95 = 4,20\tan 52^\circ - \frac{4,9\cdot 4,20^2}{v_0^2\cos^2 52^\circ} = 5,376 - \frac{86,44}{0,3790\,v_0^2}$$
+        porque: 'Al sustituir, el producto $v_0\cdot t$ del primer término se simplifica y solo queda una incógnita, $v_0^2$.'
+      - titulo: Despeja v₀
+        desarrollo: |
+          $$\frac{86,44}{0,3790\,v_0^2} = 5,376 - 0,95 = 4,426 \;\Rightarrow\; v_0^2 = \frac{86,44}{0,3790\cdot 4,426} = 51,53 \;\Rightarrow\; v_0 = 7,18\un{m/s}$$
+    resultado: 'Hay que lanzar a **7,18 m/s**.'
+  - id: b
+    enunciado: ¿Cuánto tarda en llegar al aro? ¿Llega subiendo o bajando?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo hasta el aro', unidad: s, valor: 0.9504 }
+        - simbolo: '\cy{v_y}'
+          etiqueta: Velocidad vertical en el aro
+          unidad: m/s
+          valor: -3.657
+          trampas:
+            - { valor: 3.657, explicacion: 'El valor es correcto, pero el signo no. Compara el tiempo con el de subida: ¿ya ha pasado el punto más alto?' }
+    pistas:
+      - 'Usa $v_0 = 7,18$ m/s en $t = 4,20/(v_0\cos 52°)$.'
+      - '$v_y = v_0\operatorname{sen}52° - 9,8\,t$.'
+    pasos:
+      - titulo: Tiempo hasta el aro
+        desarrollo: |
+          $$t = \frac{4,20}{7,18\cdot\cos 52^\circ} = \frac{4,20}{4,42} = 0,950\un{s}$$
+      - titulo: Velocidad vertical en ese instante
+        desarrollo: |
+          $$\cy{v_y} = 7,18\operatorname{sen}52^\circ - 9,8\cdot 0,950 = 5,66 - 9,31 = -3,66\un{m/s}$$
+        porque: 'Negativa: el balón baja al llegar al aro, así que puede entrar.'
+    resultado: 'Llega a los **0,95 s**, **bajando** a 3,66 m/s.'
+  - id: c
+    enunciado: ¿Qué altura máxima alcanza el balón?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'h_{\text{máx}}'
+          etiqueta: Altura máxima sobre el suelo
+          unidad: m
+          valor: 3.732
+          trampas:
+            - { valor: 1.632, explicacion: 'Eso es lo que sube desde las manos. Súmale la altura de lanzamiento, 2,10 m.' }
+    pistas:
+      - En el punto más alto, $v_y = 0$.
+    pasos:
+      - titulo: Altura máxima
+        desarrollo: |
+          $$t_s = \frac{5,66}{9,8} = 0,577\un{s} \qquad h_{\text{máx}} = 2,10 + 5,66\cdot 0,577 - 4,9\cdot 0,577^2 = 3,73\un{m}$$
+        porque: 'Sube unos 68 cm por encima del aro antes de caer en él.'
+    resultado: 'El balón llega a **3,73 m** de altura.'
+errores:
+  - error: Usar la fórmula del alcance en terreno llano
+    explicacion: 'Sale a 2,10 m y llega a 3,05 m: no es terreno llano. Hay que plantear el sistema.'
+  - error: Dar por buena cualquier solución sin mirar si el balón baja
+    explicacion: 'Con ángulos muy bajos, el balón llegaría al aro subiendo y no podría entrar. Comprueba siempre el signo de $v_y$.'
+laboratorio: { v0: 7.18, angulo: 52, h0: 2.1 }

@@ -1,0 +1,76 @@
+titulo: ¿Qué pasa en el punto más alto?
+tema: movimiento-parabolico
+orden: 1
+procedencia: original
+dificultad: basico
+habilidades: [conceptual]
+resumen: Dos preguntas de concepto sobre la velocidad y la aceleración en lo más alto de la trayectoria.
+enunciado: |
+  Un balón se chuta desde el suelo formando 50° con la horizontal. Sin rozamiento con el aire, piensa en el instante en que pasa por el **punto más alto** de su trayectoria.
+figura:
+  tipo: lanzamiento
+  v0: 15
+  angulo: 50
+  etiquetas: { v0: 'v₀' }
+interpretacion: |
+  Para contestar no hace falta calcular nada: basta con pensar en cada eje por separado. ¿Qué le pasa a la velocidad horizontal durante el vuelo? ¿Y a la vertical? ¿Qué fuerza actúa sobre el balón en todo momento?
+conceptos:
+  - 'En horizontal no hay aceleración: $\cx{v_x}$ es constante.'
+  - 'En vertical la aceleración es siempre $\cg{g} = -9,8$ m/s².'
+  - 'El punto más alto es donde $\cy{v_y}$ pasa de positiva a negativa.'
+apartados:
+  - id: a
+    enunciado: ¿Cómo es la velocidad del balón en el punto más alto?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: Es cero. El balón se detiene un instante antes de empezar a caer.
+          explicacion: 'Solo se anula la componente **vertical**. La horizontal sigue valiendo lo mismo que al salir, así que el balón sigue avanzando. Solo se detendría del todo si se lanzara en vertical.'
+        - texto: Es horizontal y vale lo mismo que la componente horizontal inicial.
+          correcta: true
+          explicacion: 'Arriba $v_y = 0$, así que solo queda $v_x$, que no ha cambiado desde el chut: $v_x = v_0\cos 50°$. Es el punto de la trayectoria donde el balón va más despacio, pero no está parado.'
+        - texto: Es vertical y apunta hacia abajo.
+          explicacion: 'Al revés: lo que desaparece en el punto más alto es precisamente la componente vertical. Justo después sí empieza a tener velocidad vertical hacia abajo.'
+        - texto: Es la misma que al salir, porque no hay rozamiento.
+          explicacion: 'Sin rozamiento se conserva la componente **horizontal**, no la velocidad completa. La vertical la va cambiando la gravedad.'
+    pistas:
+      - Piensa por separado en cada componente. ¿Cambia la horizontal en algún momento del vuelo?
+      - ¿Qué significa que el balón «deje de subir»? ¿Qué componente de la velocidad vale cero entonces?
+    pasos:
+      - titulo: Componente horizontal
+        desarrollo: 'No hay fuerzas horizontales, así que $\cx{v_x}$ vale lo mismo en todo el vuelo: $\cx{v_x} = v_0\cos 50°$.'
+      - titulo: Componente vertical
+        desarrollo: 'Antes del punto más alto $\cy{v_y} > 0$ (sube) y después $\cy{v_y} < 0$ (baja). Justo arriba, $\cy{v_y} = 0$.'
+      - titulo: Juntamos
+        desarrollo: 'La velocidad es $\vec v = (\cx{v_0\cos 50°},\ 0)$: horizontal y distinta de cero.'
+    resultado: 'En el punto más alto la velocidad es **horizontal** y vale $v_0\cos\alpha$. No es cero.'
+  - id: b
+    enunciado: ¿Y su aceleración en ese mismo instante?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: Es cero, porque la velocidad vertical es cero.
+          explicacion: 'Velocidad cero no implica aceleración cero. Si la aceleración fuera cero justo arriba, la velocidad vertical se quedaría en cero… ¡y el balón no volvería a bajar!'
+        - texto: Vale 9,8 m/s² y apunta hacia abajo, igual que en todo el vuelo.
+          correcta: true
+          explicacion: 'La única fuerza es el peso, y está presente en todo momento. La aceleración es la misma al subir, arriba y al bajar.'
+        - texto: Vale 9,8 m/s² y apunta hacia arriba.
+          explicacion: 'La gravedad siempre tira hacia abajo. Al subir, el balón frena porque la aceleración se opone a su velocidad vertical, no porque la aceleración apunte hacia arriba.'
+        - texto: Es horizontal, en el sentido del movimiento.
+          explicacion: 'No hay nada que empuje al balón en horizontal; por eso su velocidad horizontal es constante.'
+    pistas:
+      - ¿Qué fuerzas actúan sobre el balón cuando ya está en el aire?
+      - Si la aceleración fuera cero justo arriba, ¿qué le pasaría a la velocidad vertical a partir de ese instante?
+    pasos:
+      - titulo: La única fuerza es el peso
+        desarrollo: 'Sin rozamiento, sobre el balón solo actúa su peso, que es constante y vertical hacia abajo. Por eso la aceleración es $\cg{g} = -9,8$ m/s² durante todo el vuelo.'
+      - titulo: Velocidad y aceleración son cosas distintas
+        desarrollo: 'La aceleración mide cuánto **cambia** la velocidad. Arriba $\cy{v_y} = 0$, pero un instante después vale $-0,98$ m/s (al cabo de 0,1 s): está cambiando, así que hay aceleración.'
+        porque: 'Que una magnitud valga cero en un instante no significa que no esté cambiando.'
+    resultado: 'La aceleración es **9,8 m/s² hacia abajo**, como en cualquier otro punto del vuelo.'
+errores:
+  - error: Creer que en lo más alto el objeto se para
+    explicacion: Solo se para la componente vertical. Mira el laboratorio con los vectores activados y verás que, arriba, la flecha de la velocidad es horizontal.
+  - error: Confundir velocidad nula con aceleración nula
+    explicacion: Es el error conceptual más frecuente en cinemática. Un objeto puede tener velocidad cero en un instante y estar acelerando, como una pelota lanzada hacia arriba en su punto más alto.
+laboratorio: { v0: 15, angulo: 50, h0: 0 }

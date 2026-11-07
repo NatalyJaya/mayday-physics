@@ -1,0 +1,252 @@
+---
+// La idea del tema en una imagen: posiciones del proyectil a intervalos de
+// tiempo iguales y sus «sombras» sobre cada eje. Todo se calcula con el
+// modelo físico (no es un dibujo a mano), así que está a escala.
+import { apex, flightTime, positionAt, range } from '../../lib/physics/projectile';
+
+interface Props {
+	v0?: number;
+	angle?: number;
+	intervals?: number;
+	animate?: boolean;
+	compact?: boolean;
+}
+const { v0 = 12, angle = 58, intervals = 10, animate = false, compact = false } = Astro.props;
+
+const l = { v0, angleDeg: angle };
+const T = flightTime(l);
+const R = range(l);
+const H = apex(l).y;
+
+// Lienzo con la misma escala en los dos ejes (1 m horizontal = 1 m vertical)
+const padL = 58,
+	padR = 26,
+	padT = 26,
+	padB = 46;
+const W = 640;
+const s = (W - padL - padR) / R;
+const Hpx = H * s;
+const Ht = Math.round(padT + Hpx + padB);
+const X = (x: number) => padL + x * s;
+const Y = (y: number) => padT + Hpx - y * s;
+
+const pts = Array.from({ length: intervals + 1 }, (_, i) => {
+	const t = (T * i) / intervals;
+	return { t, ...positionAt(l, t) };
+});
+const path = Array.from({ length: 81 }, (_, i) => {
+	const p = positionAt(l, (T * i) / 80);
+	return `${i ? 'L' : 'M'}${X(p.x).toFixed(1)} ${Y(p.y).toFixed(1)}`;
+}).join(' ');
+const ground = Y(0);
+const axisX = padL - 22; // eje vertical (donde se proyectan las alturas)
+const uid = `dc-${Math.random().toString(36).slice(2, 8)}`;
+const data = JSON.stringify({ T, s, padL, padT, Hpx, v0, angle, axisX, ground });
+---
+
+<figure class:list={['decomp', { compact }]} data-anim={animate ? data : undefined}>
+	<svg viewBox={`0 0 ${W} ${Ht}`} role="img" aria-labelledby={`${uid}-t ${uid}-d`}>
+		<title id={`${uid}-t`}>Un lanzamiento visto como dos movimientos</title>
+		<desc id={`${uid}-d`}>
+			Posiciones de un proyectil a intervalos de tiempo iguales. Sus proyecciones sobre el suelo están igual de
+			separadas: movimiento uniforme. Sus proyecciones sobre el eje vertical se juntan arriba y se separan abajo:
+			movimiento acelerado.
+		</desc>
+		<!-- ejes -->
+		<line x1={axisX} y1={ground} x2={W - padR + 8} y2={ground} class="axis"></line>
+		<line x1={axisX} y1={ground} x2={axisX} y2={padT - 12} class="axis"></line>
+		<text x={W - padR + 8} y={ground + 32} text-anchor="end" class="lbl">x</text>
+		<text x={axisX - 10} y={padT - 2} text-anchor="end" class="lbl">y</text>
+		<!-- proyecciones -->
+		{
+			pts.map((p) => (
+				<g class="proj">
+					<line x1={X(p.x)} y1={Y(p.y)} x2={X(p.x)} y2={ground} class="guide-x" />
+					<line x1={X(p.x)} y1={Y(p.y)} x2={axisX} y2={Y(p.y)} class="guide-y" />
+					<circle cx={X(p.x)} cy={ground} r="4.5" class="shadow-x" />
+					<circle cx={axisX} cy={Y(p.y)} r="4.5" class="shadow-y" />
+				</g>
+			))
+		}
+		<path d={path} class="traj"></path>
+		{pts.map((p) => <circle cx={X(p.x)} cy={Y(p.y)} r="5.5" class="pos" />)}
+		<!-- elementos animados -->
+		{
+			animate && (
+				<g class="live" aria-hidden="true">
+					<line class="live-gx" />
+					<line class="live-gy" />
+					<circle r="6" class="live-sx" />
+					<circle r="6" class="live-sy" />
+					<circle r="8" class="live-ball" />
+				</g>
+			)
+		}
+	</svg>
+	{
+		!compact && (
+			<figcaption>
+				<p class="key">
+					<i class="sw sw-x" />
+					<span><strong>Sombra en el suelo</strong>: avanza lo mismo en cada intervalo. Es un <strong>MRU</strong>.</span>
+				</p>
+				<p class="key">
+					<i class="sw sw-y" />
+					<span><strong>Sombra en la vertical</strong>: sube frenando y baja acelerando. Es un <strong>MRUA</strong>.</span>
+				</p>
+			</figcaption>
+		)
+	}
+</figure>
+
+<style>
+	.decomp {
+		margin: 0;
+	}
+	svg {
+		display: block;
+		width: 100%;
+		height: auto;
+		overflow: visible;
+	}
+	.axis {
+		stroke: var(--line-strong);
+		stroke-width: 1.5;
+	}
+	.lbl {
+		font: italic 600 15px var(--font-body);
+		fill: var(--ink-3);
+	}
+	.traj {
+		fill: none;
+		stroke: var(--ink-3);
+		stroke-width: 1.5;
+		stroke-dasharray: 4 5;
+	}
+	.guide-x,
+	.guide-y {
+		stroke-width: 1;
+		opacity: 0.35;
+	}
+	.guide-x {
+		stroke: var(--q-x);
+	}
+	.guide-y {
+		stroke: var(--q-y);
+	}
+	.shadow-x {
+		fill: var(--q-x);
+		stroke: var(--surface);
+		stroke-width: 2;
+	}
+	.shadow-y {
+		fill: var(--q-y);
+		stroke: var(--surface);
+		stroke-width: 2;
+	}
+	.pos {
+		fill: var(--surface);
+		stroke: var(--ink);
+		stroke-width: 2;
+	}
+	.live-ball {
+		fill: var(--ink);
+		stroke: var(--surface);
+		stroke-width: 2.5;
+	}
+	.live-sx {
+		fill: var(--q-x);
+		stroke: var(--surface);
+		stroke-width: 2.5;
+	}
+	.live-sy {
+		fill: var(--q-y);
+		stroke: var(--surface);
+		stroke-width: 2.5;
+	}
+	.live-gx,
+	.live-gy {
+		stroke-width: 1.5;
+		stroke-dasharray: 3 3;
+	}
+	.live-gx {
+		stroke: var(--q-x);
+	}
+	.live-gy {
+		stroke: var(--q-y);
+	}
+	figcaption {
+		display: grid;
+		gap: 0.4rem;
+		margin-top: 0.9rem;
+		font-size: 0.95rem;
+		color: var(--ink-2);
+	}
+	.key {
+		display: flex;
+		align-items: baseline;
+		gap: 0.55rem;
+		margin: 0;
+	}
+	.sw {
+		flex: none;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		display: inline-block;
+		transform: translateY(1px);
+	}
+	.sw-x {
+		background: var(--q-x);
+	}
+	.sw-y {
+		background: var(--q-y);
+	}
+</style>
+
+<script>
+	// Animación opcional: la bola recorre la trayectoria y sus dos sombras la siguen.
+	import { positionAt } from '../../lib/physics/projectile';
+
+	for (const fig of document.querySelectorAll<HTMLElement>('figure.decomp[data-anim]')) {
+		const d = JSON.parse(fig.dataset.anim!);
+		if (matchMedia('(prefers-reduced-motion: reduce)').matches) continue;
+		const q = <T extends Element>(sel: string) => fig.querySelector<T>(sel)!;
+		const ball = q<SVGCircleElement>('.live-ball');
+		const sx = q<SVGCircleElement>('.live-sx');
+		const sy = q<SVGCircleElement>('.live-sy');
+		const gx = q<SVGLineElement>('.live-gx');
+		const gy = q<SVGLineElement>('.live-gy');
+		const X = (x: number) => d.padL + x * d.s;
+		const Y = (y: number) => d.padT + d.Hpx - y * d.s;
+		const cycle = d.T + 1.2; // pausa al final de cada lanzamiento
+		let visible = true;
+		new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(fig);
+		const t0 = performance.now();
+		const frame = (now: number) => {
+			if (visible) {
+				const t = Math.min(((now - t0) / 1000) % cycle, d.T) * 1;
+				const p = positionAt({ v0: d.v0, angleDeg: d.angle }, t);
+				const px = X(p.x),
+					py = Y(Math.max(0, p.y));
+				ball.setAttribute('cx', String(px));
+				ball.setAttribute('cy', String(py));
+				sx.setAttribute('cx', String(px));
+				sx.setAttribute('cy', String(d.ground));
+				sy.setAttribute('cx', String(d.axisX));
+				sy.setAttribute('cy', String(py));
+				for (const [l, x2, y2] of [
+					[gx, px, d.ground],
+					[gy, d.axisX, py],
+				] as const) {
+					l.setAttribute('x1', String(px));
+					l.setAttribute('y1', String(py));
+					l.setAttribute('x2', String(x2));
+					l.setAttribute('y2', String(y2));
+				}
+			}
+			requestAnimationFrame(frame);
+		};
+		requestAnimationFrame(frame);
+	}
+</script>

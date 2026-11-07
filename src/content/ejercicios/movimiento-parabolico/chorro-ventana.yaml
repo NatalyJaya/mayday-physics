@@ -1,0 +1,128 @@
+titulo: Un chorro de agua desde una ventana
+tema: movimiento-parabolico
+rol: ejemplo
+orden: 3
+procedencia: externo
+fuente: fisiquimicamente-parabolico
+nota_fuente: 'Se reutilizan los datos y la pregunta del ejemplo resuelto «chorro de agua desde una ventana». La redacción, la resolución comentada, las pistas y los errores frecuentes son nuevos. Esta adaptación se comparte bajo la misma licencia, CC BY-SA 4.0.'
+dificultad: avanzado
+habilidades: [planteamiento, vectores, matematicas, multipaso]
+resumen: Lanzamiento oblicuo hacia arriba desde 15 m. Ecuación de segundo grado completa, alcance y velocidad de llegada.
+enunciado: |
+  Desde una ventana a **15 m** de altura se lanza un chorro de agua a **20 m/s** formando **40°** por encima de la horizontal. Tratamos cada gota como un proyectil y despreciamos el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 20
+  angulo: 40
+  h0: 15
+  soporte: edificio
+datos:
+  - { simbolo: 'x_0', valor: '0', significado: 'origen en el suelo, bajo la ventana' }
+  - { simbolo: 'y_0', valor: '15\un{m}', significado: 'altura de la ventana' }
+  - { simbolo: 'v_0', valor: '20\un{m/s}', significado: 'velocidad del chorro' }
+  - { simbolo: '\alpha', valor: '40^\circ', significado: 'por encima de la horizontal, así que $v_{0y} > 0$' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - A qué distancia de la pared cae el agua (el alcance).
+  - Con qué velocidad llega al suelo.
+interpretacion: |
+  El agua primero **sube** (porque sale inclinada hacia arriba), llega a un punto más alto y luego cae **más abajo de donde salió**. No vuelve a la altura de partida, así que el movimiento **no es simétrico**. Tarda más en bajar que en subir y la fórmula del alcance en terreno llano no sirve.
+conceptos:
+  - 'Descomposición: $\cx{v_{0x}} = v_0\cos\alpha$ y $\cy{v_{0y}} = v_0\operatorname{sen}\alpha$.'
+  - 'Posición vertical: $\cy{y} = y_0 + \cy{v_{0y}}\,t - 4,9\,t^2$.'
+  - 'Ecuación de segundo grado: $t = \dfrac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.'
+apartados:
+  - id: a
+    enunciado: ¿A qué distancia de la pared cae el agua?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't_v'
+          etiqueta: Tiempo de vuelo
+          unidad: s
+          valor: 3.499
+          trampas:
+            - { valor: -0.875, explicacion: 'Es la solución negativa de la ecuación: un instante anterior al lanzamiento. Descártala y quédate con la positiva.' }
+            - { valor: 2.62, explicacion: 'Ese sería el tiempo de vuelo si saliera del suelo ($2\,v_{0y}/9,8$). Aquí sale desde 15 m y cae más abajo: necesitas resolver la ecuación completa.' }
+        - simbolo: '\cx{x}'
+          etiqueta: Distancia a la pared (alcance)
+          unidad: m
+          valor: 53.60
+          trampas:
+            - { valor: 40.20, explicacion: 'Has usado $R = v_0^2\operatorname{sen}2\alpha/g$, que solo vale si sale y llega a la misma altura. Aquí cae 15 m más abajo.' }
+    pistas:
+      - Descompón la velocidad y escribe $y(t)$ con $y_0 = 15$ m.
+      - 'Llega al suelo cuando $y = 0$: te queda $4,9\,t^2 - 12,86\,t - 15 = 0$, una ecuación de segundo grado completa.'
+      - De las dos soluciones, una es negativa. ¿Cuál tiene sentido físico?
+    pasos:
+      - titulo: Descompón la velocidad inicial
+        desarrollo: |
+          $$\cx{v_{0x}} = 20\cos 40^\circ = 15,32\un{m/s} \qquad \cy{v_{0y}} = 20\operatorname{sen}40^\circ = 12,86\un{m/s}$$
+        porque: Cada eje necesita su propia velocidad inicial.
+      - titulo: Ecuaciones del movimiento
+        desarrollo: |
+          $$\cx{x = 15,32\,t} \qquad \cy{y = 15 + 12,86\,t - 4,9\,t^2}$$
+        porque: 'Esta vez $y_0 = 15$ m, porque el origen está en el suelo y el agua sale desde la ventana.'
+      - titulo: Condición de llegada al suelo
+        piensa: Al poner $y = 0$, ¿qué tipo de ecuación te queda? ¿Puedes sacar factor común como en el ejemplo 2?
+        desarrollo: |
+          $$0 = 15 + 12,86\,t - 4,9\,t^2 \;\Rightarrow\; 4,9\,t^2 - 12,86\,t - 15 = 0$$
+
+          $$t = \frac{12,86 \pm \sqrt{12,86^2 + 4\cdot 4,9\cdot 15}}{2\cdot 4,9} = \frac{12,86 \pm 21,43}{9,8}$$
+        porque: 'Ahora hay término independiente ($y_0 = 15$), así que no se puede sacar factor común: hay que usar la fórmula. Se cambia el signo de todo para que $t^2$ sea positivo; las soluciones no cambian.'
+      - titulo: Elige la solución con sentido físico
+        piensa: Una de las dos soluciones es negativa. ¿Qué significaría?
+        desarrollo: |
+          $$t_1 = \frac{12,86 + 21,43}{9,8} = 3,50\un{s} \qquad t_2 = \frac{12,86 - 21,43}{9,8} = -0,87\un{s}$$
+
+          Nos quedamos con $t_v = 3,50$ s.
+        porque: Un tiempo negativo sería un instante anterior al lanzamiento. Las ecuaciones describen la parábola entera, pero el chorro solo existe desde $t = 0$.
+      - titulo: Alcance
+        desarrollo: |
+          $$\cx{x} = 15,32\cdot 3,50 = 53,6\un{m}$$
+    resultado: 'El agua cae a **53,6 m** de la pared, 3,50 s después de salir.'
+  - id: b
+    enunciado: ¿Con qué velocidad llega el agua al suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{v_x}', etiqueta: 'Componente horizontal', unidad: m/s, valor: 15.32 }
+        - simbolo: '\cy{v_y}'
+          etiqueta: Componente vertical
+          unidad: m/s
+          valor: -21.43
+        - simbolo: 'v'
+          etiqueta: Módulo
+          unidad: m/s
+          valor: 26.34
+          trampas:
+            - { valor: 20, explicacion: 'Llegaría con 20 m/s si cayera a la misma altura de la que salió. Al caer 15 m más abajo, la gravedad le añade velocidad.' }
+    pistas:
+      - Calcula cada componente en $t = 3,50$ s.
+      - 'Recuerda: $v_x$ no cambia y $v_y = v_{0y} - 9,8\,t$.'
+    pasos:
+      - titulo: Componentes en el instante de llegada
+        desarrollo: |
+          $$\cx{v_x} = 15,32\un{m/s} \qquad \cy{v_y} = 12,86 - 9,8\cdot 3,50 = -21,43\un{m/s}$$
+        porque: '$v_y$ negativa: el agua baja. Es mayor en valor absoluto que $v_{0y}$ porque ha caído por debajo de la ventana.'
+      - titulo: Módulo y dirección
+        desarrollo: |
+          $$v = \sqrt{15,32^2 + 21,43^2} = 26,3\un{m/s} \qquad \tan\theta = \frac{21,43}{15,32} \;\Rightarrow\; \theta = 54,4^\circ \text{ bajo la horizontal}$$
+        porque: Las componentes son perpendiculares, así que se combinan con Pitágoras.
+    resultado: 'Llega con $\vec v = (15,3;\ -21,4)$ m/s, es decir, a **26,3 m/s** formando **54,4° por debajo** de la horizontal.'
+errores:
+  - error: Usar la fórmula del alcance en terreno llano
+    explicacion: '$R = v_0^2\operatorname{sen}2\alpha/g$ daría 40,2 m, un resultado falso. Esa fórmula supone que sale y llega a la misma altura.'
+  - error: Quedarse con la solución negativa, o sumar las dos
+    explicacion: 'Solo una solución corresponde a un instante después del lanzamiento. La negativa no tiene significado físico en este problema.'
+  - error: 'Olvidar el $y_0$ y escribir $y = 12,86\,t - 4,9\,t^2$'
+    explicacion: 'Así calcularías cuándo vuelve a la altura de la ventana (2,62 s), no cuándo llega al suelo.'
+alternativas:
+  - titulo: Comprobar la velocidad de llegada sin el tiempo
+    desarrollo: |
+      En el eje Y, $v_y^2 = v_{0y}^2 + 2\,g\,\Delta y$ con $\Delta y = 0 - 15 = -15$ m:
+
+      $$v_y^2 = 12,86^2 + 2\cdot(-9,8)\cdot(-15) = 165,3 + 294 = 459,3 \;\Rightarrow\; |v_y| = 21,4\un{m/s}$$
+
+      Coincide con lo anterior. Cuando estudies energía verás que este resultado también se obtiene con su conservación.
+laboratorio: { v0: 20, angulo: 40, h0: 15 }

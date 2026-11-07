@@ -1,0 +1,131 @@
+---
+// Pictograma de cada bloque: resume en un dibujo de qué trata.
+interface Props {
+	icon: string;
+	size?: number;
+}
+const { icon, size = 56 } = Astro.props;
+---
+
+<svg class="glyph" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" data-icon={icon}>
+	<rect width="64" height="64" rx="16" class="bg"></rect>
+	{
+		icon === 'cinematica' && (
+			<g>
+				<path d="M10 50 Q 30 0 54 50" class="stroke" />
+				{[14, 20, 27, 34, 41, 48].map((x) => {
+					const t = (x - 10) / 44;
+					const y = 50 - 4 * 25 * t * (1 - t) * 0.92;
+					return <circle cx={x} cy={y} r="2.4" class="dot" />;
+				})}
+				<path d="M8 50h48" class="axis" />
+			</g>
+		)
+	}
+	{
+		icon === 'dinamica' && (
+			<g>
+				<rect x="20" y="26" width="20" height="16" rx="3" class="fill" />
+				<path d="M40 34h14M49 29l5 5-5 5" class="stroke-x" />
+				<path d="M30 42v10M25 47l5 5 5-5" class="stroke-g" />
+				<path d="M8 42h48" class="axis" />
+			</g>
+		)
+	}
+	{
+		icon === 'energia' && (
+			<g>
+				<path d="M10 16 Q 16 50 32 50 Q 48 50 54 16" class="stroke" />
+				<circle cx="13" cy="22" r="4" class="ball" />
+				<rect x="40" y="36" width="5" height="10" rx="1.5" class="fill-y" />
+				<rect x="47" y="28" width="5" height="18" rx="1.5" class="fill-x" />
+			</g>
+		)
+	}
+	{
+		icon === 'gravitacion' && (
+			<g>
+				<ellipse cx="32" cy="32" rx="22" ry="13" class="stroke-thin" />
+				<circle cx="32" cy="32" r="7" class="fill" />
+				<circle cx="52" cy="26" r="3.4" class="ball" />
+			</g>
+		)
+	}
+	{
+		icon === 'ondas' && (
+			<g>
+				<path d="M8 32 C 14 14, 20 14, 26 32 S 38 50, 44 32 S 52 18, 56 26" class="stroke" />
+				<path d="M8 32h48" class="axis" />
+			</g>
+		)
+	}
+	{
+		icon === 'electricidad' && (
+			<g>
+				<path d="M20 32 C 26 18, 38 18, 44 32 M20 32 C 26 46, 38 46, 44 32 M20 32 H44" class="stroke-thin" />
+				<circle cx="18" cy="32" r="6" class="fill-y" />
+				<circle cx="46" cy="32" r="6" class="fill-x" />
+				<path d="M15.5 32h5M18 29.5v5M43.5 32h5" class="sign" />
+			</g>
+		)
+	}
+</svg>
+
+<style>
+	.glyph {
+		flex: none;
+		display: block;
+	}
+	.bg {
+		fill: var(--surface-2);
+	}
+	.stroke,
+	.stroke-thin,
+	.stroke-x,
+	.stroke-g,
+	.axis,
+	.sign {
+		fill: none;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+	.stroke {
+		stroke: var(--ink);
+		stroke-width: 2.6;
+	}
+	.stroke-thin {
+		stroke: var(--ink-2);
+		stroke-width: 1.8;
+	}
+	.stroke-x {
+		stroke: var(--q-x);
+		stroke-width: 2.6;
+	}
+	.stroke-g {
+		stroke: var(--q-g);
+		stroke-width: 2.6;
+	}
+	.axis {
+		stroke: var(--line-strong);
+		stroke-width: 1.6;
+	}
+	.dot {
+		fill: var(--q-y);
+	}
+	.fill {
+		fill: var(--ink);
+	}
+	.fill-x {
+		fill: var(--q-x);
+	}
+	.fill-y {
+		fill: var(--q-y);
+	}
+	.ball {
+		fill: var(--q-y);
+	}
+	.sign {
+		stroke: #fff;
+		stroke-width: 1.8;
+	}
+</style>

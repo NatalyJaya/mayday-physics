@@ -1,0 +1,243 @@
+---
+// Ejercicio completo en modo práctica.
+import ExerciseFigure from './ExerciseFigure.astro';
+import ExerciseMeta from './ExerciseMeta.astro';
+import PartView from './PartView.astro';
+import SourceNote from './SourceNote.astro';
+import Reveal from '../lesson/Reveal.astro';
+import Icon from '../ui/Icon.astro';
+import { renderExercise } from '../../lib/exercise-render';
+import { labUrl, type ExerciseEntry, type Topic } from '../../lib/content';
+
+interface Props {
+	entry: ExerciseEntry;
+	topic: Topic;
+}
+const { entry, topic } = Astro.props;
+const ex = entry.data;
+const R = await renderExercise(ex);
+const single = R.apartados.length === 1;
+---
+
+<exercise-tracker class="exercise" data-id={entry.id}>
+	<ExerciseMeta ex={ex} />
+	<div class="statement" set:html={R.enunciado} />
+	{ex.figura && <ExerciseFigure figura={ex.figura} titulo={ex.titulo} />}
+
+	{
+		(R.datos.length > 0 || R.interpretacion || R.conceptos.length > 0) && (
+			<section class="plan">
+				<h2 class="h-sec">Antes de calcular</h2>
+				<p class="muted">
+					Escribe en tu cuaderno los datos (con su signo y en unidades del SI) y lo que te piden. Luego compáralo
+					aquí.
+				</p>
+				{(R.datos.length > 0 || R.incognitas.length > 0) && (
+					<Reveal titulo="Compara tus datos e incógnitas">
+						{R.datos.length > 0 && (
+							<table class="datos">
+								<thead>
+									<tr>
+										<th>Dato</th>
+										<th>Valor</th>
+										<th>Qué es</th>
+									</tr>
+								</thead>
+								<tbody>
+									{R.datos.map((d) => (
+										<tr>
+											<td set:html={d.simbolo} />
+											<td set:html={d.valor} />
+											<td set:html={d.significado} />
+										</tr>
+									))}
+								</tbody>
+							</table>
+						)}
+						{R.incognitas.length > 0 && (
+							<>
+								<p class="k">Qué nos piden</p>
+								<ul>
+									{R.incognitas.map((q) => (
+										<li set:html={q} />
+									))}
+								</ul>
+							</>
+						)}
+					</Reveal>
+				)}
+				{R.interpretacion && (
+					<Reveal titulo="¿Qué está pasando físicamente?">
+						<Fragment set:html={R.interpretacion} />
+					</Reveal>
+				)}
+				{R.conceptos.length > 0 && (
+					<Reveal titulo="Conceptos y ecuaciones que vas a necesitar">
+						<ul>
+							{R.conceptos.map((c) => (
+								<li set:html={c} />
+							))}
+						</ul>
+					</Reveal>
+				)}
+			</section>
+		)
+	}
+
+	<section class="parts">
+		<h2 class="h-sec">{single ? 'Resuélvelo' : 'Apartados'}</h2>
+		{R.apartados.map((p) => <PartView part={p} exId={entry.id.replace(/\W/g, '-')} single={single} />)}
+	</section>
+
+	<p class="solved-banner" hidden><Icon name="check" /> ¡Ejercicio resuelto! Ha quedado marcado en tu lista.</p>
+
+	{
+		R.errores.length > 0 && (
+			<section>
+				<h2 class="h-sec">Errores frecuentes</h2>
+				<ul class="mistakes">
+					{R.errores.map((e) => (
+						<li>
+							<p class="m-err">
+								<Icon name="alert" size={16} /> <span set:html={e.error} />
+							</p>
+							<div class="m-why" set:html={e.explicacion} />
+						</li>
+					))}
+				</ul>
+			</section>
+		)
+	}
+
+	{
+		R.alternativas.length > 0 && (
+			<section>
+				<h2 class="h-sec">Otra forma de verlo</h2>
+				{R.alternativas.map((a) => (
+					<Reveal titulo={a.titulo}>
+						<Fragment set:html={a.desarrollo} />
+					</Reveal>
+				))}
+			</section>
+		)
+	}
+
+	{
+		ex.laboratorio && (
+			<a class="lab-link card" href={labUrl(topic, ex.laboratorio)}>
+				<Icon name="flask" size={22} />
+				<span>
+					<strong>Compruébalo en el laboratorio</strong>
+					<span class="muted">Se abre con los datos de este ejercicio para que veas el movimiento y sus gráficas.</span>
+				</span>
+				<Icon name="arrow-right" />
+			</a>
+		)
+	}
+
+	<SourceNote ex={ex} />
+</exercise-tracker>
+
+<script>
+	import '../../scripts/exercise';
+</script>
+
+<style>
+	.exercise {
+		display: block;
+	}
+	.statement {
+		margin-top: 1rem;
+		font-size: 1.08rem;
+	}
+	.h-sec {
+		font-size: 1.15rem;
+		margin: 2rem 0 0.6rem;
+	}
+	.plan .muted {
+		font-size: 0.95rem;
+	}
+	.datos {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.95rem;
+		margin-bottom: 0.75rem;
+	}
+	.datos th,
+	.datos td {
+		text-align: left;
+		padding: 0.4rem 0.5rem;
+		border-bottom: 1px solid var(--line);
+		vertical-align: top;
+	}
+	.datos th {
+		font-size: 0.8rem;
+		color: var(--ink-3);
+	}
+	.k {
+		font-weight: 700;
+		margin: 0.5rem 0 0.25rem;
+	}
+	.mistakes {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.6rem;
+	}
+	.mistakes li {
+		padding: 0.7rem 0.9rem 0.2rem;
+		border-radius: 10px;
+		background: var(--warn-soft);
+	}
+	.m-err {
+		display: flex;
+		gap: 0.45rem;
+		align-items: baseline;
+		font-weight: 700;
+		margin-bottom: 0.3rem;
+	}
+	.m-err :global(.icon) {
+		flex: none;
+		color: var(--warn);
+		transform: translateY(2px);
+	}
+	.m-why {
+		font-size: 0.95rem;
+		color: var(--ink-2);
+	}
+	.lab-link {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		margin-top: 2rem;
+		padding: 0.9rem 1.1rem;
+		text-decoration: none;
+		color: var(--ink);
+		border-radius: var(--radius);
+	}
+	.lab-link:hover {
+		border-color: var(--accent);
+		color: var(--ink);
+	}
+	.lab-link > span {
+		display: grid;
+		flex: 1;
+	}
+	.lab-link .muted {
+		font-size: 0.9rem;
+	}
+	.solved-banner {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.7rem 1rem;
+		border-radius: 10px;
+		background: var(--ok-soft);
+		color: var(--ok);
+		font-weight: 700;
+	}
+	.solved-banner[hidden] {
+		display: none;
+	}
+</style>

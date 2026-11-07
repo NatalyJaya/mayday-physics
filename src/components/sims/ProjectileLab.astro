@@ -1,0 +1,228 @@
+---
+// Laboratorio de movimiento parabólico. Lógica en src/sims/projectile-lab.ts.
+import Icon from '../ui/Icon.astro';
+
+interface Props {
+	id?: string;
+	v0?: number;
+	angulo?: number;
+	h0?: number;
+	g?: number;
+	/** Lee ?v0=&a=&h0=&g= de la URL (para abrir ejercicios en el laboratorio). */
+	leerUrl?: boolean;
+	/** Muestra el selector de situaciones de ejemplo. */
+	ejemplos?: boolean;
+}
+const { id = 'laboratorio', v0 = 15, angulo = 40, h0 = 0, g = 9.8, leerUrl = false, ejemplos = true } = Astro.props;
+
+const planets = [
+	{ v: 9.8, label: 'Tierra' },
+	{ v: 1.62, label: 'Luna' },
+	{ v: 3.71, label: 'Marte' },
+	{ v: 24.79, label: 'Júpiter' },
+];
+const params = [
+	{ key: 'v0', label: 'Velocidad inicial', sym: 'v₀', unit: 'm/s', min: 0, max: 40, step: 0.5, numMax: 400 },
+	{ key: 'angle', label: 'Ángulo de lanzamiento', sym: 'α', unit: '°', min: 0, max: 90, step: 1, numMax: 90 },
+	{ key: 'h0', label: 'Altura de lanzamiento', sym: 'h₀', unit: 'm', min: 0, max: 50, step: 0.5, numMax: 3000 },
+];
+const toggles = [
+	{ key: 'vectors', label: 'Velocidad v' },
+	{ key: 'components', label: 'Componentes vₓ y vᵧ' },
+	{ key: 'gravity', label: 'Gravedad g' },
+	{ key: 'strobe', label: 'Posición cada Δt' },
+	{ key: 'shadows', label: 'Sombras en los ejes' },
+	{ key: 'keys', label: 'Altura máx. y alcance' },
+];
+const presets = [
+	{ v: '15,0,20,9.8', label: 'Ventana a 20 m: tiro horizontal a 15 m/s' },
+	{ v: '8.5,40,0,9.8', label: 'Problema 1: 8,5 m/s con 40° desde el suelo' },
+	{ v: '20,40,15,9.8', label: 'Chorro de agua: 20 m/s y 40° desde 15 m' },
+	{ v: '20,45,0,9.8', label: 'Tiro a 45°: el alcance máximo' },
+	{ v: '20,30,0,9.8', label: '30° (compárala con 60°)' },
+	{ v: '20,60,0,9.8', label: '60° (compárala con 30°)' },
+	{ v: '20,90,0,9.8', label: 'Lanzamiento vertical (90°)' },
+];
+const gName = `${id}-g`;
+---
+
+<projectile-lab
+	id={id}
+	class="lab wide"
+	data-v0={v0}
+	data-angle={angulo}
+	data-h0={h0}
+	data-g={g}
+	data-url={leerUrl ? '' : undefined}
+>
+	<div class="lab-scene card">
+		<div class="scene-wrap">
+			<svg class="scene" viewBox="0 0 800 430" role="img" aria-label="Simulación de un lanzamiento"></svg>
+			<p class="scene-msg" hidden>
+				Con α = 0° y desde el suelo, el objeto no llega a despegar. Sube el ángulo o la altura de lanzamiento.
+			</p>
+		</div>
+		<div class="scene-foot">
+			<ul class="legend" aria-label="Leyenda">
+				<li><i class="sw sw-v"></i> v (velocidad)</li>
+				<li><i class="sw sw-x"></i> vₓ (horizontal)</li>
+				<li><i class="sw sw-y"></i> vᵧ (vertical)</li>
+				<li><i class="sw sw-g"></i> g (gravedad)</li>
+			</ul>
+			<span class="strobe-note muted"></span>
+		</div>
+		<div class="transport">
+			<button type="button" class="btn btn-primary play" data-state="paused">
+				<span class="i-play"><Icon name="play" size={16} /></span><span class="i-pause"><Icon name="pause" size={16} /></span>
+				<span class="lbl">Lanzar</span>
+			</button>
+			<button type="button" class="btn btn-sm step" title="Avanzar un intervalo Δt"><Icon name="step" size={16} /> Δt</button>
+			<button type="button" class="btn btn-ghost btn-sm reset" aria-label="Volver a t = 0"><Icon name="reset" size={16} /></button>
+			<label class="time">
+				<span class="visually-hidden">Instante</span>
+				<input class="t-slider" type="range" min="0" max="1000" step="1" value="0" aria-label="Instante de tiempo" />
+				<output class="t-out num">0,00 s</output>
+			</label>
+			<label class="speed">
+				<span>Ritmo</span>
+				<select>
+					<option value="0.25">× 0,25</option>
+					<option value="0.5">× 0,5</option>
+					<option value="1" selected>× 1 (real)</option>
+				</select>
+			</label>
+		</div>
+	</div>
+
+	<div class="lab-panels">
+		<section class="panel controls" aria-label="Condiciones del lanzamiento">
+			<h3>Condiciones iniciales</h3>
+			{
+				params.map((p) => (
+					<div class="param" data-param={p.key}>
+						<label for={`${id}-${p.key}`}>
+							{p.label} <i>{p.sym}</i>
+						</label>
+						<div class="param-row">
+							<input id={`${id}-${p.key}`} type="range" min={p.min} max={p.max} step={p.step} />
+							<span class="num-box">
+								<input type="number" min={p.min} max={p.numMax} step={p.step} inputmode="decimal" aria-label={`${p.label} (${p.unit})`} />
+								<span class="unit">{p.unit}</span>
+							</span>
+						</div>
+					</div>
+				))
+			}
+			<fieldset class="seg">
+				<legend>Gravedad <i>g</i> (m/s²)</legend>
+				<div class="seg-opts">
+					{
+						planets.map((pl) => (
+							<label>
+								<input type="radio" name={gName} value={pl.v} />
+								<span>
+									{pl.label} <small>{String(pl.v).replace('.', ',')}</small>
+								</span>
+							</label>
+						))
+					}
+				</div>
+			</fieldset>
+
+			<h3>Qué mostrar</h3>
+			<div class="chips">
+				{
+					toggles.map((t) => (
+						<label class="chip">
+							<input type="checkbox" data-show={t.key} />
+							<span>{t.label}</span>
+						</label>
+					))
+				}
+			</div>
+
+			<h3>Comparar lanzamientos</h3>
+			<p class="hint muted">Fija la trayectoria actual, cambia algo y observa la diferencia. Puedes fijar hasta tres.</p>
+			<div class="pin-actions">
+				<button type="button" class="btn btn-sm pin"><Icon name="pin" size={16} /> Fijar esta trayectoria</button>
+				<button type="button" class="btn btn-ghost btn-sm unpin-all" hidden>Borrar todas</button>
+			</div>
+			<ol class="pins" aria-label="Trayectorias fijadas"></ol>
+
+			{
+				ejemplos && (
+					<label class="preset-row">
+						<span>Cargar una situación</span>
+						<select class="preset">
+							<option value="">Elige una situación de ejemplo…</option>
+							{presets.map((p) => (
+								<option value={p.v}>{p.label}</option>
+							))}
+						</select>
+					</label>
+				)
+			}
+		</section>
+
+		<section class="panel readouts" aria-label="Valores de la simulación">
+			<h3>En el instante <span class="num">t = <span data-tnow>0,00</span> s</span> <span class="state" data-out="state"></span></h3>
+			<dl class="instant">
+				<div><dt>t</dt><dd class="num" data-out="t">0,00 s</dd></div>
+				<div class="cx"><dt>x</dt><dd class="num" data-out="x"></dd></div>
+				<div class="cy"><dt>y</dt><dd class="num" data-out="y"></dd></div>
+				<div class="cx"><dt>vₓ</dt><dd class="num" data-out="vx"></dd></div>
+				<div class="cy"><dt>vᵧ</dt><dd class="num" data-out="vy"></dd></div>
+				<div><dt>|v|</dt><dd class="num" data-out="v"></dd></div>
+			</dl>
+
+			<h3>Resultados del lanzamiento</h3>
+			<dl class="results" aria-live="polite">
+				<div><dt>Tiempo de vuelo</dt><dd class="num" data-res="T"></dd></div>
+				<div><dt>Altura máxima</dt><dd class="num" data-res="H"></dd></div>
+				<div><dt>Alcance</dt><dd class="num" data-res="R"></dd></div>
+				<div class="wide-row"><dt>Llega al suelo con</dt><dd class="num" data-res="vimp"></dd></div>
+			</dl>
+
+			<h3>Las ecuaciones, con tus números</h3>
+			<div class="eqs num">
+				<p class="eq-intro muted">
+					v₀ₓ = <span data-eq="v0"></span>·cos <span data-eq="angle"></span>° = <span class="q-x" data-eq="v0x"></span> m/s ·
+					v₀ᵧ = <span data-eq="v0"></span>·sen <span data-eq="angle"></span>° = <span class="q-y" data-eq="v0y"></span> m/s
+				</p>
+				<p class="eq"><span class="lhs q-x">x</span> = 0 + <span class="q-x" data-eq="v0x"></span>·t<span class="ev" data-eval="x"></span></p>
+				<p class="eq">
+					<span class="lhs q-y">y</span> = <span data-eq="h0"></span> + <span class="q-y" data-eq="v0y"></span>·t − <span data-eq="halfg"></span>·t²
+					<span class="ev" data-eval="y"></span>
+				</p>
+				<p class="eq"><span class="lhs q-x">vₓ</span> = <span class="q-x" data-eq="v0x"></span> <span class="ev">(no cambia)</span></p>
+				<p class="eq">
+					<span class="lhs q-y">vᵧ</span> = <span class="q-y" data-eq="v0y"></span> − <span data-eq="g"></span>·t
+					<span class="ev" data-eval="vy"></span>
+				</p>
+			</div>
+		</section>
+	</div>
+
+	<div class="lab-graphs">
+		<figure class="card">
+			<figcaption><span class="q-x">Horizontal</span> · posición: una <strong>recta</strong> (MRU)</figcaption>
+			<div class="plot" data-plot="x"></div>
+		</figure>
+		<figure class="card">
+			<figcaption><span class="q-x">Horizontal</span> · velocidad: <strong>constante</strong></figcaption>
+			<div class="plot" data-plot="vx"></div>
+		</figure>
+		<figure class="card">
+			<figcaption><span class="q-y">Vertical</span> · altura: una <strong>parábola</strong> (MRUA)</figcaption>
+			<div class="plot" data-plot="y"></div>
+		</figure>
+		<figure class="card">
+			<figcaption><span class="q-y">Vertical</span> · velocidad: <strong>recta</strong> de pendiente −g</figcaption>
+			<div class="plot" data-plot="vy"></div>
+		</figure>
+	</div>
+</projectile-lab>
+
+<script>
+	import '../../sims/projectile-lab';
+</script>

@@ -1,0 +1,437 @@
+---
+// Dibujo del enunciado, generado A ESCALA a partir de los datos del
+// ejercicio (así el dibujo nunca contradice al enunciado). Las incógnitas
+// no se dibujan salvo que el ejercicio lo pida con una etiqueta.
+import { apex, flightTime, positionAt, range } from '../../lib/physics/projectile';
+import { fmtTrim } from '../../lib/format';
+import type { Figure } from '../../lib/schemas';
+import { niceStep, ticks } from '../../sims/core/svg';
+
+interface Props {
+	figura: Figure;
+	titulo: string;
+}
+const { figura: f, titulo } = Astro.props;
+const uid = `fig-${Math.random().toString(36).slice(2, 8)}`;
+
+// ─── Lanzamiento ──────────────────────────────────────────────────────────
+let launch: any = null;
+if (f.tipo === 'lanzamiento') {
+	const l = { v0: f.v0, angleDeg: f.angulo, h0: f.h0, g: f.g };
+	const T = flightTime(l);
+	const R = range(l);
+	const A = apex(l);
+	const marksX = Math.max(0, ...f.marcas.map((m) => m.x));
+	const marksY = Math.max(0, ...f.marcas.map((m) => m.altura));
+	const xW = f.ancho ?? Math.max(R, marksX, 1) * 1.12;
+	const yW = Math.max(f.trayectoria ? A.y : 0, f.h0, marksY, xW * 0.12) * 1.22;
+	const W = 600;
+	const hasSupport = f.h0 > 0 && f.soporte !== 'ninguno' && f.soporte !== 'avion';
+	const pl = f.h0 > 0 ? 112 : 34;
+	const pr = 26,
+		pt = 30,
+		pb = 46;
+	const s = Math.min((W - pl - pr) / xW, (330 - pt - pb) / yW);
+	const Ht = Math.round(pt + pb + yW * s);
+	const OX = pl,
+		OY = Ht - pb;
+	const X = (x: number) => OX + x * s;
+	const Y = (y: number) => OY - y * s;
+	const n = 60;
+	const path = Array.from({ length: n + 1 }, (_, i) => {
+		const p = positionAt(l, (T * i) / n);
+		return `${i ? 'L' : 'M'}${X(p.x).toFixed(1)} ${Y(Math.max(0, p.y)).toFixed(1)}`;
+	}).join('');
+	const a = (f.angulo * Math.PI) / 180;
+	const arrowLen = 66;
+	const ax = OX + arrowLen * Math.cos(a),
+		ay = Y(f.h0) - arrowLen * Math.sin(a);
+	const lab = {
+		v0: f.etiquetas.v0 ?? `v₀ = ${fmtTrim(f.v0, 2)} m/s`,
+		angulo: f.etiquetas.angulo ?? (f.angulo > 0 ? `${fmtTrim(f.angulo, 1)}°` : ''),
+		h0: f.etiquetas.h0 ?? (f.h0 > 0 ? `${fmtTrim(f.h0, 2)} m` : ''),
+		alcance: f.etiquetas.alcance ?? '',
+	};
+	const head = (x1: number, y1: number, x2: number, y2: number, h = 10) => {
+		const L = Math.hypot(x2 - x1, y2 - y1);
+		const ux = (x2 - x1) / L,
+			uy = (y2 - y1) / L;
+		const bx = x2 - ux * h,
+			by = y2 - uy * h;
+		return `M${x2} ${y2}L${bx - uy * h * 0.5} ${by + ux * h * 0.5}L${bx + uy * h * 0.5} ${by - ux * h * 0.5}Z`;
+	};
+	const arcR = 30;
+	launch = {
+		W, Ht, OX, OY, X, Y, path, ax, ay, lab, hasSupport, R, s, xW, pl, pr,
+		arrowHead: head(OX, Y(f.h0), ax, ay),
+		arc: f.angulo > 0 ? `M${OX + arcR} ${Y(f.h0)} A${arcR} ${arcR} 0 0 0 ${OX + arcR * Math.cos(a)} ${Y(f.h0) - arcR * Math.sin(a)}` : '',
+		arcLabel: { x: OX + (arcR + 14) * Math.cos(a / 2), y: Y(f.h0) - (arcR + 14) * Math.sin(a / 2) + 5 },
+		marks: f.marcas.map((m) => ({ ...m, px: X(m.x), py: Y(m.altura) })),
+		windows: hasSupport && f.soporte === 'edificio'
+			? Array.from({ length: Math.max(1, Math.floor((OY - Y(f.h0)) / 20)) }, (_, i) => Y(f.h0) + 8 + i * 20).filter((y) => y < OY - 10)
+			: [],
+	};
+}
+
+// ─── Gráfica ──────────────────────────────────────────────────────────────
+let graph: any = null;
+if (f.tipo === 'grafica') {
+	const W = 560,
+		Ht = 280,
+		pl = 58,
+		pr = 22,
+		pt = 22,
+		pb = 44;
+	const X = (v: number) => pl + ((v - f.x.min) / (f.x.max - f.x.min)) * (W - pl - pr);
+	const Y = (v: number) => Ht - pb - ((v - f.y.min) / (f.y.max - f.y.min)) * (Ht - pt - pb);
+	const xs = niceStep(f.x.max - f.x.min, 6);
+	const ys = niceStep(f.y.max - f.y.min, 6);
+	graph = {
+		W, Ht, pl, pr, pt, pb, X, Y,
+		xt: ticks(f.x.min, f.x.max, xs),
+		yt: ticks(f.y.min, f.y.max, ys),
+		series: f.series.map((s) => ({ ...s, d: s.puntos.map(([a, b], i) => `${i ? 'L' : 'M'}${X(a)} ${Y(b)}`).join('') })),
+		dec: (st: number) => (st < 1 ? 1 : 0),
+		xs, ys,
+	};
+}
+---
+
+{
+	launch && f.tipo === 'lanzamiento' && (
+		<figure class="ex-fig">
+			<svg viewBox={`0 0 ${launch.W} ${launch.Ht}`} role="img" aria-labelledby={`${uid}-t`}>
+				<title id={`${uid}-t`}>Esquema a escala: {titulo}</title>
+				<defs>
+					<pattern id={`${uid}-h`} width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+						<line x1="0" y1="0" x2="0" y2="7" class="hatch" />
+					</pattern>
+				</defs>
+				<rect x="6" y={launch.OY} width={launch.W - 12} height="12" fill={`url(#${uid}-h)`} />
+				<line x1="6" x2={launch.W - 6} y1={launch.OY} y2={launch.OY} class="ground" />
+
+				{launch.hasSupport && f.soporte === 'edificio' && (
+					<g>
+						<rect x={launch.OX - 44} y={launch.Y(f.h0)} width="44" height={launch.OY - launch.Y(f.h0)} class="support" />
+						{launch.windows.map((y: number) => (
+							<rect x={launch.OX - 34} y={y} width="24" height="9" rx="1.5" class="window" />
+						))}
+					</g>
+				)}
+				{launch.hasSupport && f.soporte === 'acantilado' && (
+					<path
+						d={`M6 ${launch.OY} L6 ${launch.Y(f.h0)} L${launch.OX} ${launch.Y(f.h0)} L${launch.OX + 4} ${launch.Y(f.h0) + (launch.OY - launch.Y(f.h0)) * 0.35} L${launch.OX - 3} ${launch.Y(f.h0) + (launch.OY - launch.Y(f.h0)) * 0.6} L${launch.OX + 6} ${launch.OY} Z`}
+						class="support"
+					/>
+				)}
+				{launch.hasSupport && f.soporte === 'mesa' && (
+					<g>
+						<rect x={launch.OX - 70} y={launch.Y(f.h0)} width="70" height="6" rx="2" class="support" />
+						<line x1={launch.OX - 64} x2={launch.OX - 64} y1={launch.Y(f.h0) + 6} y2={launch.OY} class="leg" />
+						<line x1={launch.OX - 6} x2={launch.OX - 6} y1={launch.Y(f.h0) + 6} y2={launch.OY} class="leg" />
+					</g>
+				)}
+				{f.soporte === 'avion' && (
+					<g transform={`translate(${launch.OX - 6} ${launch.Y(f.h0)})`} class="plane">
+						<path d="M-46 -4 L6 -5 Q16 -4 18 0 Q16 4 6 4 L-46 4 Z" />
+						<path d="M-16 -4 L-28 -20 L-20 -20 L0 -4 Z" />
+						<path d="M-16 4 L-26 16 L-19 16 L0 4 Z" />
+						<path d="M-44 -4 L-52 -16 L-46 -16 L-36 -4 Z" />
+					</g>
+				)}
+
+				{f.h0 > 0 && launch.lab.h0 && (
+					<g class="dim">
+						<line x1={launch.pl - 58} x2={launch.pl - 58} y1={launch.Y(f.h0)} y2={launch.OY} />
+						<line x1={launch.pl - 64} x2={launch.pl - 52} y1={launch.Y(f.h0)} y2={launch.Y(f.h0)} />
+						<line x1={launch.pl - 64} x2={launch.pl - 52} y1={launch.OY} y2={launch.OY} />
+						<text x={launch.pl - 66} y={(launch.Y(f.h0) + launch.OY) / 2 + 5} text-anchor="end">
+							{launch.lab.h0}
+						</text>
+					</g>
+				)}
+
+				{f.trayectoria && <path d={launch.path} class="traj" />}
+
+				{launch.marks.map((m: any) => (
+					<g class="mark">
+						{m.tipo === 'muro' && <rect x={m.px - 4} y={m.py} width="8" height={launch.OY - m.py} class="wall" />}
+						{m.tipo === 'porteria' && (
+							<g>
+								<line x1={m.px} x2={m.px} y1={launch.OY} y2={m.py} class="post" />
+								<line x1={m.px} x2={m.px + 22} y1={m.py} y2={m.py} class="post" />
+								<line x1={m.px + 22} x2={m.px + 22} y1={m.py} y2={launch.OY} class="net" />
+							</g>
+						)}
+						{m.tipo === 'punto' && <circle cx={m.px} cy={m.py} r="5" class="pt" />}
+						{m.tipo === 'diana' && (
+							<g>
+								<line x1={m.px} x2={m.px} y1={m.py} y2={launch.OY} class="leg" />
+								<circle cx={m.px} cy={m.py} r="10" class="target-out" />
+								<circle cx={m.px} cy={m.py} r="4.5" class="target-in" />
+							</g>
+						)}
+						{m.tipo === 'canasta' && (
+							<g>
+								<line x1={m.px + 14} x2={m.px + 14} y1={m.py - 16} y2={launch.OY} class="leg" />
+								<line x1={m.px + 12} x2={m.px + 12} y1={m.py - 18} y2={m.py + 4} class="post" />
+								<ellipse cx={m.px} cy={m.py} rx="11" ry="3.5" class="hoop" />
+							</g>
+						)}
+						{m.tipo === 'persona' && (
+							<g transform={`translate(${m.px} ${launch.OY})`} class="person">
+								<circle cx="0" cy="-27" r="4.5" />
+								<path d="M0 -22 L0 -10 M0 -18 L-7 -13 M0 -18 L7 -13 M0 -10 L-6 0 M0 -10 L6 0" />
+							</g>
+						)}
+						{m.etiqueta && (
+							<text x={m.px} y={(m.tipo === 'persona' ? launch.OY - 38 : m.py - (m.tipo === 'canasta' ? 24 : 12))} text-anchor="middle" class="mark-label">
+								{m.etiqueta}
+							</text>
+						)}
+					</g>
+				))}
+
+				{launch.lab.alcance && (
+					<g class="dim">
+						<line x1={launch.OX} x2={launch.X(launch.R)} y1={launch.OY + 26} y2={launch.OY + 26} />
+						<line x1={launch.OX} x2={launch.OX} y1={launch.OY + 20} y2={launch.OY + 32} />
+						<line x1={launch.X(launch.R)} x2={launch.X(launch.R)} y1={launch.OY + 20} y2={launch.OY + 32} />
+						<text x={(launch.OX + launch.X(launch.R)) / 2} y={launch.OY + 42} text-anchor="middle">
+							{launch.lab.alcance}
+						</text>
+					</g>
+				)}
+
+				{launch.arc && <path d={launch.arc} class="arc" />}
+				{launch.lab.angulo && (
+					<text x={launch.arcLabel.x} y={launch.arcLabel.y} class="lbl">
+						{launch.lab.angulo}
+					</text>
+				)}
+				{f.v0 > 0 && (
+					<g class="v0">
+						<line x1={launch.OX} y1={launch.Y(f.h0)} x2={launch.ax} y2={launch.ay} />
+						<path d={launch.arrowHead} />
+						{launch.lab.v0 && (
+							<text x={launch.ax + 8} y={launch.ay - 6} class="lbl">
+								{launch.lab.v0}
+							</text>
+						)}
+					</g>
+				)}
+				<circle cx={launch.OX} cy={launch.Y(f.h0)} r="6" class="obj" />
+			</svg>
+		</figure>
+	)
+}
+
+{
+	graph && f.tipo === 'grafica' && (
+		<figure class="ex-fig">
+			<figcaption>{f.titulo}</figcaption>
+			<svg viewBox={`0 0 ${graph.W} ${graph.Ht}`} role="img" aria-labelledby={`${uid}-g`}>
+				<title id={`${uid}-g`}>{f.titulo}</title>
+				{graph.yt.map((v: number) => (
+					<g>
+						<line x1={graph.pl} x2={graph.W - graph.pr} y1={graph.Y(v)} y2={graph.Y(v)} class={v === 0 ? 'zero' : 'gl'} />
+						<text x={graph.pl - 8} y={graph.Y(v) + 4} text-anchor="end" class="tick">
+							{fmtTrim(v, graph.dec(graph.ys))}
+						</text>
+					</g>
+				))}
+				{graph.xt.map((v: number) => (
+					<g>
+						<line x1={graph.X(v)} x2={graph.X(v)} y1={graph.pt} y2={graph.Ht - graph.pb} class="gl" />
+						<text x={graph.X(v)} y={graph.Ht - graph.pb + 18} text-anchor="middle" class="tick">
+							{fmtTrim(v, graph.dec(graph.xs))}
+						</text>
+					</g>
+				))}
+				<line x1={graph.pl} x2={graph.pl} y1={graph.pt} y2={graph.Ht - graph.pb} class="axis" />
+				<line x1={graph.pl} x2={graph.W - graph.pr} y1={graph.Ht - graph.pb} y2={graph.Ht - graph.pb} class="axis" />
+				<text x={graph.W - graph.pr} y={graph.Ht - 6} text-anchor="end" class="axis-label">
+					{f.x.simbolo} ({f.x.unidad})
+				</text>
+				<text x={graph.pl + 6} y={graph.pt + 4} class="axis-label">
+					{f.y.simbolo} ({f.y.unidad})
+				</text>
+				{graph.series.map((s: any) => (
+					<path d={s.d} class={`series s-${s.eje}`} />
+				))}
+			</svg>
+			{f.series.length > 1 && (
+				<ul class="legend">
+					{f.series.map((s) => (
+						<li>
+							<i class={`sw sw-${s.eje}`} /> {s.etiqueta}
+						</li>
+					))}
+				</ul>
+			)}
+		</figure>
+	)
+}
+
+<style>
+	.ex-fig {
+		margin: 1rem 0 1.25rem;
+		padding: 0.75rem 0.9rem;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		max-width: 640px;
+	}
+	svg {
+		display: block;
+		width: 100%;
+		height: auto;
+		font-family: var(--font-body);
+	}
+	figcaption {
+		font-weight: 700;
+		font-size: 0.92rem;
+		margin-bottom: 0.3rem;
+	}
+	.hatch {
+		stroke: var(--line-strong);
+		stroke-width: 2;
+	}
+	.ground {
+		stroke: var(--ink-2);
+		stroke-width: 2;
+	}
+	.support {
+		fill: var(--surface-3);
+		stroke: var(--line-strong);
+	}
+	.window {
+		fill: var(--surface);
+		stroke: var(--line-strong);
+	}
+	.leg {
+		stroke: var(--ink-3);
+		stroke-width: 2;
+	}
+	.plane path {
+		fill: var(--ink-2);
+	}
+	.dim line {
+		stroke: var(--ink-3);
+		stroke-width: 1.2;
+	}
+	.dim text,
+	.lbl,
+	.mark-label {
+		font-size: 14px;
+		font-weight: 700;
+		fill: var(--ink-2);
+		paint-order: stroke;
+		stroke: var(--surface);
+		stroke-width: 4px;
+	}
+	.traj {
+		fill: none;
+		stroke: var(--ink-3);
+		stroke-width: 1.6;
+		stroke-dasharray: 5 5;
+	}
+	.arc {
+		fill: none;
+		stroke: var(--ink-2);
+		stroke-width: 1.5;
+	}
+	.v0 line {
+		stroke: var(--ink);
+		stroke-width: 3;
+	}
+	.v0 path {
+		fill: var(--ink);
+	}
+	.obj {
+		fill: var(--q-y);
+		stroke: var(--surface);
+		stroke-width: 2;
+	}
+	.wall {
+		fill: var(--ink-2);
+	}
+	.post {
+		stroke: var(--ink);
+		stroke-width: 3;
+		stroke-linecap: round;
+	}
+	.net {
+		stroke: var(--ink-3);
+		stroke-dasharray: 2 3;
+	}
+	.pt {
+		fill: var(--surface);
+		stroke: var(--ink);
+		stroke-width: 2;
+	}
+	.target-out {
+		fill: var(--surface);
+		stroke: var(--bad);
+		stroke-width: 3;
+	}
+	.target-in {
+		fill: var(--bad);
+	}
+	.hoop {
+		fill: none;
+		stroke: var(--q-y);
+		stroke-width: 3;
+	}
+	.person circle {
+		fill: var(--ink-2);
+	}
+	.person path {
+		stroke: var(--ink-2);
+		stroke-width: 2.4;
+		stroke-linecap: round;
+		fill: none;
+	}
+	.gl {
+		stroke: var(--grid);
+	}
+	.zero {
+		stroke: var(--line-strong);
+		stroke-width: 1.5;
+	}
+	.axis {
+		stroke: var(--line-strong);
+		stroke-width: 1.5;
+	}
+	.tick {
+		font-size: 13px;
+		fill: var(--ink-3);
+	}
+	.axis-label {
+		font-size: 13px;
+		font-weight: 700;
+		fill: var(--ink-2);
+	}
+	.series {
+		fill: none;
+		stroke-width: 2.6;
+		stroke-linecap: round;
+	}
+	.s-x {
+		stroke: var(--q-x);
+	}
+	.s-y {
+		stroke: var(--q-y);
+	}
+	.s-g {
+		stroke: var(--q-g);
+	}
+	.legend {
+		display: flex;
+		gap: 1rem;
+		list-style: none;
+		padding: 0;
+		margin: 0.4rem 0 0;
+		font-size: 0.88rem;
+	}
+</style>

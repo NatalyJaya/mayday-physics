@@ -1,0 +1,60 @@
+---
+// Un paso de una deducción. «porque» explica la razón física del paso.
+import { richInline } from '../../lib/rich-text';
+
+interface Props {
+	titulo: string;
+	porque?: string;
+}
+const { titulo, porque } = Astro.props;
+const porqueHtml = porque ? await richInline(porque) : '';
+const tituloHtml = await richInline(titulo);
+---
+
+<li class="paso">
+	<p class="t" set:html={tituloHtml} />
+	<div class="c"><slot /></div>
+	{porqueHtml && <p class="why"><strong>Por qué:</strong> <span set:html={porqueHtml} /></p>}
+</li>
+
+<style>
+	.paso {
+		counter-increment: paso;
+		position: relative;
+		padding: 0 0 1rem 2.6rem;
+		border-left: 2px solid var(--line);
+		margin-left: 0.9rem;
+	}
+	.paso:last-child {
+		border-left-color: transparent;
+	}
+	.paso::before {
+		content: counter(paso);
+		position: absolute;
+		left: -0.95rem;
+		top: -0.1rem;
+		display: grid;
+		place-items: center;
+		width: 1.85rem;
+		height: 1.85rem;
+		border-radius: 50%;
+		background: var(--surface);
+		border: 2px solid var(--ink);
+		font: 650 0.85rem var(--font-display);
+	}
+	.t {
+		font-weight: 700;
+		margin-bottom: 0.3rem;
+	}
+	.c :global(p:last-child) {
+		margin-bottom: 0.4rem;
+	}
+	.why {
+		font-size: 0.93rem;
+		color: var(--ink-2);
+		background: var(--surface-2);
+		border-radius: 8px;
+		padding: 0.5rem 0.75rem;
+		margin-bottom: 0.4rem;
+	}
+</style>

@@ -1,0 +1,142 @@
+---
+import Icon from '../ui/Icon.astro';
+import { isAvailable, topicUrl, type Topic } from '../../lib/content';
+
+interface Props {
+	topic: Topic;
+	index: number;
+	allTopics: Topic[];
+}
+const { topic, index, allTopics } = Astro.props;
+const open = isAvailable(topic);
+const req = topic.data.requisitos
+	.map((r) => allTopics.find((t) => t.id === r.id))
+	.filter((t): t is Topic => !!t);
+const Tag = open ? 'a' : 'article';
+---
+
+<Tag class:list={['topic-card', { open }]} href={open ? topicUrl(topic) : undefined} aria-labelledby={`t-${topic.id}`}>
+	<div class="num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div>
+	<div class="body">
+		<div class="top">
+			{topic.data.sigla && <span class="sigla">{topic.data.sigla}</span>}
+			{
+				open ? (
+					<span class="tag tag-ok">Disponible</span>
+				) : (
+					<span class="tag tag-locked">
+						<Icon name="lock" size={13} /> Próximamente
+					</span>
+				)
+			}
+		</div>
+		<h3 id={`t-${topic.id}`}>{topic.data.titulo}</h3>
+		<p class="summary">{topic.data.resumen}</p>
+		<p class="list-title">{open ? 'Aprenderás' : 'Lo que verás'}</p>
+		<ul>
+			{topic.data.aprenderas.map((a) => <li>{a}</li>)}
+		</ul>
+		{
+			req.length > 0 && (
+				<p class="req">
+					<Icon name="layers" size={15} /> Se apoya en: {req.map((r) => r.data.sigla ?? r.data.titulo).join(', ')}
+					{open && req.some((r) => !isAvailable(r)) && <span> (incluye un repaso exprés)</span>}
+				</p>
+			)
+		}
+		{
+			open && (
+				<span class="go">
+					Entrar <Icon name="arrow-right" />
+				</span>
+			)
+		}
+	</div>
+</Tag>
+
+<style>
+	.topic-card {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1.1rem;
+		padding: 1.35rem 1.4rem;
+		border-radius: var(--radius-lg);
+		background: var(--surface);
+		border: 1px solid var(--line);
+		color: inherit;
+		text-decoration: none;
+		height: 100%;
+	}
+	a.topic-card {
+		border-color: var(--accent);
+		box-shadow: var(--shadow);
+		transition: transform 0.15s;
+	}
+	a.topic-card:hover {
+		transform: translateY(-2px);
+		color: inherit;
+	}
+	article.topic-card {
+		background: color-mix(in srgb, var(--surface) 55%, var(--bg));
+	}
+	.num {
+		font: 650 1.6rem/1 var(--font-display);
+		color: var(--ink-3);
+		letter-spacing: -0.03em;
+	}
+	.open .num {
+		color: var(--accent);
+	}
+	.top {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 0.4rem;
+	}
+	.sigla {
+		font: 650 0.85rem var(--font-display);
+		letter-spacing: 0.04em;
+		color: var(--ink-2);
+	}
+	h3 {
+		font-size: 1.25rem;
+		margin: 0 0 0.4rem;
+	}
+	.summary {
+		color: var(--ink-2);
+		margin-bottom: 0.8rem;
+	}
+	.list-title {
+		font: 600 0.78rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--ink-3);
+		margin: 0 0 0.35rem;
+	}
+	ul {
+		margin: 0 0 0.9rem;
+		padding-left: 1.1em;
+		font-size: 0.95rem;
+		color: var(--ink-2);
+	}
+	li + li {
+		margin-top: 0.2rem;
+	}
+	.req {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		font-size: 0.88rem;
+		color: var(--ink-3);
+		margin: 0;
+	}
+	.go {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		margin-top: 1rem;
+		font-weight: 700;
+		color: var(--accent);
+	}
+</style>

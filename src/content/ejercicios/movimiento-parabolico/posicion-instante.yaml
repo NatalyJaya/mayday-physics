@@ -1,0 +1,84 @@
+titulo: ¿Dónde está y hacia dónde va?
+tema: movimiento-parabolico
+orden: 5
+procedencia: original
+inspirado_en: [uv-bosch-tiro]
+dificultad: intermedio
+habilidades: [planteamiento, matematicas, conceptual]
+resumen: Posición y velocidad de un balón en dos instantes distintos. ¿Sube o baja?
+enunciado: |
+  Se chuta un balón desde el suelo a **25 m/s** con un ángulo de **53°**. Desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 25
+  angulo: 53
+datos:
+  - { simbolo: 'v_0', valor: '25\un{m/s}', significado: 'velocidad inicial' }
+  - { simbolo: '\alpha', valor: '53^\circ', significado: 'ángulo con la horizontal' }
+  - { simbolo: 'x_0,\ y_0', valor: '0', significado: 'sale del origen' }
+incognitas:
+  - 'La posición y la velocidad vertical a los 1 s y a los 3 s.'
+  - 'Si en cada instante sube o baja.'
+interpretacion: |
+  Con las ecuaciones de posición y velocidad podemos «hacer una foto» del balón en cualquier instante. El signo de $\cy{v_y}$ nos dice si en ese momento sube o baja.
+conceptos:
+  - '$\cx{x} = \cx{v_{0x}}\,t$, $\cy{y} = \cy{v_{0y}}\,t - 4,9\,t^2$ y $\cy{v_y} = \cy{v_{0y}} - 9,8\,t$.'
+apartados:
+  - id: a
+    enunciado: ¿Dónde está el balón a los 1 s y qué velocidad vertical lleva?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{x}', etiqueta: 'Posición horizontal', unidad: m, valor: 15.05 }
+        - { simbolo: '\cy{y}', etiqueta: 'Altura', unidad: m, valor: 15.07 }
+        - { simbolo: '\cy{v_y}', etiqueta: 'Velocidad vertical', unidad: m/s, valor: 10.17 }
+    pistas:
+      - 'Descompón: $v_{0x} = 25\cos 53°$ y $v_{0y} = 25\operatorname{sen}53°$.'
+      - 'Sustituye $t = 1$ s en las tres ecuaciones.'
+    pasos:
+      - titulo: Componentes iniciales
+        desarrollo: |
+          $$\cx{v_{0x}} = 25\cos 53^\circ = 15,05\un{m/s} \qquad \cy{v_{0y}} = 25\operatorname{sen}53^\circ = 19,97\un{m/s}$$
+      - titulo: Sustituye t = 1 s
+        desarrollo: |
+          $$\cx{x} = 15,05\cdot 1 = 15,05\un{m} \qquad \cy{y} = 19,97\cdot 1 - 4,9\cdot 1^2 = 15,07\un{m} \qquad \cy{v_y} = 19,97 - 9,8 = 10,17\un{m/s}$$
+    resultado: 'A los 1 s está en $(15,05;\ 15,07)$ m con $v_y = +10,17$ m/s.'
+  - id: b
+    enunciado: ¿Y a los 3 s?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{x}', etiqueta: 'Posición horizontal', unidad: m, valor: 45.14 }
+        - { simbolo: '\cy{y}', etiqueta: 'Altura', unidad: m, valor: 15.80 }
+        - { simbolo: '\cy{v_y}', etiqueta: 'Velocidad vertical', unidad: m/s, valor: -9.43 }
+    pistas:
+      - Las mismas ecuaciones con $t = 3$ s. Cuidado con el signo de $v_y$.
+    pasos:
+      - titulo: Sustituye t = 3 s
+        desarrollo: |
+          $$\cx{x} = 15,05\cdot 3 = 45,14\un{m} \qquad \cy{y} = 19,97\cdot 3 - 4,9\cdot 9 = 15,80\un{m} \qquad \cy{v_y} = 19,97 - 29,4 = -9,43\un{m/s}$$
+    resultado: 'A los 3 s está en $(45,14;\ 15,80)$ m con $v_y = -9,43$ m/s.'
+  - id: c
+    enunciado: Las dos alturas son muy parecidas (15,07 m y 15,80 m). ¿Cómo se explica?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: A los 1 s sube y a los 3 s baja. Pasa por alturas parecidas a la ida y a la vuelta.
+          correcta: true
+          explicacion: 'El punto más alto se alcanza a los $19,97/9,8 = 2,04$ s. Los instantes 1 s y 3 s están casi a la misma distancia de 2,04 s, uno antes y otro después, y por simetría las alturas son casi iguales.'
+        - texto: Es una casualidad de los números.
+          explicacion: 'No es casualidad: la trayectoria es simétrica respecto al punto más alto. Dos instantes a la misma distancia de 2,04 s (por ejemplo, 1,04 s y 3,04 s) dan la misma altura.'
+        - texto: El balón está quieto a esa altura entre 1 s y 3 s.
+          explicacion: 'La posición horizontal ha pasado de 15 m a 45 m y la vertical subió hasta unos 20 m entre medias. El balón no se para nunca.'
+    pistas:
+      - ¿En qué instante está en lo más alto? Compara ese instante con 1 s y con 3 s.
+    pasos:
+      - titulo: Instante del punto más alto
+        desarrollo: '$t_s = 19,97/9,8 = 2,04$ s.'
+      - titulo: Signo de vᵧ
+        desarrollo: 'A los 1 s, $\cy{v_y} > 0$: sube. A los 3 s, $\cy{v_y} < 0$: baja.'
+    resultado: 'Un instante es **antes** del punto más alto y el otro **después**, a casi la misma distancia de él.'
+errores:
+  - error: Deducir que sube o baja comparando alturas
+    explicacion: 'Dos alturas parecidas no te dicen hacia dónde va el balón. Lo que lo dice es el **signo** de $v_y$.'
+laboratorio: { v0: 25, angulo: 53, h0: 0 }

@@ -1,0 +1,99 @@
+---
+tema: movimiento-parabolico
+etapa: visualiza
+titulo: Laboratorio de lanzamientos
+descripcion: Cambia la velocidad, el ángulo, la altura y hasta la gravedad, y comprueba en directo lo que predicen las ecuaciones.
+minutos: 25
+---
+
+## Cómo usar el laboratorio
+
+- Mueve los **deslizadores** (o escribe el número) para fijar $v_0$, $\alpha$ y la altura de lanzamiento. Elige también la **gravedad**: Tierra, Luna, Marte o Júpiter.
+- Pulsa **Lanzar**. Con **Δt** avanzas el movimiento a saltos iguales de tiempo, y con la barra de tiempo puedes ir a cualquier instante.
+- Debajo tienes los valores en el instante actual, los resultados del lanzamiento y **las ecuaciones con tus números**. Las cuatro gráficas están sincronizadas con la animación.
+- **Fija** una trayectoria para compararla con la siguiente.
+
+<ProjectileLab id="laboratorio" leerUrl v0={15} angulo={40} />
+
+Las gráficas están colocadas a propósito: **arriba lo horizontal y abajo lo vertical; a la izquierda la posición y a la derecha la velocidad.** La fila de arriba es un MRU (una recta y una constante). La de abajo es un MRUA (una parábola y una recta inclinada).
+
+## Experimentos guiados
+
+Antes de tocar nada en cada experimento, **escribe tu predicción**. Después compruébala.
+
+### 1. ¿Qué cambia la gravedad?
+
+<Predict
+	pregunta="Lanzas en la Luna ($g = 1,62$ m/s²) exactamente igual que en la Tierra. ¿Qué le pasa a la gráfica de $v_x$?"
+	opciones={[
+		{ texto: 'Baja más despacio.', explicacion: 'La gráfica de $v_x$ no baja: es horizontal en la Tierra y en la Luna. La gravedad solo actúa en vertical.' },
+		{ texto: 'Sigue siendo una recta horizontal a la misma altura.', correcta: true, explicacion: 'La componente horizontal no depende de la gravedad. Lo que cambia es la gráfica de $v_y$: su pendiente pasa de $-9,8$ a $-1,62$ y el vuelo dura mucho más.' },
+		{ texto: 'Se vuelve más inclinada.', explicacion: 'Lo que se vuelve **menos** inclinado es la gráfica de $v_y$, porque su pendiente es $g$. La de $v_x$ sigue plana.' },
+	]}
+/>
+
+**Haz esto.** Pulsa *Fijar esta trayectoria*, cambia a *Luna* y vuelve a lanzar.
+
+**Observa.** La trayectoria lunar es enorme. En las gráficas, la recta de $v_x$ no cambia de altura, pero dura más. La recta de $v_y$ es mucho menos inclinada.
+
+**Por qué.** La pendiente de la gráfica $v_y$–$t$ es la aceleración, $g$. Con menos gravedad la velocidad vertical tarda más en anularse, así que el objeto sube más y está más tiempo en el aire, y durante ese tiempo avanza en horizontal a la misma velocidad de siempre.
+
+### 2. El punto más alto
+
+<Predict
+	pregunta="En el punto más alto de la trayectoria, la velocidad del objeto es…"
+	opciones={[
+		{ texto: 'Cero: el objeto se para un instante.', explicacion: 'Solo se anula la componente **vertical**. La horizontal sigue valiendo $v_{0x}$, así que el objeto sigue avanzando. Solo se para del todo si se lanza en vertical.' },
+		{ texto: 'Solo horizontal, igual a $v_{0x}$.', correcta: true, explicacion: 'Justo arriba $v_y = 0$ y solo queda la componente horizontal, que no ha cambiado desde el lanzamiento. Por eso es el punto donde el objeto va más despacio, pero no está parado.' },
+		{ texto: 'Solo vertical.', explicacion: 'Es al revés: arriba lo que desaparece es la componente vertical.' },
+	]}
+/>
+
+**Haz esto.** Usa la barra de tiempo para colocarte justo en el instante de la altura máxima (lo tienes escrito en la escena).
+
+**Observa.** La flecha naranja ($v_y$) desaparece y la flecha negra ($v$) coincide con la azul ($v_x$). En la gráfica de $v_y$ el cursor cruza el cero.
+
+**Por qué.** Antes de ese instante $v_y > 0$ (sube) y después $v_y < 0$ (baja). Justo arriba vale cero.
+
+### 3. Dos ángulos, un alcance
+
+**Haz esto.** Con $v_0 = 20$ m/s, lanza a 30°. Fija la trayectoria, cambia a 60° y lanza otra vez.
+
+**Observa.** Las dos caen **en el mismo sitio** (35,35 m), pero la de 60° sube tres veces más alto y tarda más.
+
+**Por qué.** El alcance desde el suelo es $R = v_0^2\operatorname{sen}2\alpha / g$, y $\operatorname{sen} 60° = \operatorname{sen} 120°$. Si quieres que un pase llegue antes, te conviene el ángulo bajo. Si quieres superar un obstáculo alto, el alto.
+
+### 4. ¿Sigue siendo 45° el mejor ángulo desde una altura?
+
+<Predict
+	pregunta="Lanzas a 15 m/s desde 20 m de altura. ¿Con qué ángulo llega más lejos?"
+	opciones={[
+		{ texto: 'Con 45°, como siempre.', explicacion: 'Los 45° solo son el óptimo cuando sale y llega a la misma altura. Desde arriba ya tienes tiempo de caída «gratis», y compensa dedicar más velocidad a avanzar.' },
+		{ texto: 'Con un ángulo menor que 45°.', correcta: true, explicacion: 'Desde 20 m, el mejor ángulo es de unos 31° (alcance de unos 38,0 m), frente a los 35,8 m que se consiguen con 45°.' },
+		{ texto: 'Con un ángulo mayor que 45°.', explicacion: 'Subiendo el ángulo ganas tiempo de vuelo, pero pierdes velocidad horizontal. Desde una altura sale más a cuenta lo contrario.' },
+	]}
+/>
+
+**Haz esto.** Pon $h_0 = 20$ m y $v_0 = 15$ m/s. Prueba 45°, fija, y luego prueba 30° y 35°.
+
+**Por qué.** La fórmula $R = v_0^2\operatorname{sen}2\alpha/g$ **no vale** aquí, porque el objeto cae más abajo de donde salió. Hay que calcular el tiempo de vuelo con $y = 0$ y después $R = v_{0x}\,t_v$.
+
+### 5. Simetría de subida y bajada
+
+**Haz esto.** Desde el suelo, lanza con cualquier velocidad y ángulo. Compara el tiempo de la altura máxima con el tiempo de vuelo, y la rapidez de llegada con $v_0$.
+
+**Observa.** El tiempo de subida es exactamente la mitad del de vuelo, y el objeto llega al suelo con la misma rapidez y el mismo ángulo con los que salió, pero hacia abajo.
+
+**Por qué.** La gráfica de $v_y$ es una recta que va de $+v_{0y}$ a $-v_{0y}$. Sube y baja con la misma aceleración, así que es simétrica respecto al punto más alto.
+
+### 6. Las sombras sobre los ejes
+
+**Haz esto.** Activa *Posición cada Δt* y *Sombras en los ejes* y avanza con **Δt**.
+
+**Observa.** Las marcas azules sobre el suelo están **igual de separadas**. Las naranjas sobre el eje vertical se juntan arriba y se separan abajo.
+
+**Por qué.** En el eje X, en tiempos iguales recorre distancias iguales (MRU). En el eje Y, la velocidad cambia, así que en tiempos iguales recorre distancias distintas (MRUA). Es la independencia de movimientos de la etapa 1, ahora medida.
+
+<Callout tipo="idea">
+	Cuando resuelvas un problema, puedes abrir el laboratorio con sus datos para **ver** si tu resultado tiene sentido. Cada ejercicio de la etapa 6 tiene un enlace que lo carga directamente aquí.
+</Callout>

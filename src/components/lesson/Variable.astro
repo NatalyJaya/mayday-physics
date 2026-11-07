@@ -1,0 +1,112 @@
+---
+// Ficha de una magnitud física: qué representa, qué mide, unidades,
+// qué pasa si cambia y con qué otras magnitudes se relaciona.
+import { richInline, tex } from '../../lib/rich-text';
+
+interface Props {
+	simbolo: string;
+	nombre: string;
+	unidad: string;
+	/** x | y | g | v: color semántico de la magnitud */
+	eje?: 'x' | 'y' | 'g' | 'v';
+	tipo?: 'escalar' | 'vector' | 'componente';
+	mide: string;
+	cambia?: string;
+	relacion?: string;
+}
+const { simbolo, nombre, unidad, eje = 'v', tipo = 'escalar', mide, cambia, relacion } = Astro.props;
+const symbolHtml = await tex(eje === 'v' ? simbolo : `\\c${eje}{${simbolo}}`);
+const rows = [
+	{ k: 'Qué mide', v: await richInline(mide) },
+	cambia && { k: 'Si la cambias', v: await richInline(cambia) },
+	relacion && { k: 'Se relaciona con', v: await richInline(relacion) },
+].filter(Boolean) as { k: string; v: string }[];
+const tipoLabel = { escalar: 'Escalar', vector: 'Vector', componente: 'Componente de un vector' }[tipo];
+---
+
+<article class:list={['var', `e-${eje}`]}>
+	<header>
+		<span class="sym" set:html={symbolHtml} />
+		<div>
+			<h4>{nombre}</h4>
+			<p class="meta">
+				<span>{tipoLabel}</span> · <span>se mide en <strong>{unidad}</strong></span>
+			</p>
+		</div>
+	</header>
+	<dl>
+		{
+			rows.map((r) => (
+				<div>
+					<dt>{r.k}</dt>
+					<dd set:html={r.v} />
+				</div>
+			))
+		}
+	</dl>
+</article>
+
+<style>
+	.var {
+		--c: var(--ink-3);
+		border: 1px solid var(--line);
+		border-top: 3px solid var(--c);
+		border-radius: var(--radius);
+		background: var(--surface);
+		padding: 1rem 1.1rem 0.6rem;
+		margin: 0;
+	}
+	.e-x {
+		--c: var(--q-x);
+	}
+	.e-y {
+		--c: var(--q-y);
+	}
+	.e-g {
+		--c: var(--q-g);
+	}
+	.e-v {
+		--c: var(--ink);
+	}
+	header {
+		display: flex;
+		align-items: center;
+		gap: 0.9rem;
+		margin-bottom: 0.6rem;
+	}
+	.sym {
+		display: grid;
+		place-items: center;
+		min-width: 54px;
+		height: 54px;
+		padding-inline: 0.4rem;
+		border-radius: 12px;
+		background: var(--surface-2);
+		font-size: 1.35rem;
+	}
+	h4 {
+		margin: 0;
+		font-size: 1.05rem;
+	}
+	.meta {
+		margin: 0.1rem 0 0;
+		font-size: 0.85rem;
+		color: var(--ink-3);
+	}
+	dl {
+		margin: 0;
+		display: grid;
+		gap: 0.55rem;
+	}
+	dt {
+		font: 650 0.75rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--ink-3);
+	}
+	dd {
+		margin: 0.1rem 0 0.2rem;
+		font-size: 0.95rem;
+		color: var(--ink-2);
+	}
+</style>

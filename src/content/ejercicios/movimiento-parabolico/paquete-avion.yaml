@@ -1,0 +1,123 @@
+titulo: Ayuda humanitaria desde un avión
+tema: movimiento-parabolico
+orden: 1
+procedencia: original
+inspirado_en: [ermengol-estiu-2026]
+dificultad: intermedio
+habilidades: [unidades, planteamiento, vectores, conceptual]
+resumen: Un avión suelta un paquete. Cambio de unidades, dónde soltarlo y con qué velocidad llega al suelo.
+enunciado: |
+  Un avión vuela horizontalmente a **500 m** de altura y a **360 km/h**. Tiene que dejar caer un paquete de ayuda sobre un campamento. Desprecia el rozamiento con el aire (el paracaídas se abre muy cerca del suelo).
+figura:
+  tipo: lanzamiento
+  v0: 100
+  angulo: 0
+  h0: 500
+  soporte: avion
+  etiquetas: { v0: 'v = 360 km/h', alcance: 'd = ?' }
+datos:
+  - { simbolo: 'y_0', valor: '500\un{m}', significado: 'altura del avión' }
+  - { simbolo: '\cx{v_{0x}}', valor: '360\un{km/h}', significado: 'el paquete sale con la velocidad del avión' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'el avión vuela en horizontal' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - La velocidad del avión en m/s.
+  - El tiempo que tarda el paquete en llegar al suelo.
+  - A qué distancia horizontal del campamento hay que soltarlo.
+  - Con qué velocidad llega al suelo.
+interpretacion: |
+  Al soltarlo, el paquete **no cae en vertical**. Lleva la misma velocidad horizontal que el avión, así que es un **lanzamiento horizontal** a 360 km/h desde 500 m. Por eso hay que soltarlo antes de pasar por encima del campamento.
+conceptos:
+  - 'De km/h a m/s se divide entre 3,6.'
+  - '$\cx{x} = \cx{v_{0x}}\,t$ e $\cy{y} = 500 - 4,9\,t^2$.'
+apartados:
+  - id: a
+    enunciado: ¿A cuántos m/s vuela el avión?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'v'
+          etiqueta: Velocidad del avión
+          unidad: m/s
+          valor: 100
+          trampas:
+            - { valor: 1296, explicacion: 'Has multiplicado por 3,6. De km/h a m/s se **divide**: un m/s es más que un km/h.' }
+    pistas:
+      - '1 km = 1000 m y 1 h = 3600 s.'
+    pasos:
+      - titulo: Factores de conversión
+        desarrollo: |
+          $$360\ \frac{\text{km}}{\text{h}}\cdot\frac{1000\ \text{m}}{1\ \text{km}}\cdot\frac{1\ \text{h}}{3600\ \text{s}} = 100\un{m/s}$$
+        porque: 'Cada factor vale 1 (es lo mismo arriba y abajo), así que no cambia la velocidad, solo sus unidades.'
+    resultado: '360 km/h = **100 m/s**.'
+  - id: b
+    enunciado: ¿Cuánto tarda el paquete en llegar al suelo? ¿A qué distancia horizontal del campamento hay que soltarlo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 10.10 }
+        - simbolo: '\cx{d}'
+          etiqueta: Distancia horizontal antes del campamento
+          unidad: m
+          valor: 1010
+          trampas:
+            - { valor: 3636, explicacion: 'Has usado 360 sin pasarlo a m/s. Con el tiempo en segundos, la velocidad tiene que ir en m/s.' }
+    pistas:
+      - El tiempo de caída solo depende de la altura.
+      - 'Mientras cae, el paquete avanza en horizontal a 100 m/s.'
+    pasos:
+      - titulo: Tiempo de caída
+        desarrollo: |
+          $$0 = 500 - 4,9\,t^2 \;\Rightarrow\; t = \sqrt{\frac{500}{4,9}} = 10,1\un{s}$$
+      - titulo: Distancia horizontal
+        desarrollo: |
+          $$\cx{d} = 100\cdot 10,1 = 1010\un{m} \approx 1,0\un{km}$$
+        porque: Es lo que avanza en horizontal durante la caída. El piloto tiene que soltarlo un kilómetro antes de llegar.
+    resultado: 'Tarda **10,1 s** y hay que soltarlo unos **1010 m** antes del campamento.'
+  - id: c
+    enunciado: ¿Con qué velocidad llega el paquete al suelo y qué ángulo forma con la horizontal?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical', unidad: m/s, valor: -98.99 }
+        - simbolo: 'v'
+          etiqueta: Módulo
+          unidad: m/s
+          valor: 140.7
+          trampas:
+            - { valor: 198.99, tolerancia: 0.01, explicacion: 'Has sumado las componentes. Son perpendiculares: se combinan con Pitágoras.' }
+        - { simbolo: '\theta', etiqueta: 'Ángulo bajo la horizontal', unidad: '°', valor: 44.71 }
+    pistas:
+      - '$v_x$ sigue siendo 100 m/s. $v_y = -9,8\,t$.'
+    pasos:
+      - titulo: Componentes al llegar
+        desarrollo: |
+          $$\cx{v_x} = 100\un{m/s} \qquad \cy{v_y} = -9,8\cdot 10,10 = -99,0\un{m/s}$$
+      - titulo: Módulo y ángulo
+        desarrollo: |
+          $$v = \sqrt{100^2 + 99,0^2} = 140,7\un{m/s} \qquad \tan\theta = \frac{99,0}{100} \;\Rightarrow\; \theta = 44,7^\circ$$
+    resultado: 'Llega a **141 m/s** (unos 507 km/h) formando **44,7°** bajo la horizontal. Sin paracaídas sería un desastre.'
+  - id: d
+    enunciado: Si el avión sigue volando igual, ¿dónde está cuando el paquete toca el suelo?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: Justo encima del paquete.
+          correcta: true
+          explicacion: 'El paquete y el avión tienen la misma velocidad horizontal (100 m/s) y la mantienen, así que avanzan exactamente igual. Visto desde el avión, el paquete cae en vertical bajo él.'
+        - texto: Por detrás del paquete, porque el paquete sale lanzado hacia delante.
+          explicacion: 'El paquete no sale más rápido que el avión: lleva su misma velocidad horizontal, ni más ni menos.'
+        - texto: Muy por delante del paquete, porque el paquete se va frenando.
+          explicacion: 'En la realidad el aire frena el paquete y se queda algo atrás. Pero sin rozamiento, que es nuestro modelo, nada frena su movimiento horizontal.'
+    pistas:
+      - Compara la velocidad horizontal del avión y la del paquete durante la caída.
+    pasos:
+      - titulo: Misma velocidad horizontal
+        desarrollo: 'Los dos avanzan $100\cdot 10,1 = 1010$ m durante la caída: el avión está justo encima.'
+    resultado: '**Justo encima.** En el modelo sin rozamiento, el paquete siempre está en la vertical del avión.'
+errores:
+  - error: Pensar que el paquete cae en vertical en cuanto se suelta
+    explicacion: El paquete conserva la velocidad horizontal que tenía en el avión. Es la misma idea que la pelota que cae dentro de un tren.
+  - error: Mezclar km/h con segundos
+    explicacion: 'Con $g$ en m/s², todo tiene que estar en el SI. Pasa las velocidades a m/s antes de empezar.'
+laboratorio: { v0: 100, angulo: 0, h0: 500 }

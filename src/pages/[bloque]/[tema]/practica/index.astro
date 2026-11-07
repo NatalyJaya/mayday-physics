@@ -1,0 +1,345 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../../components/layout/Breadcrumbs.astro';
+import StageNav from '../../../../components/layout/StageNav.astro';
+import ExerciseMeta from '../../../../components/exercises/ExerciseMeta.astro';
+import Icon from '../../../../components/ui/Icon.astro';
+import { blockUrl, exerciseUrl, getExercises, getTopics, isAvailable, stageUrl, topicUrl } from '../../../../lib/content';
+import { DIFFICULTIES, DIFFICULTY_IDS, ORIGINS, SKILLS, SKILL_IDS, STAGES } from '../../../../lib/taxonomy';
+
+export async function getStaticPaths() {
+	return (await getTopics())
+		.filter(isAvailable)
+		.map((topic) => ({ params: { bloque: topic.data.bloque.id, tema: topic.id }, props: { topic } }));
+}
+
+const { topic } = Astro.props;
+const block = await getEntry('bloques', topic.data.bloque.id);
+const exercises = await getExercises(topic.id, 'practica');
+const groups = DIFFICULTY_IDS.map((d) => ({ id: d, ...DIFFICULTIES[d], items: exercises.filter((e) => e.data.dificultad === d) })).filter(
+	(g) => g.items.length,
+);
+const usedSkills = SKILL_IDS.filter((s) => exercises.some((e) => e.data.habilidades.includes(s)));
+const stage = STAGES[5];
+---
+
+<BaseLayout title={`Práctica · ${topic.data.titulo}`} description={`Ejercicios de ${topic.data.titulo} con pistas y solución explicada.`}>
+	<div class="container head">
+		<Breadcrumbs
+			items={[
+				{ label: block?.data.titulo ?? '', href: blockUrl(topic.data.bloque.id) },
+				{ label: topic.data.titulo, href: topicUrl(topic) },
+				{ label: '6. Práctica' },
+			]}
+		/>
+		<StageNav topic={topic} current="practica" />
+		<p class="eyebrow">Etapa 6 de 6 · {stage.titulo}</p>
+		<h1>Practica por tu cuenta</h1>
+		<p class="lead">
+			{exercises.length} ejercicios ordenados de menos a más difícil. Inténtalo primero en tu cuaderno; si te atascas,
+			pide una pista, y cuando quieras, compara tu resolución con la explicada paso a paso.
+		</p>
+		<ol class="howto" aria-label="Cómo trabajar cada ejercicio">
+			<li><Icon name="pencil" size={18} /> <span><strong>Plantea</strong>: dibujo, datos con signo, condición</span></li>
+			<li><Icon name="bulb" size={18} /> <span><strong>Pista</strong> si te atascas</span></li>
+			<li><Icon name="check" size={18} /> <span><strong>Comprueba</strong> tu resultado</span></li>
+			<li><Icon name="eye" size={18} /> <span><strong>Compara</strong> con la solución explicada</span></li>
+		</ol>
+	</div>
+
+	<section class="container" aria-label="Ejercicios">
+		<exercise-filters class="filters card">
+			<div class="f-row">
+				<span class="f-k" id="f-diff">Dificultad</span>
+				<div class="seg" role="group" aria-labelledby="f-diff">
+					<button type="button" data-diff="" aria-pressed="true">Todas</button>
+					{groups.map((g) => <button type="button" data-diff={g.id} aria-pressed="false">{g.label}</button>)}
+				</div>
+			</div>
+			<div class="f-row">
+				<span class="f-k" id="f-skill">Habilidad</span>
+				<div class="chips-f" role="group" aria-labelledby="f-skill">
+					{usedSkills.map((s) => <button type="button" data-skill={s} aria-pressed="false">{SKILLS[s].label}</button>)}
+				</div>
+			</div>
+			<div class="f-row">
+				<span class="f-k" id="f-orig">Procedencia</span>
+				<div class="seg" role="group" aria-labelledby="f-orig">
+					<button type="button" data-origin="" aria-pressed="true">Todas</button>
+					{Object.entries(ORIGINS).map(([k, o]) => <button type="button" data-origin={k} aria-pressed="false">{o.label}</button>)}
+				</div>
+			</div>
+			<p class="f-count muted" aria-live="polite"></p>
+		</exercise-filters>
+
+		{
+			groups.map((g) => (
+				<section class="group" data-group={g.id}>
+					<header>
+						<span class="lv" aria-hidden="true">
+							{'●'.repeat(g.nivel)}
+							<span class="off">{'●'.repeat(4 - g.nivel)}</span>
+						</span>
+						<h2>{g.label}</h2>
+						<p class="muted">{g.descripcion}</p>
+					</header>
+					<ul class="grid">
+						{g.items.map((e) => (
+							<li
+								class="ex-item"
+								data-diff={e.data.dificultad}
+								data-origin={e.data.procedencia}
+								data-skills={e.data.habilidades.join(' ')}
+							>
+								<a class="ex-card" href={exerciseUrl(topic, e)} data-solved-id={e.id}>
+									<span class="solved-mark" aria-hidden="true">
+										<Icon name="check" size={14} /> Resuelto
+									</span>
+									<h3>{e.data.titulo}</h3>
+									<p>{e.data.resumen}</p>
+									<ExerciseMeta ex={e.data} compact />
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			))
+		}
+		<p class="empty" hidden>Ningún ejercicio cumple esos filtros. Prueba a quitar alguno.</p>
+		<p class="back"><a href={stageUrl(topic, 'aplica')}><Icon name="arrow-left" size={16} /> Volver a los ejemplos guiados</a></p>
+	</section>
+</BaseLayout>
+
+<script>
+	import '../../../../scripts/exercise';
+
+	class ExerciseFilters extends HTMLElement {
+		private diff = '';
+		private origin = '';
+		private skills = new Set<string>();
+		connectedCallback() {
+			this.querySelectorAll<HTMLButtonElement>('[data-diff]').forEach((b) =>
+				b.addEventListener('click', () => {
+					this.diff = b.dataset.diff!;
+					this.press('[data-diff]', b);
+					this.apply();
+				}),
+			);
+			this.querySelectorAll<HTMLButtonElement>('[data-origin]').forEach((b) =>
+				b.addEventListener('click', () => {
+					this.origin = b.dataset.origin!;
+					this.press('[data-origin]', b);
+					this.apply();
+				}),
+			);
+			this.querySelectorAll<HTMLButtonElement>('[data-skill]').forEach((b) =>
+				b.addEventListener('click', () => {
+					const s = b.dataset.skill!;
+					if (this.skills.has(s)) this.skills.delete(s);
+					else this.skills.add(s);
+					b.setAttribute('aria-pressed', String(this.skills.has(s)));
+					this.apply();
+				}),
+			);
+			this.apply();
+		}
+		private press(sel: string, on: HTMLButtonElement) {
+			this.querySelectorAll(sel).forEach((x) => x.setAttribute('aria-pressed', String(x === on)));
+		}
+		private apply() {
+			const items = [...document.querySelectorAll<HTMLElement>('.ex-item')];
+			let n = 0;
+			for (const it of items) {
+				const sk = it.dataset.skills!.split(' ');
+				const ok =
+					(!this.diff || it.dataset.diff === this.diff) &&
+					(!this.origin || it.dataset.origin === this.origin) &&
+					[...this.skills].every((s) => sk.includes(s));
+				it.hidden = !ok;
+				if (ok) n++;
+			}
+			document.querySelectorAll<HTMLElement>('.group').forEach((g) => {
+				g.hidden = !g.querySelector('.ex-item:not([hidden])');
+			});
+			document.querySelector<HTMLElement>('.empty')!.hidden = n > 0;
+			this.querySelector('.f-count')!.textContent = `Mostrando ${n} de ${items.length} ejercicios`;
+		}
+	}
+	customElements.define('exercise-filters', ExerciseFilters);
+</script>
+
+<style>
+	.head {
+		padding-top: 1.75rem;
+	}
+	.howto {
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		padding: 0;
+		margin: 1.25rem 0 0;
+	}
+	.howto li {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.45rem 0.8rem;
+		border-radius: 999px;
+		background: var(--surface);
+		border: 1px solid var(--line);
+		font-size: 0.92rem;
+	}
+	.howto :global(.icon) {
+		color: var(--accent);
+	}
+	.filters {
+		display: grid;
+		gap: 0.7rem;
+		padding: 1rem 1.15rem;
+		margin: 2rem 0 0.5rem;
+		border-radius: var(--radius-lg);
+	}
+	.f-row {
+		display: grid;
+		grid-template-columns: 100px 1fr;
+		gap: 0.75rem;
+		align-items: center;
+	}
+	.f-k {
+		font: 650 0.78rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--ink-3);
+	}
+	.seg,
+	.chips-f {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+	}
+	.seg button,
+	.chips-f button {
+		font: 600 0.88rem var(--font-body);
+		padding: 0.35rem 0.75rem;
+		min-height: 36px;
+		border-radius: 999px;
+		border: 1px solid var(--line-strong);
+		background: var(--surface);
+		color: var(--ink-2);
+		cursor: pointer;
+	}
+	.seg button[aria-pressed='true'],
+	.chips-f button[aria-pressed='true'] {
+		background: var(--ink);
+		border-color: var(--ink);
+		color: var(--bg);
+	}
+	.f-count {
+		margin: 0;
+		font-size: 0.88rem;
+	}
+	.group {
+		margin-top: 2.25rem;
+	}
+	.group header {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.25rem 0.75rem;
+		margin-bottom: 0.9rem;
+	}
+	.group h2 {
+		margin: 0;
+		font-size: 1.35rem;
+	}
+	.group header p {
+		margin: 0;
+		flex-basis: 100%;
+	}
+	.lv {
+		font-size: 0.7rem;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+	}
+	.lv .off {
+		color: var(--line-strong);
+	}
+	.grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 0.9rem;
+	}
+	.ex-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		height: 100%;
+		padding: 1.05rem 1.15rem;
+		border-radius: var(--radius);
+		background: var(--surface);
+		border: 1px solid var(--line);
+		color: var(--ink);
+		text-decoration: none;
+		transition:
+			border-color 0.15s,
+			transform 0.15s;
+	}
+	.ex-card:hover {
+		border-color: var(--accent);
+		transform: translateY(-2px);
+		color: var(--ink);
+	}
+	.ex-card h3 {
+		font-size: 1.08rem;
+		margin: 0;
+		padding-right: 5.5rem;
+	}
+	.ex-card p {
+		margin: 0;
+		color: var(--ink-2);
+		font-size: 0.94rem;
+		flex: 1;
+	}
+	.solved-mark {
+		position: absolute;
+		top: 0.95rem;
+		right: 1rem;
+		display: none;
+		align-items: center;
+		gap: 0.25rem;
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--ok);
+	}
+	:global(.is-solved) .solved-mark {
+		display: inline-flex;
+	}
+	.ex-card:global(.is-solved) {
+		border-color: color-mix(in srgb, var(--ok) 40%, var(--line));
+	}
+	.empty {
+		padding: 1.5rem;
+		text-align: center;
+		color: var(--ink-3);
+	}
+	.back {
+		margin-top: 2.5rem;
+	}
+	.back a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+	@media (max-width: 600px) {
+		.f-row {
+			grid-template-columns: 1fr;
+			gap: 0.35rem;
+		}
+	}
+</style>

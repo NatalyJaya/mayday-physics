@@ -1,0 +1,163 @@
+---
+// «Predice antes de mirar»: el alumno elige una respuesta y recibe una
+// explicación específica para su elección. Activar una idea previa (aunque
+// sea errónea) antes de ver el resultado hace que se recuerde mucho mejor.
+import Icon from '../ui/Icon.astro';
+import { richInline } from '../../lib/rich-text';
+
+interface Option {
+	texto: string;
+	correcta?: boolean;
+	explicacion: string;
+}
+interface Props {
+	pregunta: string;
+	opciones: Option[];
+	despues?: string;
+}
+const { pregunta, opciones, despues } = Astro.props;
+const qHtml = await richInline(pregunta);
+const ops = await Promise.all(
+	opciones.map(async (o) => ({ ...o, t: await richInline(o.texto), e: await richInline(o.explicacion) })),
+);
+const afterHtml = despues ? await richInline(despues) : '';
+const name = `p-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<predict-question class="predict">
+	<p class="label"><Icon name="target" size={17} /> Predice antes de mirar</p>
+	<fieldset>
+		<legend set:html={qHtml} />
+		<div class="ops">
+			{
+				ops.map((o, i) => (
+					<label class="op" data-correct={o.correcta ? '1' : '0'}>
+						<input type="radio" name={name} value={i} />
+						<span set:html={o.t} />
+					</label>
+				))
+			}
+		</div>
+	</fieldset>
+	<div class="feedback" aria-live="polite" hidden>
+		{
+			ops.map((o, i) => (
+				<div class="fb" data-i={i} hidden>
+					<p class:list={['verdict', o.correcta ? 'ok' : 'bad']}>
+						<Icon name={o.correcta ? 'check' : 'x'} size={17} />
+						{o.correcta ? 'Bien pensado.' : 'Es lo que piensa mucha gente, pero no.'}
+					</p>
+					<p set:html={o.e} />
+				</div>
+			))
+		}
+		{afterHtml && <p class="after" set:html={afterHtml} />}
+	</div>
+</predict-question>
+
+<style>
+	.predict {
+		display: block;
+		margin: 1.75em 0;
+		padding: 1.1rem 1.2rem 0.9rem;
+		border-radius: var(--radius);
+		border: 1.5px dashed var(--accent);
+		background: var(--surface);
+	}
+	.label {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin: 0 0 0.5rem;
+		font: 650 0.82rem var(--font-display);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--accent);
+	}
+	fieldset {
+		border: 0;
+		margin: 0;
+		padding: 0;
+	}
+	legend {
+		font-weight: 700;
+		margin-bottom: 0.7rem;
+		padding: 0;
+	}
+	.ops {
+		display: grid;
+		gap: 0.5rem;
+	}
+	.op {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.65rem;
+		padding: 0.65rem 0.8rem;
+		border: 1px solid var(--line-strong);
+		border-radius: 10px;
+		cursor: pointer;
+		min-height: 44px;
+	}
+	.op:hover {
+		border-color: var(--accent);
+	}
+	.op input {
+		margin-top: 0.3rem;
+		accent-color: var(--accent);
+	}
+	.op.chosen.right {
+		border-color: var(--ok);
+		background: var(--ok-soft);
+	}
+	.op.chosen.wrong {
+		border-color: var(--bad);
+		background: var(--bad-soft);
+	}
+	.op.reveal-right {
+		border-color: var(--ok);
+	}
+	.feedback {
+		margin-top: 0.9rem;
+	}
+	.verdict {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-weight: 700;
+		margin-bottom: 0.3rem;
+	}
+	.verdict.ok {
+		color: var(--ok);
+	}
+	.verdict.bad {
+		color: var(--bad);
+	}
+	.after {
+		border-top: 1px solid var(--line);
+		padding-top: 0.7rem;
+		color: var(--ink-2);
+	}
+</style>
+
+<script>
+	class PredictQuestion extends HTMLElement {
+		connectedCallback() {
+			const fb = this.querySelector<HTMLElement>('.feedback')!;
+			const labels = [...this.querySelectorAll<HTMLLabelElement>('.op')];
+			this.addEventListener('change', (e) => {
+				const input = e.target as HTMLInputElement;
+				const i = Number(input.value);
+				fb.hidden = false;
+				fb.querySelectorAll<HTMLElement>('.fb').forEach((el) => (el.hidden = Number(el.dataset.i) !== i));
+				labels.forEach((l, j) => {
+					const right = l.dataset.correct === '1';
+					l.classList.toggle('chosen', j === i);
+					l.classList.toggle('right', j === i && right);
+					l.classList.toggle('wrong', j === i && !right);
+					l.classList.toggle('reveal-right', j !== i && right && labels[i].dataset.correct !== '1');
+				});
+			});
+		}
+	}
+	customElements.define('predict-question', PredictQuestion);
+</script>

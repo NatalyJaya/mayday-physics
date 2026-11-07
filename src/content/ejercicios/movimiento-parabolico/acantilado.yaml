@@ -1,0 +1,124 @@
+titulo: Una piedra desde el acantilado
+tema: movimiento-parabolico
+orden: 1
+procedencia: original
+inspirado_en: [ermengol-estiu-2026]
+dificultad: avanzado
+habilidades: [planteamiento, matematicas, vectores, multipaso]
+resumen: Lanzamiento hacia arriba desde 45 m. Altura máxima sobre el mar, tiempo de vuelo, alcance y velocidad de impacto.
+enunciado: |
+  Desde lo alto de un acantilado de **45 m** sobre el nivel del mar se lanza una piedra a **20 m/s** formando **30°** por encima de la horizontal. Desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 20
+  angulo: 30
+  h0: 45
+  soporte: acantilado
+  etiquetas: { alcance: '?' }
+datos:
+  - { simbolo: 'y_0', valor: '45\un{m}', significado: 'origen al nivel del mar, bajo el borde del acantilado' }
+  - { simbolo: 'v_0', valor: '20\un{m/s}', significado: 'velocidad inicial' }
+  - { simbolo: '\alpha', valor: '30^\circ', significado: 'hacia arriba, así que $v_{0y} > 0$' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - La altura máxima sobre el mar.
+  - El tiempo que tarda en llegar al agua y a qué distancia de la base del acantilado cae.
+  - Con qué velocidad y con qué ángulo llega al agua.
+interpretacion: |
+  La piedra sube un poco por encima del acantilado, se para en vertical y cae hasta el mar, 45 m por debajo del punto de lanzamiento. El movimiento no es simétrico: baja mucho más de lo que sube.
+conceptos:
+  - '$\cy{y} = 45 + \cy{v_{0y}}\,t - 4,9\,t^2$ y $\cy{v_y} = \cy{v_{0y}} - 9,8\,t$.'
+  - 'Altura máxima: $\cy{v_y} = 0$. Llegada al agua: $\cy{y} = 0$.'
+apartados:
+  - id: a
+    enunciado: ¿Qué altura máxima sobre el nivel del mar alcanza la piedra?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'h_{\text{máx}}'
+          etiqueta: Altura máxima sobre el mar
+          unidad: m
+          valor: 50.10
+          trampas:
+            - { valor: 5.10, explicacion: 'Eso es lo que sube **por encima del acantilado**. Te preguntan la altura sobre el mar: súmale los 45 m.' }
+    pistas:
+      - 'Primero descompón: $v_{0y} = 20\operatorname{sen}30° = 10$ m/s.'
+      - En el punto más alto $v_y = 0$. Saca el tiempo y sustitúyelo en $y(t)$, sin olvidar el 45.
+    pasos:
+      - titulo: Componentes iniciales
+        desarrollo: |
+          $$\cx{v_{0x}} = 20\cos 30^\circ = 17,32\un{m/s} \qquad \cy{v_{0y}} = 20\operatorname{sen}30^\circ = 10\un{m/s}$$
+      - titulo: Tiempo de subida
+        desarrollo: |
+          $$0 = 10 - 9,8\,t \;\Rightarrow\; t_s = 1,02\un{s}$$
+      - titulo: Altura en ese instante
+        desarrollo: |
+          $$\cy{y} = 45 + 10\cdot 1,02 - 4,9\cdot 1,02^2 = 45 + 5,10 = 50,1\un{m}$$
+        porque: 'Con el origen en el mar, la ecuación ya mide la altura sobre el agua.'
+    resultado: 'Llega a **50,1 m** sobre el mar (5,1 m por encima del borde del acantilado).'
+  - id: b
+    enunciado: ¿Cuánto tarda en llegar al agua? ¿A qué distancia de la base del acantilado cae?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't_v'
+          etiqueta: Tiempo hasta el agua
+          unidad: s
+          valor: 4.218
+          trampas:
+            - { valor: -2.177, explicacion: 'Es la solución negativa: un instante anterior al lanzamiento. Descártala.' }
+            - { valor: 2.04, explicacion: 'Así tardaría en volver a la altura del acantilado, no al mar. Pon $y = 0$ con $y_0 = 45$ m.' }
+        - simbolo: '\cx{x}'
+          etiqueta: Distancia a la base
+          unidad: m
+          valor: 73.06
+    pistas:
+      - 'Al poner $y = 0$ queda $4,9\,t^2 - 10\,t - 45 = 0$.'
+      - Resuelve con la fórmula de la ecuación de segundo grado y quédate con la solución positiva.
+    pasos:
+      - titulo: Condición de llegada al agua
+        desarrollo: |
+          $$0 = 45 + 10\,t - 4,9\,t^2 \;\Rightarrow\; 4,9\,t^2 - 10\,t - 45 = 0$$
+      - titulo: Resuelve la ecuación de segundo grado
+        desarrollo: |
+          $$t = \frac{10 \pm \sqrt{10^2 + 4\cdot 4,9\cdot 45}}{2\cdot 4,9} = \frac{10 \pm 31,34}{9,8} \;\Rightarrow\; t = 4,22\un{s} \quad (\text{la otra, } -2,18\un{s}, \text{ se descarta})$$
+        porque: Un tiempo negativo correspondería a un instante anterior al lanzamiento.
+      - titulo: Distancia horizontal
+        desarrollo: |
+          $$\cx{x} = 17,32\cdot 4,22 = 73,1\un{m}$$
+    resultado: 'Llega al agua a los **4,22 s**, a **73,1 m** de la base del acantilado.'
+  - id: c
+    enunciado: ¿Con qué velocidad llega al agua y con qué ángulo respecto a la horizontal?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical', unidad: m/s, valor: -31.34 }
+        - { simbolo: 'v', etiqueta: 'Módulo', unidad: m/s, valor: 35.81 }
+        - { simbolo: '\theta', etiqueta: 'Ángulo bajo la horizontal', unidad: '°', valor: 61.07 }
+    pistas:
+      - '$v_x = 17,32$ m/s no cambia. Calcula $v_y$ en $t = 4,22$ s.'
+    pasos:
+      - titulo: Componentes al llegar
+        desarrollo: |
+          $$\cx{v_x} = 17,32\un{m/s} \qquad \cy{v_y} = 10 - 9,8\cdot 4,218 = -31,34\un{m/s}$$
+      - titulo: Módulo y ángulo
+        desarrollo: |
+          $$v = \sqrt{17,32^2 + 31,34^2} = 35,8\un{m/s} \qquad \tan\theta = \frac{31,34}{17,32} \;\Rightarrow\; \theta = 61,1^\circ$$
+    resultado: 'Llega a **35,8 m/s** formando **61,1°** por debajo de la horizontal.'
+errores:
+  - error: Medir la altura máxima desde el acantilado
+    explicacion: 'Si el origen está en el mar, $y$ ya es la altura sobre el mar. Si lo pones en el acantilado, tendrás que sumar 45 m al final y llegar al agua será $y = -45$.'
+  - error: Usar las fórmulas de terreno llano
+    explicacion: 'La piedra cae 45 m más abajo de donde sale: el tiempo de vuelo no es $2\,v_{0y}/g$ y el alcance no es $v_0^2\operatorname{sen}2\alpha/g$.'
+alternativas:
+  - titulo: Otra elección del origen
+    desarrollo: |
+      Con el origen en el borde del acantilado, $y_0 = 0$ y el mar está en $y = -45$ m:
+
+      $$-45 = 10\,t - 4,9\,t^2$$
+
+      Es la misma ecuación y da el mismo tiempo. El origen se elige por comodidad; la física no cambia.
+  - titulo: La velocidad de llegada sin el tiempo
+    desarrollo: |
+      $$v_y^2 = v_{0y}^2 + 2\,g\,\Delta y = 10^2 + 2\cdot(-9,8)\cdot(-45) = 982 \;\Rightarrow\; |v_y| = 31,3\un{m/s}$$
+laboratorio: { v0: 20, angulo: 30, h0: 45 }

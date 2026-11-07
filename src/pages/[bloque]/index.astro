@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/layout/Breadcrumbs.astro';
+import BlockGlyph from '../../components/syllabus/BlockGlyph.astro';
+import TopicCard from '../../components/syllabus/TopicCard.astro';
+import { getBlocks, getTopics, isAvailable } from '../../lib/content';
+
+export async function getStaticPaths() {
+	const blocks = await getBlocks();
+	const topics = await getTopics();
+	// Solo tienen página los bloques con algún tema disponible.
+	return blocks
+		.filter((b) => topics.some((t) => t.data.bloque.id === b.id && isAvailable(t)))
+		.map((block) => ({ params: { bloque: block.id }, props: { block } }));
+}
+
+const { block } = Astro.props;
+const topics = await getTopics(block.id);
+const allTopics = await getTopics();
+---
+
+<BaseLayout title={block.data.titulo} description={block.data.descripcion}>
+	<section class="container section head">
+		<Breadcrumbs items={[{ label: block.data.titulo }]} />
+		<div class="title">
+			<BlockGlyph icon={block.data.icono} size={72} />
+			<div>
+				<p class="eyebrow">Bloque {block.data.orden}</p>
+				<h1>{block.data.titulo}</h1>
+			</div>
+		</div>
+		<p class="lead">{block.data.descripcion}</p>
+		<p class="curriculo muted">{block.data.curriculo}</p>
+	</section>
+
+	<section class="container">
+		<h2 class="route-title">Ruta recomendada</h2>
+		<ol class="route">
+			{
+				topics.map((t, i) => (
+					<li>
+						<TopicCard topic={t} index={i} allTopics={allTopics} />
+					</li>
+				))
+			}
+		</ol>
+	</section>
+</BaseLayout>
+
+<style>
+	.head {
+		padding-bottom: 1.5rem;
+	}
+	.title {
+		display: flex;
+		align-items: center;
+		gap: 1.1rem;
+		margin-bottom: 1rem;
+	}
+	.title h1 {
+		margin: 0;
+	}
+	.title .eyebrow {
+		margin-bottom: 0.25rem;
+	}
+	.curriculo {
+		font-size: 0.9rem;
+		margin-top: 0.75rem;
+	}
+	.route-title {
+		font-size: 1.2rem;
+		margin-bottom: 1rem;
+	}
+	.route {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+	@media (max-width: 860px) {
+		.route {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

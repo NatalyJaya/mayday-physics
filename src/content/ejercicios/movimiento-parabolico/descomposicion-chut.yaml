@@ -1,0 +1,80 @@
+titulo: Descompón un chut
+tema: movimiento-parabolico
+orden: 5
+procedencia: original
+dificultad: basico
+habilidades: [vectores, conceptual]
+resumen: Calcular las componentes de la velocidad inicial y entender qué hace cada una.
+enunciado: |
+  Una jugadora chuta el balón desde el césped a **18 m/s** formando **35°** con la horizontal.
+figura:
+  tipo: lanzamiento
+  v0: 18
+  angulo: 35
+datos:
+  - { simbolo: 'v_0', valor: '18\un{m/s}', significado: 'módulo de la velocidad inicial' }
+  - { simbolo: '\alpha', valor: '35^\circ', significado: 'ángulo con la horizontal' }
+incognitas:
+  - 'Las componentes $\cx{v_{0x}}$ y $\cy{v_{0y}}$.'
+interpretacion: |
+  La velocidad del chut se reparte entre dos «tareas»: la componente horizontal hace avanzar el balón y la vertical lo hace subir. El ángulo decide cuánto va a cada una.
+conceptos:
+  - '$\cx{v_{0x}} = v_0\cos\alpha$ y $\cy{v_{0y}} = v_0\operatorname{sen}\alpha$.'
+apartados:
+  - id: a
+    enunciado: Calcula las componentes horizontal y vertical de la velocidad inicial.
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\cx{v_{0x}}'
+          etiqueta: Componente horizontal
+          unidad: m/s
+          valor: 14.74
+          trampas:
+            - { valor: -16.27, explicacion: '¡La calculadora está en **radianes**! Cámbiala a grados (DEG) y repite el cálculo.' }
+            - { valor: 10.32, explicacion: 'Has intercambiado seno y coseno. La horizontal es el cateto **contiguo** al ángulo: va con el coseno.' }
+        - simbolo: '\cy{v_{0y}}'
+          etiqueta: Componente vertical
+          unidad: m/s
+          valor: 10.32
+          trampas:
+            - { valor: -7.71, explicacion: '¡La calculadora está en **radianes**! Cámbiala a grados (DEG).' }
+            - { valor: 14.74, explicacion: 'Has intercambiado seno y coseno. La vertical es el cateto **opuesto** al ángulo: va con el seno.' }
+    pistas:
+      - 'La velocidad es la hipotenusa. ¿Qué cateto es contiguo al ángulo de 35°?'
+      - 'Comprueba que la calculadora está en grados: $\cos 35° \approx 0,82$.'
+    pasos:
+      - titulo: Componente horizontal (cateto contiguo)
+        desarrollo: |
+          $$\cx{v_{0x}} = 18\cos 35^\circ = 18\cdot 0,819 = 14,74\un{m/s}$$
+      - titulo: Componente vertical (cateto opuesto)
+        desarrollo: |
+          $$\cy{v_{0y}} = 18\operatorname{sen}35^\circ = 18\cdot 0,574 = 10,32\un{m/s}$$
+      - titulo: Comprueba
+        desarrollo: '$\sqrt{14,74^2 + 10,32^2} = 18,0$ m/s. Cuadra.'
+        porque: 'Si al recomponer no te sale $v_0$, hay un error. Es una comprobación que cuesta diez segundos.'
+    resultado: '$v_{0x} = 14,74$ m/s y $v_{0y} = 10,32$ m/s.'
+  - id: b
+    enunciado: ¿Qué componente decide cuánto tiempo está el balón en el aire?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: La horizontal, porque es la más grande.
+          explicacion: 'La componente horizontal decide lo deprisa que avanza, no cuánto tiempo vuela. El tiempo de vuelo sale de la ecuación del eje Y.'
+        - texto: La vertical.
+          correcta: true
+          explicacion: 'El balón está en el aire hasta que la gravedad anula su velocidad vertical y lo devuelve al suelo. Desde el suelo, $t_v = 2\,v_{0y}/9,8$.'
+        - texto: Las dos por igual.
+          explicacion: 'La ecuación del eje Y, que es la que da el tiempo de vuelo, no contiene $v_{0x}$.'
+    pistas:
+      - ¿En qué ecuación pones la condición «vuelve al suelo»? ¿Qué componente aparece en ella?
+    pasos:
+      - titulo: El tiempo de vuelo sale del eje Y
+        desarrollo: '$0 = \cy{v_{0y}}\,t - 4,9\,t^2 \Rightarrow t_v = \cy{v_{0y}}/4,9 = 2,11$ s. Solo interviene $\cy{v_{0y}}$.'
+    resultado: 'La **componente vertical**. La horizontal decide dónde cae, no cuándo.'
+errores:
+  - error: Calculadora en radianes
+    explicacion: 'Con radianes, $\cos 35$ da $-0,90$ y sale una velocidad horizontal negativa. Si una componente te sale con un signo que no tiene sentido, revisa el modo de la calculadora.'
+  - error: Intercambiar seno y coseno
+    explicacion: 'El coseno va con el cateto **contiguo** al ángulo. Si el ángulo es con la horizontal, el coseno da la componente horizontal.'
+laboratorio: { v0: 18, angulo: 35, h0: 0 }

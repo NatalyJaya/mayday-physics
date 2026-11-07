@@ -1,0 +1,170 @@
+---
+tema: movimiento-parabolico
+etapa: ecuaciones
+titulo: De dónde salen las ecuaciones
+descripcion: Deducimos las ecuaciones a partir de una sola idea física y vemos qué suponen, cuándo usarlas y, sobre todo, cuándo no.
+minutos: 20
+---
+
+## Una sola idea física
+
+Todo lo que viene a continuación sale de un único hecho: **durante el vuelo, la única fuerza que actúa es el peso**, que apunta hacia abajo. Por tanto, la aceleración del objeto es:
+
+$$
+\vec a = (\,\cx{a_x},\ \cy{a_y}\,) = (\,0,\ -9,8\,)\ \text{m/s}^2
+$$
+
+En horizontal no hay aceleración y en vertical hay la de la gravedad. No necesitamos nada más: el resto son los dos movimientos que ya conoces, aplicados cada uno en su eje.
+
+## Las ecuaciones, paso a paso
+
+<Derivation titulo="Deducción de las ecuaciones del movimiento parabólico">
+	<Paso titulo="Descompón la velocidad inicial en sus dos componentes" porque="Cada eje tiene su propio movimiento, así que cada uno necesita su propia velocidad inicial. El enunciado te da el módulo y el ángulo; las ecuaciones necesitan las componentes.">
+		$$
+		\cx{v_{0x}} = v_0\cos\alpha \qquad \cy{v_{0y}} = v_0\operatorname{sen}\alpha
+		$$
+	</Paso>
+	<Paso titulo="Eje X: como $a_x = 0$, es un MRU" porque="Si no hay aceleración horizontal, la velocidad horizontal no cambia nunca. Es la ecuación del MRU con la velocidad $v_{0x}$.">
+		$$
+		\cx{v_x} = \cx{v_{0x}} \qquad\qquad \cx{x} = x_0 + \cx{v_{0x}}\,t
+		$$
+	</Paso>
+	<Paso titulo="Eje Y: como $a_y = -9,8$ m/s², es un MRUA" porque="Son las ecuaciones del MRUA con $a = g = -9,8$ m/s². El término $\tfrac12\,g\,t^2$ es el que, en la práctica, escribimos como $-4,9\,t^2$.">
+		$$
+		\cy{v_y} = \cy{v_{0y}} + g\,t = \cy{v_{0y}} - 9,8\,t \qquad\qquad \cy{y} = y_0 + \cy{v_{0y}}\,t + \tfrac12\,g\,t^2 = y_0 + \cy{v_{0y}}\,t - 4,9\,t^2
+		$$
+	</Paso>
+	<Paso titulo="El tiempo es el mismo en los dos ejes" porque="No son dos objetos, es uno solo: está en un único sitio en cada instante. Por eso el $t$ de la ecuación de $x$ y el de la de $y$ son el mismo número.">
+		Con estas cuatro ecuaciones sabes **dónde está** $(x,\ y)$ y **cómo se mueve** $(v_x,\ v_y)$ en cualquier instante.
+	</Paso>
+</Derivation>
+
+<Formula
+	titulo="Ecuaciones del movimiento parabólico"
+	usala="un objeto se mueve libremente por el aire tras ser lanzado, solo bajo la acción de la gravedad. Sirve tanto si sale horizontal como inclinado, desde el suelo o desde una altura."
+	nousar="hay rozamiento importante, el objeto se impulsa a sí mismo, rueda por una superficie o recorre distancias tan grandes que $g$ ya no es constante."
+>
+	$$
+	\begin{aligned}
+	\cx{x} &= x_0 + v_0\cos\alpha\cdot t & \cx{v_x} &= v_0\cos\alpha \\
+	\cy{y} &= y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2 & \cy{v_y} &= v_0\operatorname{sen}\alpha - 9,8\,t
+	\end{aligned}
+	$$
+</Formula>
+
+El **lanzamiento horizontal** es un caso particular: con $\alpha = 0°$, $\cos 0° = 1$ y $\operatorname{sen} 0° = 0$. Queda $\cx{v_{0x}} = v_0$ y $\cy{v_{0y}} = 0$.
+
+| | Eje X (MRU) | Eje Y (MRUA) |
+| --- | --- | --- |
+| Velocidad inicial | $\cx{v_{0x}} = v_0\cos\alpha$ | $\cy{v_{0y}} = v_0\operatorname{sen}\alpha$ (0 si es horizontal) |
+| Aceleración | $0$ | $-9,8$ m/s² |
+| Posición | $\cx{x} = x_0 + \cx{v_{0x}}\,t$ | $\cy{y} = y_0 + \cy{v_{0y}}\,t - 4,9\,t^2$ |
+| Velocidad | $\cx{v_x} = \cx{v_{0x}}$ (constante) | $\cy{v_y} = \cy{v_{0y}} - 9,8\,t$ |
+
+<Callout tipo="ojo" titulo="Un error copiado del cuaderno">
+	En la ecuación del eje X a veces aparece escrito $x = x_0\cdot v_{0x}\cdot\cos\alpha\cdot\Delta t$. Está mal por dos motivos: es una **suma** ($x_0 +$ lo que avanza) y el coseno **no se pone dos veces**. O escribes $v_{0x}\,t$ o escribes $v_0\cos\alpha\cdot t$, pero no las dos cosas a la vez.
+</Callout>
+
+## De las ecuaciones a las preguntas típicas
+
+Las ecuaciones describen todo el movimiento. Para contestar a una pregunta concreta hay que **traducirla a una condición** y despejar.
+
+### Tiempo de vuelo: cuando $y = 0$
+
+El objeto llega al suelo cuando su altura vale cero. Se sustituye $y = 0$ en la ecuación del eje Y y se despeja $t$.
+
+**Desde el suelo** ($y_0 = 0$), la ecuación no tiene término independiente y se resuelve sacando factor común:
+
+$$
+0 = \cy{v_{0y}}\,t - 4,9\,t^2 = t\,(\cy{v_{0y}} - 4,9\,t) \quad\Rightarrow\quad t = 0 \quad\text{o}\quad t_v = \frac{\cy{v_{0y}}}{4,9} = \frac{2\,\cy{v_{0y}}}{9,8}
+$$
+
+La solución $t = 0$ es el instante del lanzamiento, que también está en el suelo. La que nos interesa es la otra.
+
+**Desde una altura** ($y_0 > 0$) queda una ecuación de segundo grado completa:
+
+$$
+4,9\,t^2 - \cy{v_{0y}}\,t - y_0 = 0 \quad\Rightarrow\quad t = \frac{\cy{v_{0y}} \pm \sqrt{\cy{v_{0y}}^2 + 4\cdot 4,9\cdot y_0}}{2\cdot 4,9}
+$$
+
+Una de las dos soluciones es **negativa**, es decir, anterior al lanzamiento, y se descarta.
+
+<Callout tipo="porque" titulo="¿Por qué salen dos soluciones?">
+	Las ecuaciones describen la parábola completa, como si el objeto existiera también antes de lanzarlo. La solución negativa dice cuándo habría pasado por el suelo «subiendo» si la trayectoria hubiera empezado antes. Físicamente no ocurre, pero las matemáticas no lo saben: el que decide qué solución tiene sentido eres tú.
+</Callout>
+
+### Altura máxima: cuando $v_y = 0$
+
+En el punto más alto el objeto deja de subir y todavía no ha empezado a bajar: su velocidad vertical es **cero**. Ojo: su velocidad **horizontal** no lo es, así que el objeto sigue moviéndose.
+
+$$
+0 = \cy{v_{0y}} - 9,8\,t \quad\Rightarrow\quad t_s = \frac{\cy{v_{0y}}}{9,8}
+\qquad\text{y sustituyendo:}\qquad
+h_{\text{máx}} = y_0 + \frac{\cy{v_{0y}}^2}{2\cdot 9,8}
+$$
+
+<Callout tipo="idea" titulo="Simetría">
+	Si sale del suelo y vuelve al suelo, **tarda lo mismo en subir que en bajar**: $t_v = 2\,t_s$. Además, llega al suelo con la misma rapidez con la que salió y con el mismo ángulo, pero hacia abajo. Es una buena forma de comprobar tus resultados.
+</Callout>
+
+### Alcance: la $x$ en el tiempo de vuelo
+
+El alcance es lo que ha avanzado en horizontal durante todo el vuelo. Basta con usar el tiempo de vuelo en el eje X:
+
+$$
+R = \cx{v_{0x}}\cdot t_v
+$$
+
+Si sale del suelo y llega al suelo, se puede ir más allá. Sustituyendo $t_v = 2\,v_0\operatorname{sen}\alpha / 9,8$ y usando la identidad trigonométrica $2\operatorname{sen}\alpha\cos\alpha = \operatorname{sen} 2\alpha$:
+
+$$
+R = v_0\cos\alpha\cdot\frac{2\,v_0\operatorname{sen}\alpha}{9,8} = \frac{v_0^2\cdot 2\operatorname{sen}\alpha\cos\alpha}{9,8} = \frac{v_0^2\operatorname{sen} 2\alpha}{9,8}
+$$
+
+<Formula
+	titulo="Alcance en terreno llano"
+	usala="el objeto sale y llega a la misma altura, como un balón chutado desde el césped que vuelve al césped."
+	nousar="se lanza desde una altura (un edificio, un acantilado, una mano a 2 m del suelo) o cae en un sitio más alto o más bajo. En ese caso calcula el tiempo de vuelo con $y = 0$ y luego $R = v_{0x}\,t_v$."
+>
+	$$
+	R = \frac{v_0^2\operatorname{sen} 2\alpha}{g}
+	$$
+</Formula>
+
+Esta fórmula esconde dos resultados muy útiles:
+
+- $\operatorname{sen} 2\alpha$ vale como mucho 1, y eso ocurre cuando $2\alpha = 90°$. Por tanto, **el alcance máximo se consigue con 45°**.
+- $\operatorname{sen}(2\cdot 30°) = \operatorname{sen} 60°$ y $\operatorname{sen}(2\cdot 60°) = \operatorname{sen} 120°$ valen lo mismo. **Dos ángulos complementarios** (que suman 90°) dan el **mismo alcance**.
+
+<AngleExplorer />
+
+### Velocidad en cualquier instante
+
+Se calcula cada componente por separado y después se juntan con Pitágoras. El ángulo lo da la tangente:
+
+$$
+v = \sqrt{\cx{v_x}^2 + \cy{v_y}^2} \qquad\qquad \tan\theta = \frac{\cy{v_y}}{\cx{v_x}}
+$$
+
+El **signo** de $\cy{v_y}$ te dice si en ese instante sube (positivo) o baja (negativo). La velocidad siempre es **tangente** a la trayectoria: apunta hacia donde se está moviendo el objeto en ese momento.
+
+## Para saber más: la ecuación de la trayectoria
+
+Si de la ecuación del eje X despejas el tiempo, $t = x / v_{0x}$ (con $x_0 = 0$), y lo sustituyes en la del eje Y, desaparece el tiempo y te queda la altura en función de la distancia:
+
+$$
+y = y_0 + x\tan\alpha - \frac{9,8\,x^2}{2\,v_0^2\cos^2\alpha}
+$$
+
+Tiene la forma $y = a + b\,x - c\,x^2$: es **una parábola**. Es la demostración de lo que intuimos en la etapa 1. También es muy práctica cuando te preguntan si el objeto **supera un obstáculo** situado a una distancia conocida, como una barrera, una red o un muro.
+
+## Cuándo NO sirven estas ecuaciones
+
+<Callout tipo="limite">
+	- **Cuando el aire importa**: objetos ligeros o con mucha superficie (pelotas de playa, plumas, paracaídas) o muy rápidos (un balón de fútbol a 100 km/h se queda bastante más corto que lo que predice el modelo).
+	- **Cuando el objeto tiene propulsión o efecto**: un cohete, un dron o un balón con mucho giro.
+	- **Cuando no vuela libremente**: mientras rueda por una rampa o después de rebotar, el movimiento es otro.
+	- **Cuando las distancias son enormes**: para proyectiles de cientos de kilómetros, $g$ cambia de dirección y de valor.
+</Callout>
+
+En los problemas de 1.º de Bachillerato, salvo que digan lo contrario, se supone siempre que estas condiciones se cumplen.

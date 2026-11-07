@@ -1,0 +1,75 @@
+---
+// Etiquetas de un ejercicio: dificultad, procedencia y habilidades.
+import { DIFFICULTIES, ORIGINS, SKILLS } from '../../lib/taxonomy';
+import type { Exercise } from '../../lib/schemas';
+
+interface Props {
+	ex: Exercise;
+	compact?: boolean;
+}
+const { ex, compact = false } = Astro.props;
+const d = DIFFICULTIES[ex.dificultad];
+---
+
+<div class:list={['meta', { compact }]}>
+	<span class="tag level" title={d.descripcion}>
+		<span class="dots" aria-hidden="true">{'●'.repeat(d.nivel)}<span class="off">{'●'.repeat(4 - d.nivel)}</span></span>
+		{d.label}
+	</span>
+	<span class:list={['tag', 'origin', `o-${ex.procedencia}`]} title={ORIGINS[ex.procedencia].descripcion}>
+		{ORIGINS[ex.procedencia].label}
+	</span>
+	{
+		!compact &&
+			ex.habilidades.map((s) => (
+				<span class="tag skill">{SKILLS[s].label}</span>
+			))
+	}
+	{
+		compact && (
+			<span class="skills muted">{ex.habilidades.map((s) => SKILLS[s].corto).join(' · ')}</span>
+		)
+	}
+</div>
+
+<style>
+	.meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		align-items: center;
+	}
+	.dots {
+		font-size: 0.55rem;
+		letter-spacing: 0.08em;
+		color: var(--accent);
+	}
+	.dots .off {
+		color: var(--line-strong);
+	}
+	.level {
+		background: var(--surface);
+	}
+	.o-alumno {
+		background: var(--q-y-soft);
+		color: var(--q-y-text);
+		border-color: transparent;
+	}
+	.o-original {
+		background: var(--accent-soft);
+		color: var(--accent);
+		border-color: transparent;
+	}
+	.o-externo {
+		background: var(--q-g-soft);
+		color: var(--q-g-text);
+		border-color: transparent;
+	}
+	.skill {
+		background: transparent;
+		font-weight: 500;
+	}
+	.skills {
+		font-size: 0.82rem;
+	}
+</style>
