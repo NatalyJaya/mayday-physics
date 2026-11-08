@@ -9,6 +9,7 @@ export type Topic = CollectionEntry<'temas'>;
 export type Lesson = CollectionEntry<'lecciones'>;
 export type ExerciseEntry = CollectionEntry<'ejercicios'>;
 export type Source = CollectionEntry<'fuentes'>;
+export type ExerciseCollection = CollectionEntry<'colecciones'>;
 
 // ─── Rutas ────────────────────────────────────────────────────────────────
 export const blockUrl = (blockId: string) => `/${blockId}/`;
@@ -16,6 +17,7 @@ export const topicUrl = (t: Topic) => `/${t.data.bloque.id}/${t.id}/`;
 export const stageUrl = (t: Topic, stage: StageId) => `${topicUrl(t)}${stage}/`;
 export const exerciseSlug = (e: ExerciseEntry) => e.id.split('/').pop()!;
 export const exerciseUrl = (t: Topic, e: ExerciseEntry) => `${stageUrl(t, 'practica')}${exerciseSlug(e)}/`;
+export const collectionUrl = (t: Topic, id: string) => `${topicUrl(t)}colecciones/${id}/`;
 export const labUrl = (t: Topic, p: { v0: number; angulo: number; h0?: number; g?: number }) => {
 	const q = new URLSearchParams({ v0: String(p.v0), a: String(p.angulo), h0: String(p.h0 ?? 0), g: String(p.g ?? 9.8) });
 	return `${stageUrl(t, 'visualiza')}?${q}#laboratorio`;
@@ -63,6 +65,17 @@ export async function getExercise(topicId: string, slug: string) {
 	const e = await getEntry('ejercicios', `${topicId}/${slug}`);
 	if (!e) throw new Error(`Ejercicio desconocido: ${topicId}/${slug}`);
 	return e;
+}
+
+/** Variantes de un ejercicio (las que lo indican en «variante_de»), en orden. */
+export async function getVariants(topicId: string, slug: string) {
+	return (await getCollection('ejercicios'))
+		.filter((e) => e.data.tema === topicId && e.data.variante_de === slug)
+		.sort((a, b) => a.data.orden - b.data.orden);
+}
+
+export async function getCollections(topicId?: string) {
+	return (await getCollection('colecciones')).filter((c) => !topicId || c.data.tema === topicId);
 }
 
 export async function getSources() {

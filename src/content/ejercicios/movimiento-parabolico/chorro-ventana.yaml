@@ -118,7 +118,7 @@ errores:
   - error: 'Olvidar el $y_0$ y escribir $y = 12,86\,t - 4,9\,t^2$'
     explicacion: 'Así calcularías cuándo vuelve a la altura de la ventana (2,62 s), no cuándo llega al suelo.'
 alternativas:
-  - titulo: Comprobar la velocidad de llegada sin el tiempo
+  - titulo: 'Para comprobar: la velocidad de llegada sin el tiempo (no visto en clase)'
     desarrollo: |
       En el eje Y, $v_y^2 = v_{0y}^2 + 2\,g\,\Delta y$ con $\Delta y = 0 - 15 = -15$ m:
 

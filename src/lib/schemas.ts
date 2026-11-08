@@ -108,7 +108,7 @@ const partSchema = z.object({
 });
 
 const markSchema = z.object({
-	tipo: z.enum(['muro', 'porteria', 'punto', 'diana', 'persona', 'canasta']),
+	tipo: z.enum(['muro', 'porteria', 'punto', 'diana', 'persona', 'canasta', 'rampa']),
 	x: z.number(),
 	altura: z.number().default(0),
 	etiqueta: z.string().optional(),
@@ -121,7 +121,9 @@ const launchFigureSchema = z.object({
 	angulo: z.number(),
 	h0: z.number().default(0),
 	g: z.number().default(9.8),
-	soporte: z.enum(['ninguno', 'mesa', 'edificio', 'acantilado', 'avion']).default('ninguno'),
+	/** Altura a la que termina la trayectoria (p. ej., una rampa de llegada). Por defecto, el suelo. */
+	llegada: z.number().default(0),
+	soporte: z.enum(['ninguno', 'mesa', 'edificio', 'acantilado', 'avion', 'rampa']).default('ninguno'),
 	trayectoria: z.boolean().default(true),
 	/** Texto de las etiquetas. Si falta, se usa el dato; "" la oculta; "?" para incógnitas. */
 	etiquetas: z
@@ -133,6 +135,10 @@ const launchFigureSchema = z.object({
 		})
 		.default({}),
 	marcas: z.array(markSchema).default([]),
+	/** Puntos clave de la trayectoria (en el instante t) con una etiqueta, p. ej. «vᵧ = 0 → altura máxima». */
+	claves: z.array(z.object({ t: z.number(), etiqueta: z.string() })).default([]),
+	/** Dibuja las componentes v₀ₓ y v₀ᵧ en el punto de salida. */
+	componentes: z.boolean().default(false),
 	/** Hasta qué x se dibuja la escena (por defecto, un poco más allá del alcance). */
 	ancho: z.number().optional(),
 });
@@ -154,7 +160,32 @@ const graphFigureSchema = z.object({
 		.min(1),
 });
 
-export const figureSchema = z.discriminatedUnion('tipo', [launchFigureSchema, graphFigureSchema]);
+/** Triángulo de velocidades: la velocidad es la hipotenusa y sus componentes, los catetos. */
+const triangleFigureSchema = z.object({
+	tipo: z.literal('triangulo'),
+	titulo: z.string().optional(),
+	/** Componentes (m/s) para dibujar a escala; vy negativa = hacia abajo. */
+	vx: z.number().positive(),
+	vy: z.number(),
+	/** Etiquetas; "?" marca una incógnita. */
+	etiquetas: z.object({ vx: z.string(), vy: z.string(), v: z.string(), angulo: z.string().optional() }),
+});
+
+/** Esquema del método: pasos encadenados, cada uno asociado a un eje (o al tiempo, que los une). */
+const flowFigureSchema = z.object({
+	tipo: z.literal('flujo'),
+	titulo: z.string().optional(),
+	pasos: z
+		.array(z.object({ eje: z.enum(['x', 'y', 't', 'v', 'c']), titulo: z.string(), texto: z.string() }))
+		.min(2),
+});
+
+export const figureSchema = z.discriminatedUnion('tipo', [
+	launchFigureSchema,
+	graphFigureSchema,
+	triangleFigureSchema,
+	flowFigureSchema,
+]);
 
 export const exerciseBaseSchema = z
 	.object({
@@ -180,6 +211,14 @@ export const exerciseBaseSchema = z
 		apartados: z.array(partSchema).min(1),
 		errores: z.array(z.object({ error: z.string(), explicacion: z.string() })).default([]),
 		alternativas: z.array(z.object({ titulo: z.string(), desarrollo: z.string() })).default([]),
+		/** Colección (hoja de clase, examen…) a la que pertenece, para encontrarlo fácilmente. */
+		coleccion: z.string().optional(),
+		/** Si es una variante de otro ejercicio: el nombre de archivo del original. */
+		variante_de: z.string().optional(),
+		/** Explicación visual del problema: viñetas con dibujo y texto. */
+		visual: z
+			.array(z.object({ titulo: z.string(), texto: z.string().optional(), figura: figureSchema.optional() }))
+			.default([]),
 		/** Parámetros para abrir la situación en el laboratorio. */
 		laboratorio: z
 			.object({ v0: z.number(), angulo: z.number(), h0: z.number().default(0), g: z.number().default(9.8) })
@@ -202,3 +241,17 @@ export type NumericField = Extract<Answer, { tipo: 'numerica' }>['campos'][numbe
 export type Figure = z.infer<typeof figureSchema>;
 export type LaunchFigure = Extract<Figure, { tipo: 'lanzamiento' }>;
 export type GraphFigure = Extract<Figure, { tipo: 'grafica' }>;
+export type TriangleFigure = Extract<Figure, { tipo: 'triangulo' }>;
+export type FlowFigure = Extract<Figure, { tipo: 'flujo' }>;
+
+export const collectionSchema = z.object({
+	titulo: z.string(),
+	/** Nombre corto para la etiqueta. */
+	corto: z.string(),
+	tema: z.string(),
+	fecha: z.string(),
+	descripcion: z.string(),
+	fuente: z.string().optional(),
+	/** Ejercicios principales de la colección, en orden (nombres de archivo). Sus variantes se agrupan debajo. */
+	principales: z.array(z.string()).min(1),
+});

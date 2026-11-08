@@ -148,7 +148,7 @@ errores:
   - error: Sumar 15 + 19,8 para obtener la velocidad final
     explicacion: Las componentes son perpendiculares. Se combinan con Pitágoras, nunca se suman.
 alternativas:
-  - titulo: Calcular vᵧ sin pasar por el tiempo
+  - titulo: 'Para comprobar: vᵧ sin pasar por el tiempo (no visto en clase)'
     desarrollo: |
       En un MRUA también se cumple $v_y^2 = v_{0y}^2 + 2\,g\,\Delta y$, una ecuación que no contiene el tiempo. Con $\Delta y = 0 - 20 = -20$ m:
 

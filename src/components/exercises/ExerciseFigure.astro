@@ -2,7 +2,8 @@
 // Dibujo del enunciado, generado A ESCALA a partir de los datos del
 // ejercicio (así el dibujo nunca contradice al enunciado). Las incógnitas
 // no se dibujan salvo que el ejercicio lo pida con una etiqueta.
-import { apex, flightTime, positionAt, range } from '../../lib/physics/projectile';
+import { apex, flightTime, positionAt, timesAtHeight } from '../../lib/physics/projectile';
+import { richInline } from '../../lib/rich-text';
 import { fmtTrim } from '../../lib/format';
 import type { Figure } from '../../lib/schemas';
 import { niceStep, ticks } from '../../sims/core/svg';
@@ -18,8 +19,9 @@ const uid = `fig-${Math.random().toString(36).slice(2, 8)}`;
 let launch: any = null;
 if (f.tipo === 'lanzamiento') {
 	const l = { v0: f.v0, angleDeg: f.angulo, h0: f.h0, g: f.g };
-	const T = flightTime(l);
-	const R = range(l);
+	// La trayectoria termina en el suelo o, si se indica, a la altura de llegada (una rampa).
+	const T = f.llegada > 0 ? (timesAtHeight(l, f.llegada).at(-1) ?? flightTime(l)) : flightTime(l);
+	const R = positionAt(l, T).x;
 	const A = apex(l);
 	const marksX = Math.max(0, ...f.marcas.map((m) => m.x));
 	const marksY = Math.max(0, ...f.marcas.map((m) => m.altura));
@@ -27,6 +29,7 @@ if (f.tipo === 'lanzamiento') {
 	const yW = Math.max(f.trayectoria ? A.y : 0, f.h0, marksY, xW * 0.12) * 1.22;
 	const W = 600;
 	const hasSupport = f.h0 > 0 && f.soporte !== 'ninguno' && f.soporte !== 'avion';
+	const isRamp = hasSupport && f.soporte === 'rampa';
 	const pl = f.h0 > 0 ? 112 : 34;
 	const pr = 26,
 		pt = 30,
@@ -61,17 +64,71 @@ if (f.tipo === 'lanzamiento') {
 		return `M${x2} ${y2}L${bx - uy * h * 0.5} ${by + ux * h * 0.5}L${bx + uy * h * 0.5} ${by - ux * h * 0.5}Z`;
 	};
 	const arcR = 30;
+	const tanA = Math.tan(Math.max(5, f.angulo) * Math.PI / 180);
+	const rampLen = (h: number) => Math.min(120, h / tanA);
+	const comp = {
+		x2: OX + arrowLen * Math.cos(a),
+		y2: Y(f.h0) - arrowLen * Math.sin(a),
+	};
 	launch = {
+		isRamp, comp, rampLen,
+		compHeads: {
+			x: head(OX, Y(f.h0), comp.x2, Y(f.h0), 8),
+			y: head(comp.x2, Y(f.h0), comp.x2, comp.y2, 8),
+		},
+		claves: f.claves.map((c) => {
+			const p = positionAt(l, Math.min(c.t, T));
+			return { ...c, px: X(p.x), py: Y(Math.max(0, p.y)) };
+		}),
 		W, Ht, OX, OY, X, Y, path, ax, ay, lab, hasSupport, R, s, xW, pl, pr,
 		arrowHead: head(OX, Y(f.h0), ax, ay),
 		arc: f.angulo > 0 ? `M${OX + arcR} ${Y(f.h0)} A${arcR} ${arcR} 0 0 0 ${OX + arcR * Math.cos(a)} ${Y(f.h0) - arcR * Math.sin(a)}` : '',
 		arcLabel: { x: OX + (arcR + 14) * Math.cos(a / 2), y: Y(f.h0) - (arcR + 14) * Math.sin(a / 2) + 5 },
-		marks: f.marcas.map((m) => ({ ...m, px: X(m.x), py: Y(m.altura) })),
+		marks: f.marcas.map((m) => ({ ...m, px: X(m.x), py: Y(m.altura), len: rampLen(OY - Y(m.altura)) })),
 		windows: hasSupport && f.soporte === 'edificio'
 			? Array.from({ length: Math.max(1, Math.floor((OY - Y(f.h0)) / 20)) }, (_, i) => Y(f.h0) + 8 + i * 20).filter((y) => y < OY - 10)
 			: [],
 	};
 }
+
+// ─── Triángulo de velocidades ─────────────────────────────────────────────
+let tri: any = null;
+if (f.tipo === 'triangulo') {
+	const k = 190 / Math.max(f.vx, Math.abs(f.vy));
+	const w = f.vx * k,
+		h = Math.abs(f.vy) * k;
+	const down = f.vy < 0;
+	const W = Math.round(w + 190),
+		Ht = Math.round(h + 70);
+	const x0 = 46,
+		y0 = down ? 26 : 26 + h;
+	const x1 = x0 + w,
+		y1 = down ? y0 + h : y0 - h;
+	const ang = Math.atan2(h, w);
+	const r = 34;
+	tri = {
+		W, Ht, x0, y0, x1, y1, w, h, down,
+		arc: `M${x0 + r} ${y0} A${r} ${r} 0 0 ${down ? 1 : 0} ${x0 + r * Math.cos(ang)} ${y0 + (down ? 1 : -1) * r * Math.sin(ang)}`,
+		arcLabel: { x: x0 + (r + 10) * Math.cos(ang / 2), y: y0 + (down ? 1 : -1) * (r + 10) * Math.sin(ang / 2) + 5 },
+		headX: `M${x1} ${y0}L${x1 - 10} ${y0 - 5}L${x1 - 10} ${y0 + 5}Z`,
+		headY: down ? `M${x1} ${y1}L${x1 - 5} ${y1 - 10}L${x1 + 5} ${y1 - 10}Z` : `M${x1} ${y1}L${x1 - 5} ${y1 + 10}L${x1 + 5} ${y1 + 10}Z`,
+		headV: (() => {
+			const L = Math.hypot(x1 - x0, y1 - y0);
+			const ux = (x1 - x0) / L,
+				uy = (y1 - y0) / L;
+			const bx = x1 - ux * 12,
+				by = y1 - uy * 12;
+			return `M${x1} ${y1}L${bx - uy * 6} ${by + ux * 6}L${bx + uy * 6} ${by - ux * 6}Z`;
+		})(),
+		unk: (t: string) => t.includes('?'),
+	};
+}
+
+// ─── Flujo del método ─────────────────────────────────────────────────────
+const flow =
+	f.tipo === 'flujo'
+		? await Promise.all(f.pasos.map(async (p) => ({ ...p, html: await richInline(p.texto), tit: await richInline(p.titulo) })))
+		: null;
 
 // ─── Gráfica ──────────────────────────────────────────────────────────────
 let graph: any = null;
@@ -124,6 +181,12 @@ if (f.tipo === 'grafica') {
 						class="support"
 					/>
 				)}
+				{launch.isRamp && (
+					<path
+						d={`M${launch.OX - launch.rampLen(launch.OY - launch.Y(f.h0))} ${launch.OY} L${launch.OX} ${launch.Y(f.h0)} L${launch.OX} ${launch.OY} Z`}
+						class="support"
+					/>
+				)}
 				{launch.hasSupport && f.soporte === 'mesa' && (
 					<g>
 						<rect x={launch.OX - 70} y={launch.Y(f.h0)} width="70" height="6" rx="2" class="support" />
@@ -140,7 +203,15 @@ if (f.tipo === 'grafica') {
 					</g>
 				)}
 
-				{f.h0 > 0 && launch.lab.h0 && (
+				{f.h0 > 0 && launch.lab.h0 && launch.isRamp && (
+					<g class="dim">
+						<line x1={launch.OX + 8} x2={launch.OX + 8} y1={launch.Y(f.h0) + 4} y2={launch.OY} />
+						<text x={launch.OX + 14} y={(launch.Y(f.h0) + launch.OY) / 2 + 12}>
+							{launch.lab.h0}
+						</text>
+					</g>
+				)}
+				{f.h0 > 0 && launch.lab.h0 && !launch.isRamp && (
 					<g class="dim">
 						<line x1={launch.pl - 58} x2={launch.pl - 58} y1={launch.Y(f.h0)} y2={launch.OY} />
 						<line x1={launch.pl - 64} x2={launch.pl - 52} y1={launch.Y(f.h0)} y2={launch.Y(f.h0)} />
@@ -164,6 +235,7 @@ if (f.tipo === 'grafica') {
 							</g>
 						)}
 						{m.tipo === 'punto' && <circle cx={m.px} cy={m.py} r="5" class="pt" />}
+						{m.tipo === 'rampa' && <path d={`M${m.px} ${m.py} L${m.px + m.len} ${launch.OY} L${m.px} ${launch.OY} Z`} class="support" />}
 						{m.tipo === 'diana' && (
 							<g>
 								<line x1={m.px} x2={m.px} y1={m.py} y2={launch.OY} class="leg" />
@@ -203,6 +275,24 @@ if (f.tipo === 'grafica') {
 					</g>
 				)}
 
+				{f.componentes && (
+					<g class="comps">
+						<line x1={launch.OX} y1={launch.Y(f.h0)} x2={launch.comp.x2 - 6} y2={launch.Y(f.h0)} class="cx" />
+						<path d={launch.compHeads.x} class="cxh" />
+						<line x1={launch.comp.x2} y1={launch.Y(f.h0)} x2={launch.comp.x2} y2={launch.comp.y2 + 6} class="cy" />
+						<path d={launch.compHeads.y} class="cyh" />
+						<text x={(launch.OX + launch.comp.x2) / 2} y={launch.Y(f.h0) + 17} text-anchor="middle" class="lbl-x">v₀ₓ</text>
+						<text x={launch.comp.x2 + 6} y={(launch.Y(f.h0) + launch.comp.y2) / 2 + 5} class="lbl-y">v₀ᵧ</text>
+					</g>
+				)}
+				{launch.claves.map((c: any) => (
+					<g class="clave">
+						<circle cx={c.px} cy={c.py} r="5.5" />
+						<text x={c.px} y={c.py - 12} text-anchor="middle">
+							{c.etiqueta}
+						</text>
+					</g>
+				))}
 				{launch.arc && <path d={launch.arc} class="arc" />}
 				{launch.lab.angulo && (
 					<text x={launch.arcLabel.x} y={launch.arcLabel.y} class="lbl">
@@ -222,6 +312,61 @@ if (f.tipo === 'grafica') {
 				)}
 				<circle cx={launch.OX} cy={launch.Y(f.h0)} r="6" class="obj" />
 			</svg>
+		</figure>
+	)
+}
+
+{
+	tri && f.tipo === 'triangulo' && (
+		<figure class="ex-fig tri-fig">
+			{f.titulo && <figcaption>{f.titulo}</figcaption>}
+			<svg viewBox={`0 0 ${tri.W} ${tri.Ht}`} role="img" aria-labelledby={`${uid}-tr`} style={`max-width:${tri.W + 40}px`}>
+				<title id={`${uid}-tr`}>Triángulo de velocidades: la velocidad es la hipotenusa y sus componentes, los catetos</title>
+				<line x1={tri.x0} y1={tri.y0} x2={tri.x1 - 8} y2={tri.y0} class="tx" />
+				<path d={tri.headX} class="txh" />
+				<line x1={tri.x1} y1={tri.y0} x2={tri.x1} y2={tri.y1 + (tri.down ? -8 : 8)} class="ty" />
+				<path d={tri.headY} class="tyh" />
+				<line x1={tri.x0} y1={tri.y0} x2={tri.x1} y2={tri.y1} class="tv" />
+				<path d={tri.headV} class="tvh" />
+				<path d={`M${tri.x1 - 12} ${tri.y0} v${tri.down ? 12 : -12} h12`} class="right" />
+				<path d={tri.arc} class="arc" />
+				{f.etiquetas.angulo && (
+					<text x={tri.arcLabel.x} y={tri.arcLabel.y} class:list={['lbl', { unk: tri.unk(f.etiquetas.angulo) }]}>
+						{f.etiquetas.angulo}
+					</text>
+				)}
+				<text x={(tri.x0 + tri.x1) / 2} y={tri.y0 + (tri.down ? -10 : 22)} text-anchor="middle" class:list={['lbl-x', { unk: tri.unk(f.etiquetas.vx) }]}>
+					{f.etiquetas.vx}
+				</text>
+				<text x={tri.x1 + 10} y={(tri.y0 + tri.y1) / 2 + 5} class:list={['lbl-y', { unk: tri.unk(f.etiquetas.vy) }]}>
+					{f.etiquetas.vy}
+				</text>
+				<text
+					x={(tri.x0 + tri.x1) / 2 - 10}
+					y={(tri.y0 + tri.y1) / 2 + (tri.down ? 22 : -10)}
+					text-anchor="end"
+					class:list={['lbl', { unk: tri.unk(f.etiquetas.v) }]}
+				>
+					{f.etiquetas.v}
+				</text>
+			</svg>
+		</figure>
+	)
+}
+
+{
+	flow && f.tipo === 'flujo' && (
+		<figure class="ex-fig flow-fig">
+			{f.titulo && <figcaption>{f.titulo}</figcaption>}
+			<ol class="flow">
+				{flow.map((p) => (
+					<li class={`fl fl-${p.eje}`}>
+						<span class="fl-axis">{{ x: 'Eje X', y: 'Eje Y', t: 'Tiempo', v: 'Velocidad', c: 'Cálculo' }[p.eje]}</span>
+						<strong set:html={p.tit} />
+						<span class="fl-text" set:html={p.html} />
+					</li>
+				))}
+			</ol>
 		</figure>
 	)
 }
@@ -425,6 +570,134 @@ if (f.tipo === 'grafica') {
 	}
 	.s-g {
 		stroke: var(--q-g);
+	}
+	.comps .cx,
+	.tx {
+		stroke: var(--q-x);
+		stroke-width: 3;
+	}
+	.comps .cy,
+	.ty {
+		stroke: var(--q-y);
+		stroke-width: 3;
+	}
+	.cxh,
+	.txh {
+		fill: var(--q-x);
+	}
+	.cyh,
+	.tyh {
+		fill: var(--q-y);
+	}
+	.tv {
+		stroke: var(--ink);
+		stroke-width: 3.5;
+	}
+	.tvh {
+		fill: var(--ink);
+	}
+	.right {
+		fill: none;
+		stroke: var(--ink-3);
+		stroke-width: 1.2;
+	}
+	.lbl-x,
+	.lbl-y {
+		font-size: 14px;
+		font-weight: 700;
+		paint-order: stroke;
+		stroke: var(--surface);
+		stroke-width: 4px;
+	}
+	.lbl-x {
+		fill: var(--q-x-text);
+	}
+	.lbl-y {
+		fill: var(--q-y-text);
+	}
+	.unk {
+		fill: var(--accent);
+		font-size: 15px;
+	}
+	.clave circle {
+		fill: var(--accent);
+		stroke: var(--surface);
+		stroke-width: 2;
+	}
+	.clave text {
+		font-size: 13px;
+		font-weight: 700;
+		fill: var(--accent);
+		paint-order: stroke;
+		stroke: var(--surface);
+		stroke-width: 4px;
+	}
+	.tri-fig svg {
+		margin-inline: auto;
+	}
+	.flow {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
+		gap: 22px;
+		counter-reset: fl;
+	}
+	.fl {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		padding: 0.6rem 0.75rem;
+		border-radius: 10px;
+		background: var(--surface-2);
+		border-top: 3px solid var(--c);
+		font-size: 0.9rem;
+		--c: var(--ink);
+	}
+	.fl + .fl::before {
+		content: '→';
+		position: absolute;
+		left: -18px;
+		top: 50%;
+		transform: translateY(-50%);
+		color: var(--ink-3);
+		font-weight: 700;
+	}
+	.fl-x {
+		--c: var(--q-x);
+	}
+	.fl-y {
+		--c: var(--q-y);
+	}
+	.fl-t {
+		--c: var(--accent);
+	}
+	.fl-axis {
+		font: 650 0.7rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--ink-3);
+	}
+	.fl-text {
+		color: var(--ink-2);
+	}
+	.flow-fig {
+		max-width: none;
+	}
+	@media (max-width: 700px) {
+		.flow {
+			grid-auto-flow: row;
+			gap: 20px;
+		}
+		.fl + .fl::before {
+			content: '↓';
+			left: 50%;
+			top: -18px;
+			transform: translateX(-50%);
+		}
 	}
 	.legend {
 		display: flex;

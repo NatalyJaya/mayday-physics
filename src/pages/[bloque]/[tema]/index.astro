@@ -5,7 +5,7 @@ import Breadcrumbs from '../../../components/layout/Breadcrumbs.astro';
 import MethodStrip from '../../../components/syllabus/MethodStrip.astro';
 import DecompositionDiagram from '../../../components/sims/DecompositionDiagram.astro';
 import Icon from '../../../components/ui/Icon.astro';
-import { blockUrl, getExercises, getLessons, getTopics, isAvailable, stageUrl } from '../../../lib/content';
+import { blockUrl, collectionUrl, getCollections, getExercises, getLessons, getTopics, isAvailable, stageUrl } from '../../../lib/content';
 import { DIFFICULTIES, DIFFICULTY_IDS } from '../../../lib/taxonomy';
 import { tex } from '../../../lib/rich-text';
 
@@ -20,6 +20,7 @@ const block = await getEntry('bloques', topic.data.bloque.id);
 const lessons = await getLessons(topic.id);
 const practice = await getExercises(topic.id, 'practica');
 const allTopics = await getTopics();
+const cols = await getCollections(topic.id);
 const reqs = topic.data.requisitos.map((r) => allTopics.find((t) => t.id === r.id)!).filter(Boolean);
 const byDifficulty = DIFFICULTY_IDS.map((d) => ({
 	id: d,
@@ -50,6 +51,9 @@ const map = [
 					<a class="btn btn-primary" href={stageUrl(topic, 'fenomeno')}>Empezar por el fenómeno <Icon name="arrow-right" /></a>
 					<a class="btn" href={`${stageUrl(topic, 'visualiza')}#laboratorio`}><Icon name="flask" /> Ir al laboratorio</a>
 					<a class="btn btn-ghost" href={stageUrl(topic, 'practica')}><Icon name="pencil" /> Practicar</a>
+					{cols.map((c) => (
+						<a class="btn btn-ghost" href={collectionUrl(topic, c.id)}><Icon name="layers" /> {c.data.corto}</a>
+					))}
 				</div>
 			</div>
 			<div class="card figure">

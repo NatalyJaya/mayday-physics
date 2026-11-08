@@ -13,7 +13,8 @@ import * as P from '../src/lib/physics/projectile';
 const ROOT = join(import.meta.dirname, '..', 'src', 'content');
 const read = (p: string) => parse(readFileSync(join(ROOT, p), 'utf8'));
 
-const sources = read('fuentes.yaml') as { id: string }[];
+const sources = read('fuentes.yaml') as { id: string; tipo: string }[];
+const collections = read('colecciones.yaml') as { id: string; principales: string[] }[];
 const topics = read('temario/temas.yaml') as { id: string }[];
 const sourceIds = new Set(sources.map((s) => s.id));
 const topicIds = new Set(topics.map((t) => t.id));
@@ -95,6 +96,65 @@ const expected: Record<string, number[]> = {
 		const t = 4.2 / P.components(v0, 52).vx;
 		return [v0, t, P.velocityAt(l, t).vy, P.maxHeight(l)];
 	})(),
+	// ─── Hoja cooperativa del 28/10 ───
+	[`${mp}/saltador-longitud`]: (() => {
+		const l = { v0: 9.5, angleDeg: 20 };
+		return [P.flightTime(l), P.range(l), P.maxHeight(l)];
+	})(),
+	[`${mp}/saltador-v1-marca`]: (() => {
+		const l = { v0: 10, angleDeg: 22 };
+		return [P.flightTime(l), P.range(l), P.maxHeight(l)];
+	})(),
+	[`${mp}/saltador-v2-45-grados`]: [P.range({ v0: 9.5, angleDeg: 45 }), P.maxHeight({ v0: 9.5, angleDeg: 45 })],
+	[`${mp}/saltador-v3-velocidad`]: (() => {
+		const v0 = Math.sqrt((7.2 * 9.8) / Math.sin((40 * Math.PI) / 180));
+		return [P.flightTime({ v0, angleDeg: 20 }), v0];
+	})(),
+	[`${mp}/bola-mesa`]: (() => {
+		const vy = -Math.sqrt(4.2 ** 2 - 1.8 ** 2);
+		const t = -vy / 9.8;
+		const h = 4.9 * t * t;
+		const l = { v0: 1.8, angleDeg: 0, h0: h };
+		return [P.impact(l).vy, P.impact(l).angleBelowDeg, P.flightTime(l), h, P.range(l)];
+	})(),
+	[`${mp}/mesa-v4-canica`]: (() => {
+		const l = { v0: 2.5, angleDeg: 0, h0: 0.9 };
+		const i = P.impact(l);
+		return [P.flightTime(l), P.range(l), i.vy, i.speed, i.angleBelowDeg];
+	})(),
+	[`${mp}/mesa-v5-velocidad-final`]: (() => {
+		const vy = -Math.sqrt(5 ** 2 - 2 ** 2);
+		const h = 4.9 * (vy / 9.8) ** 2;
+		const l = { v0: 2, angleDeg: 0, h0: h };
+		return [P.impact(l).vy, P.impact(l).angleBelowDeg, h, P.range(l)];
+	})(),
+	[`${mp}/mesa-v6-acantilado`]: (() => {
+		const t = P.flightTime({ v0: 0, angleDeg: 0, h0: 45 });
+		return [t, 30 / t];
+	})(),
+	[`${mp}/moto-rampas`]: (() => {
+		const v0 = Math.sqrt((36 * 9.8) / Math.sin((42 * Math.PI) / 180));
+		const l = { v0, angleDeg: 21, h0: 3.75 };
+		const t = P.timesAtHeight(l, 3.75).at(-1)!;
+		expect(P.positionAt(l, t).x).toBeCloseTo(36, 6);
+		return [t, v0, v0 * 3.6, P.maxHeight(l)];
+	})(),
+	[`${mp}/moto-v7-rampas`]: (() => {
+		const v0 = Math.sqrt((30 * 9.8) / Math.sin((50 * Math.PI) / 180));
+		const l = { v0, angleDeg: 25, h0: 4 };
+		const t = P.timesAtHeight(l, 4).at(-1)!;
+		expect(P.positionAt(l, t).x).toBeCloseTo(30, 6);
+		return [t, v0, v0 * 3.6, P.maxHeight(l)];
+	})(),
+	[`${mp}/moto-v8-distancia`]: (() => {
+		const l = { v0: 90 / 3.6, angleDeg: 18, h0: 3 };
+		const t = P.timesAtHeight(l, 3).at(-1)!;
+		return [90 / 3.6, t, P.positionAt(l, t).x, P.maxHeight(l)];
+	})(),
+	[`${mp}/moto-v9-alturas-distintas`]: (() => {
+		const l = { v0: 20, angleDeg: 20, h0: 3 };
+		return [P.flightTime(l), P.range(l), P.maxHeight(l)];
+	})(),
 	[`${mp}/pase-carrera`]: (() => {
 		const l = { v0: 15, angleDeg: 45 };
 		const T = P.flightTime(l),
@@ -117,7 +177,13 @@ describe('contenido: esquema y referencias', () => {
 			expect(topicIds.has(ex.tema), `tema ${ex.tema}`).toBe(true);
 			if (ex.fuente) expect(sourceIds.has(ex.fuente), `fuente ${ex.fuente}`).toBe(true);
 			for (const s of ex.inspirado_en) expect(sourceIds.has(s), `inspirado_en ${s}`).toBe(true);
-			if (ex.procedencia === 'alumno') expect(ex.fuente).toBe('cuaderno-alumno');
+			if (ex.procedencia === 'alumno') expect(sources.find((x) => x.id === ex.fuente)?.tipo).toBe('alumno');
+			if (ex.coleccion) expect(collections.some((c) => c.id === ex.coleccion), `coleccion ${ex.coleccion}`).toBe(true);
+			if (ex.variante_de) {
+				const parent = exercises.find((e) => e.slug === `${ex.tema}/${ex.variante_de}`);
+				expect(parent, `variante_de ${ex.variante_de}`).toBeDefined();
+				expect(parent!.ex.coleccion).toBe(ex.coleccion);
+			}
 		});
 	}
 });

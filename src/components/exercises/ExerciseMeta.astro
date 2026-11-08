@@ -1,5 +1,7 @@
 ---
 // Etiquetas de un ejercicio: dificultad, procedencia y habilidades.
+import { getEntry } from 'astro:content';
+import Icon from '../ui/Icon.astro';
 import { DIFFICULTIES, ORIGINS, SKILLS } from '../../lib/taxonomy';
 import type { Exercise } from '../../lib/schemas';
 
@@ -9,6 +11,7 @@ interface Props {
 }
 const { ex, compact = false } = Astro.props;
 const d = DIFFICULTIES[ex.dificultad];
+const col = ex.coleccion ? await getEntry('colecciones', ex.coleccion) : undefined;
 ---
 
 <div class:list={['meta', { compact }]}>
@@ -16,6 +19,13 @@ const d = DIFFICULTIES[ex.dificultad];
 		<span class="dots" aria-hidden="true">{'●'.repeat(d.nivel)}<span class="off">{'●'.repeat(4 - d.nivel)}</span></span>
 		{d.label}
 	</span>
+	{
+		col && (
+			<span class="tag col" title={col.data.titulo}>
+				<Icon name="layers" size={13} /> {col.data.corto}
+			</span>
+		)
+	}
 	<span class:list={['tag', 'origin', `o-${ex.procedencia}`]} title={ORIGINS[ex.procedencia].descripcion}>
 		{ORIGINS[ex.procedencia].label}
 	</span>
@@ -64,6 +74,11 @@ const d = DIFFICULTIES[ex.dificultad];
 		background: var(--q-g-soft);
 		color: var(--q-g-text);
 		border-color: transparent;
+	}
+	.col {
+		background: var(--ink);
+		color: var(--bg);
+		border-color: var(--ink);
 	}
 	.skill {
 		background: transparent;

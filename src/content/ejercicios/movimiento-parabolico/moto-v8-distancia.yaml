@@ -1,0 +1,64 @@
+titulo: ¿Qué distancia salta la moto?
+tema: movimiento-parabolico
+orden: 82
+procedencia: original
+nota_fuente: Variante V8 de la moto, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: moto-rampas
+dificultad: intermedio
+habilidades: [unidades, planteamiento, matematicas]
+resumen: Al revés que el P3. Conoces v₀ (en km/h) y buscas la distancia del salto y la altura máxima.
+enunciado: |
+  Una moto sale a **90 km/h** de una rampa de **18°** y **3 m** de altura, y aterriza en otra rampa de la misma altura. ¿Qué distancia salta? ¿Qué altura máxima alcanza?
+figura:
+  tipo: lanzamiento
+  v0: 25
+  angulo: 18
+  h0: 3
+  llegada: 3
+  soporte: rampa
+  etiquetas: { v0: '90 km/h', h0: '3 m', alcance: '?' }
+  marcas:
+    - { tipo: rampa, x: 37.49, altura: 3 }
+  ancho: 43
+datos:
+  - { simbolo: 'v_0', valor: '90\un{km/h}', significado: 'hay que pasarla a m/s' }
+  - { simbolo: '\alpha', valor: '18^\circ', significado: 'inclinación de la rampa' }
+  - { simbolo: 'y_0', valor: '3\un{m}', significado: 'altura de salida y de llegada' }
+apartados:
+  - id: a
+    enunciado: ¿Qué distancia salta?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'v_0', etiqueta: 'Velocidad en m/s', unidad: m/s, valor: 25 }
+        - { simbolo: 't', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 1.5766 }
+        - simbolo: '\cx{x}'
+          etiqueta: Distancia del salto
+          unidad: m
+          valor: 37.49
+          trampas:
+            - { valor: 45.15, explicacion: 'Así llegaría al **suelo** ($y = 0$). La moto aterriza en una rampa de 3 m: la condición es $y = 3$.' }
+    pistas:
+      - '90 km/h ÷ 3,6. Luego, la llegada es $y = 3$ (no $y = 0$).'
+    pasos:
+      - titulo: Unidades y componentes
+        desarrollo: |
+          $$90\un{km/h} = 25\un{m/s} \qquad \cx{v_{0x}} = 23,78\un{m/s} \qquad \cy{v_{0y}} = 7,73\un{m/s}$$
+      - titulo: 'Llegada: y = 3'
+        desarrollo: |
+          $$3 = 3 + 7,73\,t - 4,9\,t^2 \Rightarrow 0 = t\,(7,73 - 4,9\,t) \Rightarrow t = 1,58\un{s} \qquad \cx{x} = 23,78\cdot 1,58 = 37,5\un{m}$$
+        porque: Los 3 m de los dos lados se cancelan, como en el P3.
+    resultado: 'Salta **37,5 m**.'
+  - id: b
+    enunciado: ¿Qué altura máxima alcanza desde el suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'y_{\text{máx}}', etiqueta: 'Altura máxima', unidad: m, valor: 6.045 }
+    pasos:
+      - titulo: 'vᵧ = 0 y sustituir'
+        desarrollo: |
+          $$t = \frac{7,73}{9,8} = 0,79\un{s} \qquad \cy{y} = 3 + 7,73\cdot 0,79 - 4,9\cdot 0,79^2 = 6,04\un{m}$$
+    resultado: 'Llega a **6,04 m**.'
+laboratorio: { v0: 25, angulo: 18, h0: 3 }

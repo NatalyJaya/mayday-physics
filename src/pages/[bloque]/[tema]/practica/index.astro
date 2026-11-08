@@ -5,7 +5,7 @@ import Breadcrumbs from '../../../../components/layout/Breadcrumbs.astro';
 import StageNav from '../../../../components/layout/StageNav.astro';
 import ExerciseMeta from '../../../../components/exercises/ExerciseMeta.astro';
 import Icon from '../../../../components/ui/Icon.astro';
-import { blockUrl, exerciseUrl, getExercises, getTopics, isAvailable, stageUrl, topicUrl } from '../../../../lib/content';
+import { blockUrl, collectionUrl, exerciseUrl, getCollections, getExercises, getTopics, isAvailable, stageUrl, topicUrl } from '../../../../lib/content';
 import { DIFFICULTIES, DIFFICULTY_IDS, ORIGINS, SKILLS, SKILL_IDS, STAGES } from '../../../../lib/taxonomy';
 
 export async function getStaticPaths() {
@@ -22,6 +22,10 @@ const groups = DIFFICULTY_IDS.map((d) => ({ id: d, ...DIFFICULTIES[d], items: ex
 );
 const usedSkills = SKILL_IDS.filter((s) => exercises.some((e) => e.data.habilidades.includes(s)));
 const stage = STAGES[5];
+const cols = (await getCollections(topic.id)).map((c) => ({
+	...c,
+	n: exercises.filter((e) => e.data.coleccion === c.id).length,
+}));
 ---
 
 <BaseLayout title={`Práctica · ${topic.data.titulo}`} description={`Ejercicios de ${topic.data.titulo} con pistas y solución explicada.`}>
@@ -48,6 +52,24 @@ const stage = STAGES[5];
 		</ol>
 	</div>
 
+	{
+		cols.length > 0 && (
+			<section class="container cols" aria-label="Colecciones de clase">
+				{cols.map((c) => (
+					<a class="col-card" href={collectionUrl(topic, c.id)}>
+						<Icon name="layers" size={22} />
+						<span>
+							<span class="col-k">Colección de clase</span>
+							<strong>{c.data.titulo}</strong>
+							<span class="col-d">{c.n} ejercicios: los problemas de la hoja con sus variantes, en orden</span>
+						</span>
+						<Icon name="arrow-right" />
+					</a>
+				))}
+			</section>
+		)
+	}
+
 	<section class="container" aria-label="Ejercicios">
 		<exercise-filters class="filters card">
 			<div class="f-row">
@@ -70,6 +92,15 @@ const stage = STAGES[5];
 					{Object.entries(ORIGINS).map(([k, o]) => <button type="button" data-origin={k} aria-pressed="false">{o.label}</button>)}
 				</div>
 			</div>
+			{cols.length > 0 && (
+				<div class="f-row">
+					<span class="f-k" id="f-col">Colección</span>
+					<div class="seg" role="group" aria-labelledby="f-col">
+						<button type="button" data-col="" aria-pressed="true">Todas</button>
+						{cols.map((c) => <button type="button" data-col={c.id} aria-pressed="false">{c.data.corto}</button>)}
+					</div>
+				</div>
+			)}
 			<p class="f-count muted" aria-live="polite"></p>
 		</exercise-filters>
 
@@ -91,6 +122,7 @@ const stage = STAGES[5];
 								data-diff={e.data.dificultad}
 								data-origin={e.data.procedencia}
 								data-skills={e.data.habilidades.join(' ')}
+								data-col={e.data.coleccion ?? ''}
 							>
 								<a class="ex-card" href={exerciseUrl(topic, e)} data-solved-id={e.id}>
 									<span class="solved-mark" aria-hidden="true">
@@ -117,6 +149,7 @@ const stage = STAGES[5];
 	class ExerciseFilters extends HTMLElement {
 		private diff = '';
 		private origin = '';
+		private col = new URLSearchParams(location.search).get('coleccion') ?? '';
 		private skills = new Set<string>();
 		connectedCallback() {
 			this.querySelectorAll<HTMLButtonElement>('[data-diff]').forEach((b) =>
@@ -133,6 +166,14 @@ const stage = STAGES[5];
 					this.apply();
 				}),
 			);
+			this.querySelectorAll<HTMLButtonElement>('button[data-col]').forEach((b) => {
+				if (b.dataset.col === this.col) this.press('button[data-col]', b);
+				b.addEventListener('click', () => {
+					this.col = b.dataset.col!;
+					this.press('button[data-col]', b);
+					this.apply();
+				});
+			});
 			this.querySelectorAll<HTMLButtonElement>('[data-skill]').forEach((b) =>
 				b.addEventListener('click', () => {
 					const s = b.dataset.skill!;
@@ -155,6 +196,7 @@ const stage = STAGES[5];
 				const ok =
 					(!this.diff || it.dataset.diff === this.diff) &&
 					(!this.origin || it.dataset.origin === this.origin) &&
+					(!this.col || it.dataset.col === this.col) &&
 					[...this.skills].every((s) => sk.includes(s));
 				it.hidden = !ok;
 				if (ok) n++;
@@ -193,6 +235,44 @@ const stage = STAGES[5];
 	}
 	.howto :global(.icon) {
 		color: var(--accent);
+	}
+	.cols {
+		display: grid;
+		gap: 0.6rem;
+		margin-top: 1.75rem;
+	}
+	.col-card {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1rem 1.2rem;
+		border-radius: var(--radius-lg);
+		background: var(--ink);
+		color: var(--bg);
+		text-decoration: none;
+	}
+	.col-card:hover {
+		color: var(--bg);
+		box-shadow: var(--shadow);
+	}
+	.col-card > span {
+		display: grid;
+		flex: 1;
+		gap: 0.1rem;
+	}
+	.col-k {
+		font: 650 0.72rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		opacity: 0.7;
+	}
+	.col-card strong {
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+	}
+	.col-d {
+		font-size: 0.9rem;
+		opacity: 0.8;
 	}
 	.filters {
 		display: grid;

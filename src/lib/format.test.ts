@@ -26,3 +26,13 @@ describe('parseNumber', () => {
 		expect(parseNumber('2,0,2')).toBeNull();
 	});
 });
+
+import { displayBlocks } from './rich-text';
+describe('displayBlocks', () => {
+	it('convierte $$…$$ de una línea en un bloque', () => {
+		expect(displayBlocks('a\n$$x = \\frac{1}{2}$$\nb')).toBe('a\n$$\nx = \\frac{1}{2}\n$$\nb');
+	});
+	it('no toca las fórmulas en línea ni los bloques ya escritos en varias líneas', () => {
+		expect(displayBlocks('vale $x$ y $$\ny\n$$')).toBe('vale $x$ y $$\ny\n$$');
+	});
+});

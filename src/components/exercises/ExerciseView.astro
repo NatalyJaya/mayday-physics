@@ -7,7 +7,8 @@ import SourceNote from './SourceNote.astro';
 import Reveal from '../lesson/Reveal.astro';
 import Icon from '../ui/Icon.astro';
 import { renderExercise } from '../../lib/exercise-render';
-import { labUrl, type ExerciseEntry, type Topic } from '../../lib/content';
+import { getEntry } from 'astro:content';
+import { collectionUrl, exerciseSlug, exerciseUrl, getVariants, labUrl, type ExerciseEntry, type Topic } from '../../lib/content';
 
 interface Props {
 	entry: ExerciseEntry;
@@ -17,12 +18,52 @@ const { entry, topic } = Astro.props;
 const ex = entry.data;
 const R = await renderExercise(ex);
 const single = R.apartados.length === 1;
+const col = ex.coleccion ? await getEntry('colecciones', ex.coleccion) : undefined;
+const parent = ex.variante_de ? await getEntry('ejercicios', `${ex.tema}/${ex.variante_de}`) : undefined;
+const variants = await getVariants(ex.tema, exerciseSlug(entry));
+const LEVEL = ['Más fácil', 'Un paso más', 'Reto'];
 ---
 
 <exercise-tracker class="exercise" data-id={entry.id}>
 	<ExerciseMeta ex={ex} />
+	{
+		(col || parent) && (
+			<nav class="situate" aria-label="Dónde está este ejercicio">
+				{col && (
+					<a href={collectionUrl(topic, col.id)}>
+						<Icon name="layers" size={16} /> {col.data.titulo}
+					</a>
+				)}
+				{parent && (
+					<a href={exerciseUrl(topic, parent)}>
+						<Icon name="arrow-left" size={16} /> Variante de: <strong>{parent.data.titulo}</strong>
+					</a>
+				)}
+			</nav>
+		)
+	}
 	<div class="statement" set:html={R.enunciado} />
 	{ex.figura && <ExerciseFigure figura={ex.figura} titulo={ex.titulo} />}
+
+	{
+		R.visual.length > 0 && (
+			<section class="visual">
+				<h2 class="h-sec">El problema en dibujos</h2>
+				<p class="muted">Antes de calcular, entiende qué pasa y qué te piden. Cada viñeta es un paso del razonamiento.</p>
+				<ol class="panels">
+					{R.visual.map((v, i) => (
+						<li class="panel-v">
+							<p class="pv-title">
+								<span class="pv-n">{i + 1}</span> <span set:html={v.titulo} />
+							</p>
+							{v.figura && <ExerciseFigure figura={v.figura} titulo={ex.titulo} />}
+							{v.texto && <div class="pv-text" set:html={v.texto} />}
+						</li>
+					))}
+				</ol>
+			</section>
+		)
+	}
 
 	{
 		(R.datos.length > 0 || R.interpretacion || R.conceptos.length > 0) && (
@@ -118,6 +159,26 @@ const single = R.apartados.length === 1;
 						<Fragment set:html={a.desarrollo} />
 					</Reveal>
 				))}
+			</section>
+		)
+	}
+
+	{
+		variants.length > 0 && (
+			<section>
+				<h2 class="h-sec">Variantes para practicar</h2>
+				<p class="muted">El mismo tipo de problema, cambiando algo cada vez. Ordenadas de más fácil a más difícil.</p>
+				<ol class="variants">
+					{variants.map((v, i) => (
+						<li>
+							<a href={exerciseUrl(topic, v)} class="card" data-solved-id={v.id}>
+								<span class="v-level">{LEVEL[i] ?? `Variante ${i + 1}`}</span>
+								<strong>{v.data.titulo}</strong>
+								<span class="muted">{v.data.resumen}</span>
+							</a>
+						</li>
+					))}
+				</ol>
 			</section>
 		)
 	}
@@ -226,6 +287,94 @@ const single = R.apartados.length === 1;
 	}
 	.lab-link .muted {
 		font-size: 0.9rem;
+	}
+	.situate {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 0.75rem;
+	}
+	.situate a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.35rem 0.75rem;
+		border-radius: 999px;
+		background: var(--surface);
+		border: 1px solid var(--line-strong);
+		color: var(--ink);
+		text-decoration: none;
+		font-size: 0.9rem;
+	}
+	.situate a:hover {
+		border-color: var(--accent);
+	}
+	.panels {
+		list-style: none;
+		margin: 0.75rem 0 0;
+		padding: 0;
+		display: grid;
+		gap: 0.9rem;
+	}
+	.panel-v {
+		padding: 0.9rem 1rem 0.3rem;
+		border-radius: var(--radius);
+		border: 1px solid var(--line);
+		background: var(--surface);
+	}
+	.pv-title {
+		display: flex;
+		align-items: baseline;
+		gap: 0.55rem;
+		font-weight: 700;
+		margin-bottom: 0.25rem;
+	}
+	.pv-n {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 50%;
+		background: var(--accent);
+		color: var(--accent-ink);
+		font: 650 0.85rem var(--font-display);
+		transform: translateY(-1px);
+	}
+	.panel-v :global(.ex-fig) {
+		margin: 0.5rem 0 0.75rem;
+		border: 0;
+		padding: 0;
+	}
+	.pv-text {
+		font-size: 0.97rem;
+		color: var(--ink-2);
+	}
+	.variants {
+		list-style: none;
+		margin: 0.6rem 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+		gap: 0.6rem;
+	}
+	.variants a {
+		display: grid;
+		gap: 0.2rem;
+		height: 100%;
+		padding: 0.8rem 0.95rem;
+		color: var(--ink);
+		text-decoration: none;
+		font-size: 0.93rem;
+	}
+	.variants a:hover {
+		border-color: var(--accent);
+	}
+	.v-level {
+		font: 650 0.72rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--accent);
 	}
 	.solved-banner {
 		display: flex;

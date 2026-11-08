@@ -1,0 +1,65 @@
+titulo: 'Reto: de la rampa al suelo'
+tema: movimiento-parabolico
+orden: 83
+procedencia: original
+nota_fuente: Variante V9 de la moto, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: moto-rampas
+dificultad: avanzado
+habilidades: [planteamiento, matematicas, multipaso]
+resumen: Alturas distintas. Ya no se puede sacar factor común; hace falta la fórmula de segundo grado.
+enunciado: |
+  Una moto sale a **20 m/s** con **20°** desde una rampa de **3 m** y aterriza en el **suelo** ($y = 0$). ¿A qué distancia aterriza? ¿Qué altura máxima alcanza?
+figura:
+  tipo: lanzamiento
+  v0: 20
+  angulo: 20
+  h0: 3
+  soporte: rampa
+  etiquetas: { h0: '3 m', alcance: '?' }
+datos:
+  - { simbolo: 'y_0', valor: '3\un{m}', significado: 'sale de la rampa' }
+  - { simbolo: 'v_0', valor: '20\un{m/s}', significado: 'velocidad de salida' }
+  - { simbolo: '\alpha', valor: '20^\circ', significado: 'inclinación' }
+apartados:
+  - id: a
+    enunciado: ¿A qué distancia aterriza?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't'
+          etiqueta: Tiempo de vuelo
+          unidad: s
+          valor: 1.7465
+          trampas:
+            - { valor: 1.396, explicacion: 'Así volvería a la altura de la rampa ($y = 3$). Aquí llega al suelo: $y = 0$.' }
+            - { valor: -0.351, explicacion: 'Es la solución negativa: un instante anterior a la salida. Descártala.' }
+        - { simbolo: '\cx{x}', etiqueta: 'Distancia', unidad: m, valor: 32.82 }
+    pistas:
+      - 'Llega al suelo: $0 = 3 + 6,84\,t - 4,9\,t^2$. Con término independiente no hay factor común.'
+      - 'Fórmula: $t = \dfrac{6,84 \pm \sqrt{6,84^2 + 4\cdot 4,9\cdot 3}}{9,8}$.'
+    pasos:
+      - titulo: Componentes
+        desarrollo: '$\cx{v_{0x}} = 18,79$ m/s y $\cy{v_{0y}} = 6,84$ m/s.'
+      - titulo: Ecuación de segundo grado completa
+        desarrollo: |
+          $$4,9\,t^2 - 6,84\,t - 3 = 0 \Rightarrow t = \frac{6,84 \pm \sqrt{6,84^2 + 4\cdot 4,9\cdot 3}}{9,8} = \frac{6,84 \pm 10,28}{9,8}$$
+
+          $t = 1,75$ s (la otra, $-0,35$ s, es negativa y se descarta).
+        porque: 'Como llega más abajo de donde sale, ya no se cancela el 3.'
+      - titulo: Distancia
+        desarrollo: '$\cx{x} = 18,79\cdot 1,75 = 32,8$ m.'
+    resultado: 'Aterriza a **32,8 m**.'
+  - id: b
+    enunciado: ¿Qué altura máxima alcanza desde el suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'y_{\text{máx}}', etiqueta: 'Altura máxima', unidad: m, valor: 5.387 }
+    pasos:
+      - titulo: 'vᵧ = 0'
+        desarrollo: |
+          $$t = \frac{6,84}{9,8} = 0,698\un{s} \qquad \cy{y} = 3 + 6,84\cdot 0,698 - 4,9\cdot 0,698^2 = 5,39\un{m}$$
+        porque: 'Ojo: aquí el tiempo de subida **no** es la mitad del de vuelo, porque cae más abajo de donde salió.'
+    resultado: 'Llega a **5,39 m**.'
+laboratorio: { v0: 20, angulo: 20, h0: 3 }

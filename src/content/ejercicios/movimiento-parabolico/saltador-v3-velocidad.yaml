@@ -1,0 +1,42 @@
+titulo: ¿A qué velocidad saltó?
+tema: movimiento-parabolico
+orden: 63
+procedencia: original
+nota_fuente: Variante V3 del saltador, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: saltador-longitud
+dificultad: intermedio
+habilidades: [planteamiento, matematicas, multipaso]
+resumen: Al revés. Conocida la marca, halla la velocidad de despegue con un sistema, igual que en la moto.
+enunciado: |
+  Un saltador hace una marca de **7,2 m** saliendo a **20°**. ¿Con qué velocidad saltó? Trátalo como un punto que sale del suelo y vuelve al suelo.
+figura: { tipo: lanzamiento, v0: 10.48, angulo: 20, etiquetas: { v0: 'v₀ = ?', alcance: '7,2 m' } }
+datos:
+  - { simbolo: '(x,\ y)_{\text{llegada}}', valor: '(7,2;\ 0)\un{m}', significado: 'donde cae' }
+  - { simbolo: '\alpha', valor: '20^\circ', significado: 'inclinación del salto' }
+incognitas:
+  - '$v_0$ (y el tiempo $t$, que también es desconocido).'
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad saltó?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 0.7313 }
+        - { simbolo: 'v_0', etiqueta: 'Velocidad de despegue', unidad: m/s, valor: 10.48 }
+    pistas:
+      - 'Dos incógnitas ($v_0$ y $t$): escribe el eje X y el eje Y en el punto de llegada.'
+      - 'Despeja $v_0$ en el eje X y sustitúyelo **solo** donde aparece $v_0$ en el eje Y.'
+    pasos:
+      - titulo: Las dos ecuaciones
+        desarrollo: |
+          $$7,2 = 0,940\,v_0\,t \qquad 0 = 0,342\,v_0\,t - 4,9\,t^2$$
+      - titulo: Sustitución
+        desarrollo: |
+          $$v_0 = \frac{7,2}{0,940\,t} \;\Rightarrow\; 0 = \frac{0,342\cdot 7,2}{0,940} - 4,9\,t^2 = 2,62 - 4,9\,t^2 \;\Rightarrow\; t = 0,731\un{s}$$
+        porque: Igual que en la moto, la $t$ se simplifica en el primer término.
+      - titulo: Velocidad
+        desarrollo: |
+          $$v_0 = \frac{7,2}{0,940\cdot 0,731} = 10,5\un{m/s}$$
+    resultado: 'Saltó a **10,5 m/s**.'
+laboratorio: { v0: 10.48, angulo: 20, h0: 0 }

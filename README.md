@@ -13,7 +13,8 @@ Cada tema sigue las mismas seis etapas: **1. Fenómeno · 2. Variables · 3. Ecu
 - **Movimiento parabólico**:
   - 5 lecciones (una por etapa) con explicaciones, deducciones paso a paso, preguntas de «predice antes de mirar» y recuadros de «cuándo NO sirve».
   - 5 simulaciones: el laboratorio completo (v₀, ángulo, altura, gravedad, vectores, gráficas sincronizadas, comparación de trayectorias), la independencia de movimientos, la descomposición de vectores, los ángulos complementarios y el diagrama de «sombras».
-  - 3 ejemplos guiados y 15 ejercicios en 4 niveles, con pistas, corrección automática (detecta errores de signo, calculadora en radianes, unidades…) y solución explicada paso a paso.
+  - 3 ejemplos guiados y 27 ejercicios en 4 niveles, con pistas, corrección automática (detecta errores de signo, calculadora en radianes, unidades…) y solución explicada paso a paso.
+- **Hoja cooperativa del 28/10**: los 3 problemas de clase con explicación en dibujos (escena, triángulo de velocidades y esquema del método) y las correcciones del profesor, más 9 variantes agrupadas bajo cada problema. Tienen su propia página y una etiqueta para encontrarlos.
 - **Fuentes y licencias**: cada ejercicio indica si viene del cuaderno del alumno, si es original o si se ha adaptado de una fuente externa.
 
 ## Comandos

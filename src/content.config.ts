@@ -6,6 +6,7 @@ import { file, glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import {
 	blockSchema,
+	collectionSchema,
 	exerciseBaseSchema,
 	lessonBaseSchema,
 	sourceSchema,
@@ -45,4 +46,10 @@ const fuentes = defineCollection({
 	schema: sourceSchema,
 });
 
-export const collections = { bloques, temas, lecciones, ejercicios, fuentes };
+/** Colecciones de ejercicios (hojas de clase, repasos de examen…). */
+const colecciones = defineCollection({
+	loader: file('src/content/colecciones.yaml'),
+	schema: collectionSchema,
+});
+
+export const collections = { bloques, temas, lecciones, ejercicios, fuentes, colecciones };

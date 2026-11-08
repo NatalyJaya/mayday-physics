@@ -1,0 +1,54 @@
+titulo: ¿Y si saltara a 45°?
+tema: movimiento-parabolico
+orden: 62
+procedencia: original
+nota_fuente: Variante V2 del saltador, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: saltador-longitud
+dificultad: basico
+habilidades: [vectores, conceptual]
+resumen: El saltador del P1 a 45°. Compara la marca con los 5,92 m y piensa por qué los saltadores reales no lo hacen.
+enunciado: |
+  ¿Qué marca haría el saltador del P1 (**9,5 m/s**) si saliera a **45°**? Compárala con los 5,92 m que consiguió a 20°.
+figura: { tipo: lanzamiento, v0: 9.5, angulo: 45, etiquetas: { alcance: 'marca = ?' } }
+datos:
+  - { simbolo: 'v_0', valor: '9,5\un{m/s}', significado: 'la misma que en el P1' }
+  - { simbolo: '\alpha', valor: '45^\circ', significado: 'ahora más inclinado' }
+apartados:
+  - id: a
+    enunciado: Calcula la marca y la altura máxima a 45°.
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{x}', etiqueta: 'Marca', unidad: m, valor: 9.209 }
+        - { simbolo: 'y_{\text{máx}}', etiqueta: 'Altura máxima', unidad: m, valor: 2.302 }
+    pistas:
+      - 'A 45° el seno y el coseno son iguales: $v_{0x} = v_{0y} = 9,5\cos 45°$.'
+    pasos:
+      - titulo: Componentes iguales
+        desarrollo: |
+          $$\cx{v_{0x}} = \cy{v_{0y}} = 9,5\cos 45^\circ = 6,72\un{m/s}$$
+      - titulo: Marca
+        desarrollo: |
+          $$0 = t\,(6,72 - 4,9\,t) \Rightarrow t = 1,37\un{s} \qquad \cx{x} = 6,72\cdot 1,37 = 9,21\un{m}$$
+      - titulo: Altura máxima
+        desarrollo: |
+          $$0 = 6,72 - 9,8\,t \Rightarrow t = 0,686\un{s} \qquad \cy{y} = 6,72\cdot 0,686 - 4,9\cdot 0,686^2 = 2,30\un{m}$$
+    resultado: 'Marca de **9,21 m** (frente a 5,92 m) y altura máxima de **2,30 m**.'
+  - id: b
+    enunciado: Entonces, ¿por qué los saltadores reales no salen a 45°?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: Porque a 45° el modelo deja de ser válido.
+          explicacion: 'El modelo vale igual a 45°. Con la misma velocidad, 45° sí da el alcance máximo desde el suelo.'
+        - texto: Porque para despegar tan inclinados tendrían que frenar mucho y perderían velocidad.
+          correcta: true
+          explicacion: 'El cálculo supone la **misma** $v_0$ a cualquier ángulo. En la realidad, un saltador no puede impulsarse tan hacia arriba sin perder mucha velocidad de carrera, y le sale más a cuenta un ángulo bajo con más velocidad.'
+        - texto: Porque a 45° la marca es menor.
+          explicacion: 'Con la misma velocidad, la marca a 45° es mayor (9,21 m frente a 5,92 m).'
+    pasos:
+      - titulo: El modelo supone la misma velocidad
+        desarrollo: 'Con $v_0$ fija, 45° maximiza el alcance. Pero en el salto real, cuanto más vertical es el impulso, menos velocidad se conserva.'
+    resultado: 'Perderían demasiada velocidad al despegar.'
+laboratorio: { v0: 9.5, angulo: 45, h0: 0 }

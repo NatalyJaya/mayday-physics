@@ -155,7 +155,7 @@ errores:
   - error: Pensar que en el punto más alto la velocidad es cero
     explicacion: 'Solo se anula $v_y$. La componente horizontal sigue siendo 6,51 m/s.'
 alternativas:
-  - titulo: Fórmulas directas para terreno llano
+  - titulo: 'Para comprobar: fórmulas directas para terreno llano'
     desarrollo: |
       Como sale y llega a la misma altura, puedes comprobar los resultados con
 

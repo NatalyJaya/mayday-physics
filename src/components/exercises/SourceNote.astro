@@ -36,7 +36,7 @@ const inspired = (await Promise.all(ex.inspirado_en.map((id) => getEntry('fuente
 		{
 			ex.procedencia === 'original' && (
 				<p>
-					<strong>Ejercicio original</strong> creado para esta plataforma.
+					<strong>Ejercicio original</strong>{ex.nota_fuente ? <>. {ex.nota_fuente}</> : ' creado para esta plataforma.'}
 					{inspired.length > 0 && (
 						<>
 							{' '}

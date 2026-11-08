@@ -9,6 +9,7 @@ src/content/
 │   └── temas.yaml          Temas de cada bloque y su estado
 ├── lecciones/<tema>/       Una lección MDX por etapa (fenomeno, variables, ecuaciones, visualiza, aplica)
 ├── ejercicios/<tema>/      Un archivo YAML por ejercicio o ejemplo guiado
+├── colecciones.yaml        Hojas de clase y otras colecciones de ejercicios
 └── fuentes.yaml            Procedencia y licencia de todo el material
 ```
 
@@ -75,6 +76,15 @@ Tipos de respuesta:
 - `numerica`: uno o varios campos con `valor`, `unidad` y tolerancia (por defecto, 2 %). Las `trampas` son respuestas erróneas típicas con una explicación específica (por ejemplo, el resultado de usar la calculadora en radianes). Los cambios de signo se detectan solos.
 - `opciones`: preguntas de concepto. Cada opción lleva su `explicacion`, también las incorrectas.
 - `abierta`: el alumno se autocorrige con la solución (útil para «escribe las ecuaciones»).
+
+**Explicación visual** (`visual`): viñetas con `titulo`, `texto` y `figura` que se muestran como «El problema en dibujos». Figuras disponibles:
+
+- `lanzamiento`: escena a escala. Admite `soporte: rampa`, marcas `rampa`, `claves` (puntos de la trayectoria con etiqueta), `componentes` y `llegada` (altura donde termina la trayectoria).
+- `triangulo`: triángulo de velocidades (`vx`, `vy` y etiquetas; `?` marca una incógnita).
+- `flujo`: el método en pasos encadenados, cada uno con su eje (`x`, `y`, `t`, `v` o `c` para un cálculo).
+- `grafica`: gráfica magnitud–tiempo.
+
+**Colecciones y variantes**: `coleccion: <id>` (definida en `colecciones.yaml`) añade la etiqueta y lo incluye en la página de la colección. `variante_de: <archivo>` lo agrupa bajo su problema principal y crea los enlaces entre ambos. Ejemplo completo: `moto-rampas.yaml`.
 
 **Procedencia** (obligatoria): `alumno` (con `fuente: cuaderno-alumno`), `original` (con `inspirado_en` si sigue un tipo de problema de una referencia) o `externo` (con `fuente` y licencia que lo permita). Ver `docs/INVESTIGACION.md`.
 

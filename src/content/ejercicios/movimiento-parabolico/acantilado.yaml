@@ -118,7 +118,7 @@ alternativas:
       $$-45 = 10\,t - 4,9\,t^2$$
 
       Es la misma ecuación y da el mismo tiempo. El origen se elige por comodidad; la física no cambia.
-  - titulo: La velocidad de llegada sin el tiempo
+  - titulo: 'Para comprobar: la velocidad de llegada sin el tiempo (no visto en clase)'
     desarrollo: |
       $$v_y^2 = v_{0y}^2 + 2\,g\,\Delta y = 10^2 + 2\cdot(-9,8)\cdot(-45) = 982 \;\Rightarrow\; |v_y| = 31,3\un{m/s}$$
 laboratorio: { v0: 20, angulo: 30, h0: 45 }

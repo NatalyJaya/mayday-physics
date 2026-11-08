@@ -1,0 +1,37 @@
+titulo: ¿Con qué velocidad se lanzó la piedra?
+tema: movimiento-parabolico
+orden: 73
+procedencia: original
+nota_fuente: Variante V6 de la bola de la mesa, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: bola-mesa
+dificultad: intermedio
+habilidades: [planteamiento, conceptual]
+resumen: Al revés. Sabes dónde cae; el tiempo sale del eje Y, que no depende de v₀.
+enunciado: |
+  Desde un acantilado de **45 m** se lanza horizontalmente una piedra que cae a **30 m** de la base. ¿Con qué velocidad se lanzó?
+figura: { tipo: lanzamiento, v0: 9.9, angulo: 0, h0: 45, soporte: acantilado, etiquetas: { v0: 'v₀ = ?', alcance: '30 m' } }
+datos:
+  - { simbolo: 'y_0', valor: '45\un{m}', significado: 'altura del acantilado' }
+  - { simbolo: '\cx{x}', valor: '30\un{m}', significado: 'distancia a la base donde cae' }
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad se lanzó?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 3.030 }
+        - { simbolo: 'v_0', etiqueta: 'Velocidad de lanzamiento', unidad: m/s, valor: 9.899 }
+    pistas:
+      - '¿Qué eje puedes resolver sin conocer $v_0$?'
+      - 'Eje Y: $0 = 45 - 4,9\,t^2$. Después, eje X: $30 = v_0\,t$.'
+    pasos:
+      - titulo: El tiempo sale del eje Y
+        desarrollo: |
+          $$0 = 45 - 4,9\,t^2 \Rightarrow t = 3,03\un{s}$$
+        porque: 'Al ser horizontal, $v_{0y} = 0$: la ecuación del eje Y no contiene $v_0$.'
+      - titulo: Eje X
+        desarrollo: |
+          $$30 = v_0\cdot 3,03 \Rightarrow v_0 = 9,9\un{m/s}$$
+    resultado: 'Se lanzó a **9,9 m/s**.'
+laboratorio: { v0: 9.9, angulo: 0, h0: 45 }

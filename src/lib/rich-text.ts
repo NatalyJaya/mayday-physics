@@ -18,12 +18,22 @@ const processor = unified()
 
 const cache = new Map<string, string>();
 
+/**
+ * remark-math solo trata como fórmula «en bloque» un $$ que va en su propia
+ * línea; «$$ … $$» en una sola línea lo compone en línea (fracciones
+ * pequeñas). En los YAML es cómodo escribirlo en una línea, así que se
+ * convierte aquí al formato de bloque.
+ */
+export function displayBlocks(src: string) {
+	return src.replace(/^([ \t]*)\$\$(.+?)\$\$[ \t]*$/gm, (_, ind: string, body: string) => `${ind}$$\n${ind}${body.trim()}\n${ind}$$`);
+}
+
 /** Markdown + LaTeX → HTML (con párrafos). */
 export async function richText(source: string | undefined | null): Promise<string> {
 	if (!source) return '';
 	const hit = cache.get(source);
 	if (hit !== undefined) return hit;
-	const html = String(await processor.process(source.trim()));
+	const html = String(await processor.process(displayBlocks(source.trim())));
 	cache.set(source, html);
 	return html;
 }

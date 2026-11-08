@@ -1,0 +1,109 @@
+titulo: El saltador de longitud
+tema: movimiento-parabolico
+orden: 60
+procedencia: alumno
+fuente: hoja-cooperativa-2026-10-28
+nota_fuente: Problema 1 de la hoja cooperativa del 28/10 (traducido del catalán), con la corrección del profesor.
+coleccion: cooperativa-2026-10-28
+dificultad: basico
+habilidades: [planteamiento, vectores, matematicas]
+resumen: Oblicuo desde el suelo. La marca del salto (alcance) y la altura máxima.
+enunciado: |
+  Un saltador de longitud empieza el salto con una velocidad de **9,5 m/s** y una inclinación de **20°** respecto a la horizontal. Determina la **marca** que consigue (la distancia horizontal del salto) y la **altura máxima** que alcanza. Trata al saltador como un punto y desprecia el rozamiento con el aire.
+visual:
+  - titulo: La marca del salto es el alcance
+    figura:
+      tipo: lanzamiento
+      v0: 9.5
+      angulo: 20
+      etiquetas: { v0: '9,5 m/s', alcance: 'marca = ?' }
+      claves:
+        - { t: 0.3316, etiqueta: 'altura máx.: vᵧ = 0' }
+    texto: |
+      La «marca» es la distancia horizontal hasta que vuelve al suelo: el **alcance**. El saltador sale del suelo ($y_0 = 0$) y vuelve al suelo, así que el salto es **simétrico**: la altura máxima está justo a la mitad.
+  - titulo: Parte la velocidad en dos
+    figura:
+      tipo: triangulo
+      vx: 8.93
+      vy: 3.25
+      etiquetas: { vx: 'v₀ₓ = 9,5·cos 20°', vy: 'v₀ᵧ = 9,5·sen 20°', v: 'v₀ = 9,5 m/s', angulo: '20°' }
+    texto: |
+      La componente **horizontal** hace avanzar al saltador (MRU, no cambia nunca). La **vertical** le hace subir y bajar (MRUA, la gravedad la va cambiando).
+  - titulo: Una condición para cada pregunta
+    figura:
+      tipo: flujo
+      pasos:
+        - { eje: y, titulo: 'Marca: vuelve al suelo', texto: '$y = 0$ en la ecuación del eje Y → tiempo de vuelo' }
+        - { eje: t, titulo: 'El tiempo hace de puente', texto: 'el mismo $t$ vale para los dos ejes' }
+        - { eje: x, titulo: 'Eje X', texto: '$x = v_{0x}\,t$ → la marca' }
+        - { eje: y, titulo: 'Altura máxima', texto: '$v_y = 0$ → tiempo de subida → sustituye en $y$' }
+datos:
+  - { simbolo: 'x_0,\ y_0', valor: '0', significado: 'sale del suelo' }
+  - { simbolo: 'v_0', valor: '9,5\un{m/s}', significado: 'velocidad de despegue' }
+  - { simbolo: '\alpha', valor: '20^\circ', significado: 'inclinación con la horizontal' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'La marca: $x$ cuando vuelve al suelo ($y = 0$).'
+  - 'La altura máxima: $y$ cuando $v_y = 0$.'
+interpretacion: |
+  Es un lanzamiento oblicuo desde el suelo, el caso más directo. En horizontal el saltador avanza siempre igual de rápido; en vertical sube frenando, se para un instante en lo más alto y baja acelerando.
+conceptos:
+  - '$\cx{v_{0x}} = v_0\cos\alpha$ y $\cy{v_{0y}} = v_0\operatorname{sen}\alpha$.'
+  - '$\cx{x} = \cx{v_{0x}}\,t$, $\cy{y} = \cy{v_{0y}}\,t - 4,9\,t^2$ y $\cy{v_y} = \cy{v_{0y}} - 9,8\,t$.'
+apartados:
+  - id: a
+    enunciado: ¿Qué marca consigue?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_v', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 0.6631 }
+        - { simbolo: '\cx{x}', etiqueta: 'Marca (alcance)', unidad: m, valor: 5.920 }
+    pistas:
+      - 'Descompón la velocidad: $v_{0x} = 9,5\cos 20°$ y $v_{0y} = 9,5\operatorname{sen}20°$.'
+      - 'Al poner $y = 0$ queda $0 = 3,25\,t - 4,9\,t^2$: saca factor común $t$.'
+    pasos:
+      - titulo: Datos y descomposición de v₀
+        desarrollo: |
+          $$\cx{v_{0x}} = 9,5\cos 20^\circ = 8,93\un{m/s} \qquad \cy{v_{0y}} = 9,5\operatorname{sen}20^\circ = 3,25\un{m/s}$$
+      - titulo: Ecuaciones de cada eje
+        desarrollo: |
+          $$\cx{x = 8,93\,t} \qquad \cy{y = 3,25\,t - 4,9\,t^2}$$
+        porque: 'Sale del origen: $x_0 = 0$ e $y_0 = 0$.'
+      - titulo: 'Vuelve al suelo: y = 0'
+        desarrollo: |
+          $$0 = t\,(3,25 - 4,9\,t) \;\Rightarrow\; t = 0 \ (\text{salida}) \quad\text{o}\quad t = \frac{3,25}{4,9} = 0,66\un{s}$$
+        porque: Sin término independiente, sacar factor común es lo más rápido. La solución $t = 0$ es el instante del despegue.
+      - titulo: Lleva el tiempo al eje X
+        desarrollo: |
+          $$\cx{x} = 8,93\cdot 0,663 = 5,92\un{m}$$
+        porque: 'Si redondeas el tiempo a 0,66 s sale 5,89 m; el profesor lo da por bueno, pero mejor no redondear tanto.'
+    resultado: 'La marca es de unos **5,9 m** (5,92 m sin redondear el tiempo).'
+  - id: b
+    enunciado: ¿Qué altura máxima alcanza?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'y_{\text{máx}}'
+          etiqueta: Altura máxima
+          unidad: m
+          valor: 0.5386
+          trampas:
+            - { valor: 0, explicacion: 'Has usado el tiempo de vuelo: en ese instante el saltador ya está otra vez en el suelo. Usa el tiempo en que $v_y = 0$.' }
+    pistas:
+      - En el punto más alto, ¿cuánto vale la velocidad vertical?
+    pasos:
+      - titulo: 'Condición de altura máxima: vᵧ = 0'
+        desarrollo: |
+          $$0 = 3,25 - 9,8\,t \;\Rightarrow\; t = 0,33\un{s}$$
+      - titulo: Sustituye en y
+        desarrollo: |
+          $$\cy{y} = 3,25\cdot 0,33 - 4,9\cdot 0,33^2 = 0,54\un{m}$$
+      - titulo: Comprueba con la simetría
+        desarrollo: '0,33 s es la mitad de 0,66 s. Cuadra.'
+    resultado: 'Alcanza una altura máxima de **0,54 m**.'
+errores:
+  - error: 'No calcular la altura máxima (corrección del profesor: «y_max?»)'
+    explicacion: 'En la hoja del grupo faltaba este apartado. Si el enunciado pide dos cosas, el examen puntúa las dos.'
+  - error: 'Escribir $x_f = x_0\cdot v_0\cdot\cos\alpha\cdot\Delta t$'
+    explicacion: 'Es una **suma**: $x = x_0 + v_0\cos\alpha\cdot\Delta t$. Aquí no se nota porque $x_0 = 0$, pero en otro problema sí.'
+laboratorio: { v0: 9.5, angulo: 20, h0: 0 }

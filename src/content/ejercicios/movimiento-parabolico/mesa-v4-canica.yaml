@@ -1,0 +1,55 @@
+titulo: La canica de la mesa de 90 cm
+tema: movimiento-parabolico
+orden: 71
+procedencia: original
+nota_fuente: Variante V4 de la bola de la mesa, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: bola-mesa
+dificultad: basico
+habilidades: [planteamiento, vectores, matematicas]
+resumen: Lanzamiento horizontal «hacia delante». Tiempo, distancia y velocidad de llegada (módulo y ángulo).
+enunciado: |
+  Una canica sale rodando de una mesa de **0,90 m** de alto a **2,5 m/s**. Halla el tiempo de caída, a qué distancia cae y su velocidad (módulo y ángulo) al llegar al suelo.
+figura: { tipo: lanzamiento, v0: 2.5, angulo: 0, h0: 0.9, soporte: mesa, etiquetas: { alcance: '?' } }
+datos:
+  - { simbolo: 'y_0', valor: '0,90\un{m}', significado: 'altura de la mesa' }
+  - { simbolo: '\cx{v_{0x}}', valor: '2,5\un{m/s}', significado: 'sale rodando en horizontal' }
+apartados:
+  - id: a
+    enunciado: ¿Cuánto tarda en caer y a qué distancia cae?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 0.4286 }
+        - { simbolo: '\cx{x}', etiqueta: 'Distancia', unidad: m, valor: 1.071 }
+    pistas:
+      - '$y = 0,90 - 4,9\,t^2 = 0$.'
+    pasos:
+      - titulo: Tiempo y distancia
+        desarrollo: |
+          $$0 = 0,90 - 4,9\,t^2 \Rightarrow t = 0,43\un{s} \qquad \cx{x} = 2,5\cdot 0,43 = 1,07\un{m}$$
+    resultado: 'Tarda **0,43 s** y cae a **1,07 m**.'
+  - id: b
+    enunciado: ¿Con qué velocidad llega al suelo (módulo y ángulo)?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical', unidad: m/s, valor: -4.2 }
+        - simbolo: 'v'
+          etiqueta: Módulo
+          unidad: m/s
+          valor: 4.888
+          trampas:
+            - { valor: 6.7, explicacion: 'Has sumado las componentes. Se combinan con Pitágoras.' }
+        - { simbolo: '\alpha', etiqueta: 'Ángulo bajo la horizontal (sin signo)', unidad: '°', valor: 59.24 }
+    pistas:
+      - '$v_x = 2,5$ m/s no cambia; $v_y = -9,8\,t$.'
+    pasos:
+      - titulo: Componentes
+        desarrollo: |
+          $$\cx{v_x} = 2,5\un{m/s} \qquad \cy{v_y} = -9,8\cdot 0,43 = -4,2\un{m/s}$$
+      - titulo: Módulo y ángulo
+        desarrollo: |
+          $$v = \sqrt{2,5^2 + 4,2^2} = 4,89\un{m/s} \qquad \tan\alpha = \frac{-4,2}{2,5} \Rightarrow \alpha = -59,2^\circ$$
+    resultado: 'Llega a **4,89 m/s**, **59,2° por debajo** de la horizontal.'
+laboratorio: { v0: 2.5, angulo: 0, h0: 0.9 }
