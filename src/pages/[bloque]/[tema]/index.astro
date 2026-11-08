@@ -20,7 +20,13 @@ const block = await getEntry('bloques', topic.data.bloque.id);
 const lessons = await getLessons(topic.id);
 const practice = await getExercises(topic.id, 'practica');
 const allTopics = await getTopics();
-const cols = await getCollections(topic.id);
+const cols = await Promise.all(
+	(await getCollections(topic.id)).map(async (c) => ({
+		...c,
+		n: (await getExercises(topic.id, 'practica')).filter((e) => e.data.coleccion === c.id).length,
+		fecha: new Date(c.data.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' }),
+	})),
+);
 const reqs = topic.data.requisitos.map((r) => allTopics.find((t) => t.id === r.id)!).filter(Boolean);
 const byDifficulty = DIFFICULTY_IDS.map((d) => ({
 	id: d,
@@ -51,9 +57,6 @@ const map = [
 					<a class="btn btn-primary" href={stageUrl(topic, 'fenomeno')}>Empezar por el fenómeno <Icon name="arrow-right" /></a>
 					<a class="btn" href={`${stageUrl(topic, 'visualiza')}#laboratorio`}><Icon name="flask" /> Ir al laboratorio</a>
 					<a class="btn btn-ghost" href={stageUrl(topic, 'practica')}><Icon name="pencil" /> Practicar</a>
-					{cols.map((c) => (
-						<a class="btn btn-ghost" href={collectionUrl(topic, c.id)}><Icon name="layers" /> {c.data.corto}</a>
-					))}
 				</div>
 			</div>
 			<div class="card figure">
@@ -66,6 +69,28 @@ const map = [
 		<h2>Tu recorrido</h2>
 		<MethodStrip topic={topic} lessons={lessons} exerciseCount={practice.length} />
 	</section>
+
+	{
+		cols.length > 0 && (
+			<section class="container section-tight" id="colecciones">
+				<h2>Colecciones de clase</h2>
+				<p class="muted cols-intro">Los problemas de tus hojas de clase, resueltos y con variantes para practicar.</p>
+				<div class="cols">
+					{cols.map((c) => (
+						<a class="col-card" href={collectionUrl(topic, c.id)}>
+							<Icon name="layers" size={26} />
+							<span>
+								<span class="col-k">Hoja de clase · {c.fecha}</span>
+								<strong>{c.data.titulo}</strong>
+								<span class="col-d">{c.data.principales.length} problemas con explicación en dibujos y {c.n - c.data.principales.length} variantes</span>
+							</span>
+							<Icon name="arrow-right" />
+						</a>
+					))}
+				</div>
+			</section>
+		)
+	}
 
 	<section class="container section-tight two">
 		<div class="card box">
@@ -140,6 +165,46 @@ const map = [
 	}
 	.section-tight {
 		padding-top: 3rem;
+	}
+	.cols-intro {
+		margin-top: -0.25rem;
+	}
+	.cols {
+		display: grid;
+		gap: 0.6rem;
+	}
+	.col-card {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.1rem 1.3rem;
+		border-radius: var(--radius-lg);
+		background: var(--ink);
+		color: var(--bg);
+		text-decoration: none;
+	}
+	.col-card:hover {
+		color: var(--bg);
+		box-shadow: var(--shadow);
+	}
+	.col-card > span {
+		display: grid;
+		flex: 1;
+		gap: 0.15rem;
+	}
+	.col-k {
+		font: 650 0.72rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		opacity: 0.7;
+	}
+	.col-card strong {
+		font-family: var(--font-display);
+		font-size: 1.2rem;
+	}
+	.col-d {
+		font-size: 0.92rem;
+		opacity: 0.8;
 	}
 	.two {
 		display: grid;
