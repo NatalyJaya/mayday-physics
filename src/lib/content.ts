@@ -3,6 +3,7 @@
 // contenido, solo hay que tocar este archivo.
 import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
 import { DIFFICULTIES, STAGES, type StageId } from './taxonomy';
+import { withBase } from './url';
 
 export type Block = CollectionEntry<'bloques'>;
 export type Topic = CollectionEntry<'temas'>;
@@ -12,8 +13,8 @@ export type Source = CollectionEntry<'fuentes'>;
 export type ExerciseCollection = CollectionEntry<'colecciones'>;
 
 // ─── Rutas ────────────────────────────────────────────────────────────────
-export const blockUrl = (blockId: string) => `/${blockId}/`;
-export const topicUrl = (t: Topic) => `/${t.data.bloque.id}/${t.id}/`;
+export const blockUrl = (blockId: string) => withBase(`/${blockId}/`);
+export const topicUrl = (t: Topic) => withBase(`/${t.data.bloque.id}/${t.id}/`);
 export const stageUrl = (t: Topic, stage: StageId) => `${topicUrl(t)}${stage}/`;
 export const exerciseSlug = (e: ExerciseEntry) => e.id.split('/').pop()!;
 export const exerciseUrl = (t: Topic, e: ExerciseEntry) => `${stageUrl(t, 'practica')}${exerciseSlug(e)}/`;

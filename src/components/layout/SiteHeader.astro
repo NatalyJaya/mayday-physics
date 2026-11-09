@@ -2,18 +2,19 @@
 import Logo from './Logo.astro';
 import Icon from '../ui/Icon.astro';
 import { SITE } from '../../site';
+import { stripBase, withBase } from '../../lib/url';
 
-const path = Astro.url.pathname;
+const path = stripBase(Astro.url.pathname);
 const links = [
-	{ href: '/#temario', label: 'Temario', active: path === '/' },
-	{ href: '/cinematica/movimiento-parabolico/', label: 'Movimiento parabólico', active: path.startsWith('/cinematica/movimiento-parabolico') },
-	{ href: '/fuentes/', label: 'Fuentes', active: path.startsWith('/fuentes') },
+	{ href: withBase('/#temario'), label: 'Temario', active: path === '/' },
+	{ href: withBase('/cinematica/movimiento-parabolico/'), label: 'Movimiento parabólico', active: path.startsWith('/cinematica/movimiento-parabolico') },
+	{ href: withBase('/fuentes/'), label: 'Fuentes', active: path.startsWith('/fuentes') },
 ];
 ---
 
 <header class="site-header">
 	<div class="container bar">
-		<a class="brand" href="/" aria-label={`${SITE.name}, inicio`}>
+		<a class="brand" href={withBase('/')} aria-label={`${SITE.name}, inicio`}>
 			<Logo />
 			<span>{SITE.name}</span>
 		</a>

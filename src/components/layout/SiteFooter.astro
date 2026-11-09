@@ -1,20 +1,21 @@
 ---
 import Logo from './Logo.astro';
 import { SITE } from '../../site';
+import { withBase } from '../../lib/url';
 ---
 
 <footer class="site-footer">
 	<div class="container grid">
 		<div>
-			<a class="brand" href="/"><Logo size={26} /> {SITE.name}</a>
+			<a class="brand" href={withBase('/')}><Logo size={26} /> {SITE.name}</a>
 			<p class="muted">{SITE.tagline}.</p>
 		</div>
 		<div class="principle">
 			<p><strong>1.</strong> Entiende la física. <strong>2.</strong> Entiende las matemáticas. <strong>3.</strong> Aplícalo a los problemas.</p>
 		</div>
 		<div class="links">
-			<a href="/#temario">Temario</a>
-			<a href="/fuentes/">Fuentes y licencias</a>
+			<a href={withBase('/#temario')}>Temario</a>
+			<a href={withBase('/fuentes/')}>Fuentes y licencias</a>
 		</div>
 	</div>
 </footer>

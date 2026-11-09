@@ -5,6 +5,7 @@ import MethodStrip from '../components/syllabus/MethodStrip.astro';
 import DecompositionDiagram from '../components/sims/DecompositionDiagram.astro';
 import Icon from '../components/ui/Icon.astro';
 import { getBlocks, getTopics } from '../lib/content';
+import { withBase } from '../lib/url';
 
 const blocks = await getBlocks();
 const topics = await getTopics();
@@ -24,7 +25,7 @@ const extra = blocks.filter((b) => b.data.nivel === 'ampliacion');
 					final la usas para resolver problemas con pistas y corrección paso a paso.
 				</p>
 				<div class="actions">
-					<a class="btn btn-primary" href="/cinematica/movimiento-parabolico/">
+					<a class="btn btn-primary" href={withBase('/cinematica/movimiento-parabolico/')}>
 						Empieza por el movimiento parabólico <Icon name="arrow-right" />
 					</a>
 					<a class="btn" href="#temario">Ver el temario</a>

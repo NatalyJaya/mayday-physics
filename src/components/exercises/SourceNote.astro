@@ -3,6 +3,7 @@
 import { getEntry } from 'astro:content';
 import Icon from '../ui/Icon.astro';
 import type { Exercise } from '../../lib/schemas';
+import { withBase } from '../../lib/url';
 
 interface Props {
 	ex: Exercise;
@@ -44,7 +45,7 @@ const inspired = (await Promise.all(ex.inspirado_en.map((id) => getEntry('fuente
 							{inspired.map((s, i) => (
 								<>
 									{i > 0 && ', '}
-									<a href="/fuentes/#referencias">{s!.data.autor}</a>
+									<a href={withBase('/fuentes/#referencias')}>{s!.data.autor}</a>
 								</>
 							))}
 							); el enunciado y los datos son nuevos.
