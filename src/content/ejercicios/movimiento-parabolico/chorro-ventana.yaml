@@ -20,7 +20,7 @@ datos:
   - { simbolo: 'x_0', valor: '0', significado: 'origen en el suelo, bajo la ventana' }
   - { simbolo: 'y_0', valor: '15\un{m}', significado: 'altura de la ventana' }
   - { simbolo: 'v_0', valor: '20\un{m/s}', significado: 'velocidad del chorro' }
-  - { simbolo: '\alpha', valor: '40^\circ', significado: 'por encima de la horizontal, así que $v_{0y} > 0$' }
+  - { simbolo: '\alpha', valor: '40^\circ', significado: 'por encima de la horizontal, así que la velocidad vertical inicial es positiva' }
   - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
 incognitas:
   - A qué distancia de la pared cae el agua (el alcance).
