@@ -1,0 +1,165 @@
+titulo: Lanzamiento a 8,5 m/s con 40°
+tema: movimiento-parabolico
+rol: ejemplo
+orden: 2
+procedencia: alumno
+fuente: cuaderno-alumno
+nota_fuente: Tema 2, «Problema 1». El enunciado está reconstruido a partir del cuaderno y los resultados se han recalculado.
+dificultad: intermedio
+habilidades: [vectores, planteamiento, matematicas]
+resumen: Lanzamiento oblicuo desde el suelo. Ecuaciones, alcance, altura máxima y estado del objeto a los 0,75 s.
+enunciado: |
+  Se lanza un objeto desde el suelo a **8,5 m/s** formando un ángulo de **40°** con la horizontal. No hay rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 8.5
+  angulo: 40
+datos:
+  - { simbolo: 'x_0,\ y_0', valor: '0', significado: 'sale del origen, en el suelo' }
+  - { simbolo: 'v_0', valor: '8,5\un{m/s}', significado: 'módulo de la velocidad inicial' }
+  - { simbolo: '\alpha', valor: '40^\circ', significado: 'ángulo con la horizontal' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - Las ecuaciones del movimiento.
+  - El punto donde llega al suelo (tiempo de vuelo y alcance).
+  - La altura máxima.
+  - La altura y la velocidad a los 0,75 s.
+interpretacion: |
+  El objeto sube mientras su velocidad vertical es positiva. La gravedad se la va quitando a razón de 9,8 m/s cada segundo hasta que se anula en el punto más alto, y a partir de ahí baja. Mientras tanto avanza en horizontal siempre a la misma velocidad.
+
+  Como sale del suelo y vuelve al suelo, el movimiento es **simétrico**: tardará lo mismo en subir que en bajar.
+conceptos:
+  - 'Descomposición: $\cx{v_{0x}} = v_0\cos\alpha$ y $\cy{v_{0y}} = v_0\operatorname{sen}\alpha$.'
+  - 'Ecuaciones: $\cx{x} = \cx{v_{0x}}\,t$, $\cy{y} = \cy{v_{0y}}\,t - 4,9\,t^2$ y $\cy{v_y} = \cy{v_{0y}} - 9,8\,t$.'
+  - 'Llega al suelo cuando $\cy{y} = 0$; está en lo más alto cuando $\cy{v_y} = 0$.'
+apartados:
+  - id: a
+    enunciado: Escribe las ecuaciones del movimiento.
+    respuesta: { tipo: abierta }
+    pistas:
+      - Primero descompón la velocidad inicial en sus dos componentes.
+      - 'Calculadora en grados: $\cos 40° \approx 0,766$ y $\operatorname{sen} 40° \approx 0,643$.'
+    pasos:
+      - titulo: Descompón la velocidad inicial
+        piensa: Las ecuaciones de cada eje necesitan su propia velocidad inicial. ¿Cómo la obtienes a partir de 8,5 m/s y 40°?
+        desarrollo: |
+          $$\cx{v_{0x}} = 8,5\cos 40^\circ = 6,51\un{m/s} \qquad \cy{v_{0y}} = 8,5\operatorname{sen} 40^\circ = 5,46\un{m/s}$$
+        porque: '$v_0$ es la hipotenusa del triángulo. El coseno da el cateto contiguo al ángulo (el horizontal) y el seno, el opuesto (el vertical).'
+      - titulo: Escribe una ecuación para cada eje
+        desarrollo: |
+          $$\cx{x = 6,51\,t} \qquad \cx{v_x = 6,51} \qquad\qquad \cy{y = 5,46\,t - 4,9\,t^2} \qquad \cy{v_y = 5,46 - 9,8\,t}$$
+        porque: 'Sale del origen, así que $x_0 = y_0 = 0$. En el eje X no hay aceleración (MRU) y en el eje Y, la de la gravedad (MRUA).'
+    resultado: |
+      $$\cx{x = 6,51\,t} \qquad \cy{y = 5,46\,t - 4,9\,t^2} \qquad \cx{v_x = 6,51} \qquad \cy{v_y = 5,46 - 9,8\,t} \qquad (\text{SI})$$
+  - id: b
+    enunciado: ¿Dónde llega al suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't_v'
+          etiqueta: Tiempo de vuelo
+          unidad: s
+          valor: 1.115
+          trampas:
+            - { valor: 0.557, explicacion: 'Ese es el tiempo hasta el punto más alto. Para volver al suelo tarda el doble.' }
+        - simbolo: '\cx{x}'
+          etiqueta: Alcance
+          unidad: m
+          valor: 7.260
+    pistas:
+      - ¿Qué vale $y$ cuando el objeto vuelve al suelo?
+      - 'Al poner $y = 0$ queda $0 = 5,46\,t - 4,9\,t^2$. No hace falta la fórmula de segundo grado: saca factor común $t$.'
+    pasos:
+      - titulo: Condición de llegada al suelo
+        piensa: ¿Qué condición cumple el objeto al tocar el suelo?
+        desarrollo: |
+          $$0 = 5,46\,t - 4,9\,t^2 = t\,(5,46 - 4,9\,t)$$
+        porque: Es una ecuación de segundo grado sin término independiente. Sacar factor común es más rápido y más seguro que aplicar la fórmula.
+      - titulo: Elige la solución con sentido
+        piensa: Salen dos soluciones. ¿Qué significa cada una?
+        desarrollo: |
+          O bien $t = 0$, o bien $5,46 - 4,9\,t = 0$:
+
+          $$t_v = \frac{5,46}{4,9} = 1,11\un{s}$$
+        porque: '$t = 0$ es el instante del lanzamiento, que también está en el suelo. La que nos interesa es la otra.'
+      - titulo: Alcance
+        desarrollo: |
+          $$\cx{x} = 6,51 \cdot 1,11 = 7,26\un{m}$$
+        porque: Lo que avanza en horizontal durante todo el vuelo.
+    resultado: 'Llega al suelo a los **1,11 s**, a **7,26 m** del punto de lanzamiento.'
+  - id: c
+    enunciado: ¿Cuál es la altura máxima?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'h_{\text{máx}}'
+          etiqueta: Altura máxima
+          unidad: m
+          valor: 1.523
+          trampas:
+            - { valor: 1.32, explicacion: 'Es el resultado del cuaderno. Revisa que estás usando $v_{0y} = 5,46$ m/s (no 5,56) y que elevas el tiempo al cuadrado.' }
+    pistas:
+      - En el punto más alto, ¿cuánto vale la velocidad vertical?
+      - 'Con $v_y = 0$ sacas el tiempo de subida. Luego sustitúyelo en la ecuación de $y$.'
+    pasos:
+      - titulo: Condición de altura máxima
+        piensa: ¿Qué le pasa a la velocidad vertical justo en el punto más alto?
+        desarrollo: |
+          $$0 = 5,46 - 9,8\,t \;\Rightarrow\; t_s = \frac{5,46}{9,8} = 0,56\un{s}$$
+        porque: Arriba el objeto deja de subir y aún no baja, así que su velocidad vertical vale cero. La horizontal no es cero.
+      - titulo: Sustituye en la posición
+        desarrollo: |
+          $$\cy{y} = 5,46\cdot 0,557 - 4,9\cdot 0,557^2 = 3,04 - 1,52 = 1,52\un{m}$$
+        porque: El tiempo de subida es el instante en que está en lo más alto. Usa el tiempo con tres cifras para no arrastrar redondeos.
+      - titulo: Comprueba con la simetría
+        desarrollo: 'El tiempo de subida (0,56 s) es la mitad del tiempo de vuelo (1,11 s). Cuadra.'
+        porque: Desde el suelo y de vuelta al suelo, subir y bajar duran lo mismo.
+    resultado: 'Alcanza **1,52 m** de altura a los 0,56 s.'
+  - id: d
+    enunciado: ¿A qué altura está y qué velocidad lleva a los 0,75 s? ¿Está subiendo o bajando?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{y}', etiqueta: 'Altura a los 0,75 s', unidad: m, valor: 1.342 }
+        - { simbolo: '\cx{v_x}', etiqueta: 'Velocidad horizontal', unidad: m/s, valor: 6.511 }
+        - simbolo: '\cy{v_y}'
+          etiqueta: Velocidad vertical
+          unidad: m/s
+          valor: -1.886
+          trampas:
+            - { valor: 1.86, tolerancia: 0.03, explicacion: 'Revisa el coeficiente: en $v_y$ va $-9,8\,t$ (no $-4,8\,t$) y, a los 0,75 s, el objeto ya baja.' }
+        - { simbolo: 'v', etiqueta: 'Módulo de la velocidad', unidad: m/s, valor: 6.779 }
+    pistas:
+      - Sustituye $t = 0,75$ s en cada ecuación.
+      - 'Compara 0,75 s con el tiempo de subida (0,56 s): ¿ya ha pasado por el punto más alto?'
+    pasos:
+      - titulo: Altura
+        desarrollo: |
+          $$\cy{y} = 5,46\cdot 0,75 - 4,9\cdot 0,75^2 = 4,10 - 2,76 = 1,34\un{m}$$
+      - titulo: Componentes de la velocidad
+        piensa: ¿Cambia la componente horizontal? ¿Qué signo esperas para la vertical?
+        desarrollo: |
+          $$\cx{v_x} = 6,51\un{m/s} \qquad \cy{v_y} = 5,46 - 9,8\cdot 0,75 = -1,89\un{m/s}$$
+        porque: '$v_x$ es constante. $v_y$ es negativa porque a los 0,75 s ya ha pasado el punto más alto (0,56 s) y está bajando.'
+      - titulo: Módulo
+        desarrollo: |
+          $$v = \sqrt{6,51^2 + 1,89^2} = 6,78\un{m/s}$$
+    resultado: 'A los 0,75 s está a **1,34 m** de altura y **bajando**, con $v_x = 6,51$ m/s y $v_y = -1,89$ m/s. Su rapidez es de **6,78 m/s**.'
+errores:
+  - error: Calculadora en radianes
+    explicacion: 'Con radianes, $8,5\cos 40$ da $-5,67$ en lugar de $6,51$. ¡Una velocidad horizontal negativa para un objeto lanzado hacia delante! Comprueba siempre el modo DEG.'
+  - error: 'Arrastrar resultados intermedios mal copiados o muy redondeados'
+    explicacion: 'En el cuaderno, un 5,46 se convirtió en 5,56 y la altura máxima salió de 1,32 m en lugar de 1,52 m. Usa el valor de la calculadora o, al menos, tres cifras.'
+  - error: 'Escribir $v_y = 5,46 - 4,8\,t$'
+    explicacion: 'En la velocidad va $g\,t = -9,8\,t$. El $4,9$ (que no $4,8$) solo aparece en la **posición**, porque viene de $\tfrac12\,g$.'
+  - error: Pensar que en el punto más alto la velocidad es cero
+    explicacion: 'Solo se anula $v_y$. La componente horizontal sigue siendo 6,51 m/s.'
+alternativas:
+  - titulo: 'Para comprobar: fórmulas directas para terreno llano'
+    desarrollo: |
+      Como sale y llega a la misma altura, puedes comprobar los resultados con
+
+      $$t_v = \frac{2\,v_0\operatorname{sen}\alpha}{9,8} = 1,11\un{s} \qquad R = \frac{v_0^2\operatorname{sen}2\alpha}{9,8} = \frac{72,25\cdot\operatorname{sen}80^\circ}{9,8} = 7,26\un{m} \qquad h_{\text{máx}} = \frac{v_{0y}^2}{2\cdot 9,8} = 1,52\un{m}$$
+
+      Úsalas para comprobar, no para sustituir el razonamiento: en cuanto el objeto sale de una altura, dejan de valer.
+laboratorio: { v0: 8.5, angulo: 40, h0: 0 }

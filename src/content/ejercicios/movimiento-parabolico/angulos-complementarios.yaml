@@ -1,0 +1,86 @@
+titulo: El pase alto y el pase raso
+tema: movimiento-parabolico
+orden: 2
+procedencia: original
+inspirado_en: [uv-bosch-tiro]
+dificultad: intermedio
+habilidades: [planteamiento, matematicas, conceptual]
+resumen: Mismo chut a 30° y a 60°. Mismo alcance, pero no el mismo vuelo.
+enunciado: |
+  Un portero saca el balón desde el césped a **20 m/s**. Primero lo hace con un ángulo de **30°** y después con uno de **60°**. Desprecia el rozamiento con el aire y la altura del balón sobre el césped.
+datos:
+  - { simbolo: 'v_0', valor: '20\un{m/s}', significado: 'igual en los dos saques' }
+  - { simbolo: '\alpha_1,\ \alpha_2', valor: '30^\circ,\ 60^\circ', significado: 'ángulos complementarios: suman 90°' }
+  - { simbolo: 'y_0', valor: '0', significado: 'sale del suelo y vuelve al suelo' }
+incognitas:
+  - El alcance de cada saque.
+  - El tiempo de vuelo de cada saque.
+interpretacion: |
+  Con 30° casi toda la velocidad va a avanzar; con 60°, casi toda a subir. El de 60° sube más y vuela más tiempo, pero avanza más despacio. ¿Qué gana al final?
+conceptos:
+  - '$t_v = \dfrac{2\,\cy{v_{0y}}}{9,8}$ y $R = \cx{v_{0x}}\cdot t_v$ (sale y llega al suelo).'
+  - 'Equivalente: $R = \dfrac{v_0^2\operatorname{sen}2\alpha}{9,8}$.'
+apartados:
+  - id: a
+    enunciado: Calcula el alcance de cada saque.
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'R_{30^\circ}', etiqueta: 'Alcance a 30°', unidad: m, valor: 35.35 }
+        - { simbolo: 'R_{60^\circ}', etiqueta: 'Alcance a 60°', unidad: m, valor: 35.35 }
+    pistas:
+      - Para cada ángulo, descompón la velocidad, calcula el tiempo de vuelo con $y = 0$ y multiplícalo por $v_{0x}$.
+      - 'Atajo para terreno llano: $R = v_0^2\operatorname{sen}2\alpha / 9,8$.'
+    pasos:
+      - titulo: Saque a 30°
+        desarrollo: |
+          $$\cx{v_{0x}} = 17,32\un{m/s} \quad \cy{v_{0y}} = 10\un{m/s} \quad t_v = \frac{2\cdot 10}{9,8} = 2,04\un{s} \quad R = 17,32\cdot 2,04 = 35,35\un{m}$$
+      - titulo: Saque a 60°
+        desarrollo: |
+          $$\cx{v_{0x}} = 10\un{m/s} \quad \cy{v_{0y}} = 17,32\un{m/s} \quad t_v = \frac{2\cdot 17,32}{9,8} = 3,53\un{s} \quad R = 10\cdot 3,53 = 35,35\un{m}$$
+        porque: 'Las componentes se intercambian: el coseno de 30° es el seno de 60° y al revés. Y el alcance depende del producto de las dos.'
+    resultado: 'Los dos saques llegan a **35,35 m**.'
+  - id: b
+    enunciado: ¿Cuánto tiempo está el balón en el aire en cada caso?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_{30^\circ}', etiqueta: 'Tiempo de vuelo a 30°', unidad: s, valor: 2.041 }
+        - { simbolo: 't_{60^\circ}', etiqueta: 'Tiempo de vuelo a 60°', unidad: s, valor: 3.535 }
+    pistas:
+      - 'Ya lo tienes del apartado anterior: $t_v = 2\,v_{0y}/9,8$.'
+    pasos:
+      - titulo: Tiempo de vuelo
+        desarrollo: '$t_{30°} = 2,04$ s y $t_{60°} = 3,53$ s. El saque alto vuela $\sqrt 3 \approx 1,73$ veces más tiempo.'
+        porque: 'El cociente de tiempos es $\operatorname{sen}60°/\operatorname{sen}30° = \sqrt 3$.'
+    resultado: '**2,04 s** a 30° y **3,53 s** a 60°.'
+  - id: c
+    enunciado: Un compañero espera el balón a 35 m y el equipo rival presiona. ¿Qué saque le conviene?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: El de 60°, porque sube más y es más difícil de interceptar.
+          explicacion: 'Sube más, sí, pero tarda 1,5 s más en llegar, y eso da tiempo al rival para llegar al punto de caída.'
+        - texto: El de 30°, porque llega al mismo sitio en menos tiempo.
+          correcta: true
+          explicacion: 'Mismo alcance, pero llega en 2,04 s en lugar de 3,53 s. Por eso los pases que buscan rapidez van rasos.'
+        - texto: Da igual, porque los dos llegan al mismo sitio.
+          explicacion: 'Llegan al mismo sitio, pero no al mismo tiempo ni a la misma altura.'
+    pistas:
+      - Compara los tiempos del apartado anterior.
+    pasos:
+      - titulo: Mismo destino, distinto tiempo
+        desarrollo: 'El saque a 30° llega 1,5 s antes. El de 60° solo sería mejor si hubiera que superar algo alto en el camino.'
+    resultado: '**El de 30°.**'
+errores:
+  - error: Pensar que «más ángulo = más lejos»
+    explicacion: Desde el suelo, el alcance crece hasta 45° y luego disminuye. Los ángulos complementarios (que suman 90°) dan el mismo alcance.
+  - error: Usar $R = v_0^2\operatorname{sen}2\alpha/g$ cuando se lanza desde una altura
+    explicacion: Aquí vale porque sale y llega al césped. Si el balón saliera de la mano del portero a 2 m de altura, ya no sería exacto.
+alternativas:
+  - titulo: Por qué dan el mismo alcance
+    desarrollo: |
+      $$R = \frac{v_0^2\operatorname{sen}2\alpha}{g} \qquad \operatorname{sen}(2\cdot 30^\circ) = \operatorname{sen}60^\circ = \operatorname{sen}120^\circ = \operatorname{sen}(2\cdot 60^\circ)$$
+
+      En general, $\operatorname{sen}2\alpha = \operatorname{sen}(180° - 2\alpha) = \operatorname{sen}\big(2\,(90° - \alpha)\big)$: un ángulo y su complementario siempre dan el mismo alcance.
+laboratorio: { v0: 20, angulo: 30, h0: 0 }

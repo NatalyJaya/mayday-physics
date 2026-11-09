@@ -1,0 +1,221 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/layout/Breadcrumbs.astro';
+import StageNav from '../../../components/layout/StageNav.astro';
+import Icon from '../../../components/ui/Icon.astro';
+import { lessonComponents } from '../../../lib/mdx-components';
+import { blockUrl, getLessons, getTopics, isAvailable, stageUrl, topicUrl } from '../../../lib/content';
+import { STAGES } from '../../../lib/taxonomy';
+
+export async function getStaticPaths() {
+	const topics = (await getTopics()).filter(isAvailable);
+	const paths = [];
+	for (const topic of topics) {
+		for (const lesson of await getLessons(topic.id)) {
+			paths.push({
+				params: { bloque: topic.data.bloque.id, tema: topic.id, etapa: lesson.data.etapa },
+				props: { topic, lesson },
+			});
+		}
+	}
+	return paths;
+}
+
+const { topic, lesson } = Astro.props;
+const { Content, headings } = await render(lesson);
+const stageIdx = STAGES.findIndex((s) => s.id === lesson.data.etapa);
+const stage = STAGES[stageIdx];
+const prev = STAGES[stageIdx - 1];
+const next = STAGES[stageIdx + 1];
+const toc = headings.filter((h) => h.depth === 2);
+const block = await getEntry('bloques', topic.data.bloque.id);
+---
+
+<BaseLayout title={`${lesson.data.titulo} · ${topic.data.titulo}`} description={lesson.data.descripcion}>
+	<div class="container lesson-head">
+		<Breadcrumbs
+			items={[
+				{ label: block?.data.titulo ?? '', href: blockUrl(topic.data.bloque.id) },
+				{ label: topic.data.titulo, href: topicUrl(topic) },
+				{ label: `${stageIdx + 1}. ${stage.corto}` },
+			]}
+		/>
+		<StageNav topic={topic} current={lesson.data.etapa} />
+		<p class="eyebrow">
+			Etapa {stageIdx + 1} de {STAGES.length} · {stage.titulo} · <Icon name="clock" size={14} />
+			{lesson.data.minutos} min
+		</p>
+		<h1>{lesson.data.titulo}</h1>
+		<p class="lead">{lesson.data.descripcion}</p>
+	</div>
+
+	<div class="container lesson-grid">
+		<article class="prose lesson-body" data-topic-path={topicUrl(topic)} data-stage={lesson.data.etapa}>
+			<Content components={lessonComponents} />
+		</article>
+		{
+			toc.length > 1 && (
+				<aside class="toc" aria-label="En esta etapa">
+					<p>En esta etapa</p>
+					<ol>
+						{toc.map((h) => (
+							<li>
+								<a href={`#${h.slug}`}>{h.text}</a>
+							</li>
+						))}
+					</ol>
+				</aside>
+			)
+		}
+	</div>
+
+	<nav class="container pager" aria-label="Etapas anterior y siguiente">
+		{
+			prev ? (
+				<a class="pg prev" href={stageUrl(topic, prev.id)}>
+					<span class="k">
+						<Icon name="arrow-left" size={16} /> Anterior
+					</span>
+					<span class="v">
+						{stageIdx}. {prev.titulo}
+					</span>
+				</a>
+			) : (
+				<a class="pg prev" href={topicUrl(topic)}>
+					<span class="k">
+						<Icon name="arrow-left" size={16} /> Volver
+					</span>
+					<span class="v">Portada del tema</span>
+				</a>
+			)
+		}
+		{
+			next && (
+				<a class="pg next" href={stageUrl(topic, next.id)}>
+					<span class="k">
+						Siguiente <Icon name="arrow-right" size={16} />
+					</span>
+					<span class="v">
+						{stageIdx + 2}. {next.titulo}
+					</span>
+				</a>
+			)
+		}
+	</nav>
+</BaseLayout>
+
+<style>
+	.lesson-head {
+		padding-top: 1.75rem;
+		padding-bottom: 0.5rem;
+	}
+	.lesson-head .eyebrow {
+		gap: 0.4em;
+	}
+	.lesson-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 210px;
+		gap: 3rem;
+		align-items: start;
+		padding-top: 1rem;
+	}
+	.lesson-body {
+		max-width: none;
+	}
+	.lesson-body > :global(*:not(.wide)) {
+		max-width: var(--prose-max);
+	}
+	.toc {
+		position: sticky;
+		top: 84px;
+		font-size: 0.9rem;
+		border-left: 1px solid var(--line);
+		padding-left: 1rem;
+	}
+	.toc p {
+		font: 650 0.75rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--ink-3);
+		margin-bottom: 0.5rem;
+	}
+	.toc ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.45rem;
+	}
+	.toc a {
+		color: var(--ink-2);
+		text-decoration: none;
+		line-height: 1.35;
+		display: block;
+	}
+	.toc a:hover {
+		color: var(--accent);
+	}
+	.pager {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 3.5rem;
+	}
+	.pg {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		padding: 1rem 1.2rem;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--surface);
+		text-decoration: none;
+		color: var(--ink);
+		min-width: min(320px, 100%);
+	}
+	.pg:hover {
+		border-color: var(--accent);
+		color: var(--ink);
+	}
+	.next {
+		margin-left: auto;
+		text-align: right;
+		align-items: flex-end;
+	}
+	.k {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.85rem;
+		color: var(--ink-3);
+		font-weight: 600;
+	}
+	.v {
+		font-family: var(--font-display);
+		font-weight: 620;
+		font-size: 1.05rem;
+	}
+	@media (max-width: 1100px) {
+		.lesson-grid {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.toc {
+			display: none;
+		}
+	}
+	@media (max-width: 640px) {
+		.pager {
+			flex-direction: column;
+		}
+		.pg {
+			min-width: 0;
+		}
+	}
+</style>
+
+<script>
+	import { markStageVisited } from '../../../lib/progress';
+	const el = document.querySelector<HTMLElement>('.lesson-body');
+	if (el) markStageVisited(el.dataset.topicPath!, el.dataset.stage!);
+</script>

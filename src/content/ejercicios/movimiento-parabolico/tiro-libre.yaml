@@ -1,0 +1,116 @@
+titulo: ¿Es gol? Tiro libre por encima de la barrera
+tema: movimiento-parabolico
+orden: 1
+procedencia: original
+dificultad: examen
+habilidades: [planteamiento, multipaso, matematicas, conceptual]
+resumen: Un tiro libre a 20 m de la portería. ¿Supera la barrera? ¿Pasa por debajo del larguero?
+enunciado: |
+  Un futbolista lanza una falta desde **20 m** de la línea de gol. Golpea el balón desde el suelo a **22 m/s** formando **17°** con la horizontal, directamente hacia la portería.
+
+  La barrera está a **9,15 m** y los jugadores, al saltar, llegan a **1,80 m** de altura. El larguero está a **2,44 m**. Trata el balón como un punto y desprecia el rozamiento con el aire y el efecto.
+figura:
+  tipo: lanzamiento
+  v0: 22
+  angulo: 17
+  trayectoria: false
+  etiquetas: { v0: 'v₀ = 22 m/s' }
+  marcas:
+    - { tipo: muro, x: 9.15, altura: 1.8, etiqueta: 'barrera: 1,80 m' }
+    - { tipo: porteria, x: 20, altura: 2.44, etiqueta: 'larguero: 2,44 m' }
+  ancho: 23
+datos:
+  - { simbolo: 'v_0', valor: '22\un{m/s}', significado: 'velocidad del chut' }
+  - { simbolo: '\alpha', valor: '17^\circ', significado: 'ángulo con el césped' }
+  - { simbolo: 'x_{\text{barrera}}', valor: '9,15\un{m}', significado: 'altura de la barrera: 1,80 m' }
+  - { simbolo: 'x_{\text{gol}}', valor: '20\un{m}', significado: 'altura del larguero: 2,44 m' }
+incognitas:
+  - La altura del balón al pasar por la barrera.
+  - La altura del balón al llegar a la línea de gol y si es gol.
+  - Si en ese momento sube o baja.
+interpretacion: |
+  No nos preguntan dónde cae el balón, sino **a qué altura pasa** por dos sitios concretos. La estrategia es usar la distancia conocida en el eje X para saber **cuándo** llega allí, y ese tiempo en el eje Y para saber **a qué altura** está.
+conceptos:
+  - '$\cx{x} = \cx{v_{0x}}\,t \Rightarrow t = x/\cx{v_{0x}}$.'
+  - '$\cy{y} = \cy{v_{0y}}\,t - 4,9\,t^2$ y $\cy{v_y} = \cy{v_{0y}} - 9,8\,t$.'
+apartados:
+  - id: a
+    enunciado: ¿A qué altura pasa el balón por la barrera? ¿La supera?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_1', etiqueta: 'Instante en que llega a la barrera', unidad: s, valor: 0.4349 }
+        - { simbolo: '\cy{y_1}', etiqueta: 'Altura del balón en la barrera', unidad: m, valor: 1.871, tolerancia: 0.01 }
+    pistas:
+      - 'Descompón la velocidad: $v_{0x} = 22\cos 17°$ y $v_{0y} = 22\operatorname{sen}17°$.'
+      - Con $x = 9,15$ m saca el instante en el eje X. Úsalo en el eje Y.
+    pasos:
+      - titulo: Componentes
+        desarrollo: |
+          $$\cx{v_{0x}} = 22\cos 17^\circ = 21,04\un{m/s} \qquad \cy{v_{0y}} = 22\operatorname{sen}17^\circ = 6,43\un{m/s}$$
+      - titulo: Cuándo llega a la barrera (eje X)
+        desarrollo: |
+          $$9,15 = 21,04\,t \;\Rightarrow\; t_1 = 0,435\un{s}$$
+        porque: La distancia horizontal la conocemos; el tiempo que tarda en recorrerla nos lo da el MRU.
+      - titulo: A qué altura está entonces (eje Y)
+        desarrollo: |
+          $$\cy{y_1} = 6,43\cdot 0,435 - 4,9\cdot 0,435^2 = 2,80 - 0,93 = 1,87\un{m}$$
+        porque: 'Usa todos los decimales del tiempo: la diferencia con la barrera es de solo unos centímetros.'
+    resultado: 'Pasa a **1,87 m**: **supera la barrera** por unos 7 cm.'
+  - id: b
+    enunciado: ¿A qué altura cruza la línea de gol? ¿Es gol?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_2', etiqueta: 'Instante en que llega a la línea de gol', unidad: s, valor: 0.9506 }
+        - simbolo: '\cy{y_2}'
+          etiqueta: Altura en la línea de gol
+          unidad: m
+          valor: 1.687
+          trampas:
+            - { valor: 6.11, explicacion: 'Te falta restar el término $4,9\,t^2$. La gravedad hace bajar el balón.' }
+    pistas:
+      - Lo mismo que antes, ahora con $x = 20$ m.
+      - Para que sea gol, la altura tiene que estar entre 0 y 2,44 m.
+    pasos:
+      - titulo: Cuándo llega a la portería
+        desarrollo: |
+          $$20 = 21,04\,t \;\Rightarrow\; t_2 = 0,951\un{s}$$
+      - titulo: Altura en ese instante
+        desarrollo: |
+          $$\cy{y_2} = 6,43\cdot 0,951 - 4,9\cdot 0,951^2 = 6,11 - 4,43 = 1,69\un{m}$$
+        porque: 'Está entre 0 y 2,44 m: el balón pasa por debajo del larguero sin haber tocado el suelo.'
+    resultado: 'Cruza la línea a **1,69 m** de altura: **es gol** (si el portero no llega).'
+  - id: c
+    enunciado: Al cruzar la línea de gol, ¿el balón sube o baja? ¿Con qué velocidad vertical?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\cy{v_y}'
+          etiqueta: Velocidad vertical en la línea de gol
+          unidad: m/s
+          valor: -2.884
+          trampas:
+            - { valor: 2.884, explicacion: 'El valor es correcto, pero el signo no: a los 0,95 s ya ha pasado el punto más alto (0,66 s) y está bajando.' }
+    pistas:
+      - '$v_y = v_{0y} - 9,8\,t$ con $t = 0,951$ s.'
+    pasos:
+      - titulo: Velocidad vertical
+        desarrollo: |
+          $$\cy{v_y} = 6,43 - 9,8\cdot 0,951 = -2,88\un{m/s}$$
+        porque: 'Negativa: está bajando. El punto más alto lo alcanzó a los $6,43/9,8 = 0,66$ s, entre la barrera y la portería.'
+    resultado: 'Baja, con $v_y = -2,88$ m/s.'
+errores:
+  - error: Intentar resolverlo con el tiempo de vuelo o el alcance
+    explicacion: 'Aquí no importa dónde caería el balón (a 27,6 m, detrás de la portería). Importa a qué altura pasa por dos puntos concretos.'
+  - error: Redondear el tiempo a 0,4 s
+    explicacion: 'Con $t = 0,4$ s el balón estaría a 1,79 m y parecería que no supera la barrera. Cuando el margen es pequeño, los redondeos deciden la respuesta.'
+alternativas:
+  - titulo: Con la ecuación de la trayectoria
+    desarrollo: |
+      Eliminando el tiempo, $y = x\tan\alpha - \dfrac{9,8\,x^2}{2\,v_0^2\cos^2\alpha}$. Para $x = 9,15$ m:
+
+      $$y = 9,15\cdot\tan 17^\circ - \frac{9,8\cdot 9,15^2}{2\cdot 22^2\cdot\cos^2 17^\circ} = 2,80 - 0,93 = 1,87\un{m}$$
+
+      Es el mismo cálculo, con el tiempo ya sustituido.
+laboratorio: { v0: 22, angulo: 17, h0: 0 }

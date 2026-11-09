@@ -1,0 +1,48 @@
+titulo: Otro saltador, otros números
+tema: movimiento-parabolico
+orden: 61
+procedencia: original
+nota_fuente: Variante V1 del saltador, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: saltador-longitud
+dificultad: basico
+habilidades: [vectores, matematicas]
+resumen: El mismo esquema que el saltador, a 10 m/s con 22°.
+enunciado: |
+  Un saltador sale a **10 m/s** con un ángulo de **22°**. ¿Qué marca consigue y qué altura máxima alcanza? Trátalo como un punto que sale del suelo.
+figura: { tipo: lanzamiento, v0: 10, angulo: 22, etiquetas: { alcance: 'marca = ?' } }
+datos:
+  - { simbolo: 'v_0', valor: '10\un{m/s}', significado: 'velocidad de despegue' }
+  - { simbolo: '\alpha', valor: '22^\circ', significado: 'inclinación' }
+apartados:
+  - id: a
+    enunciado: ¿Qué marca consigue?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_v', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 0.7645 }
+        - { simbolo: '\cx{x}', etiqueta: 'Marca', unidad: m, valor: 7.088 }
+    pistas:
+      - 'Descompón: $v_{0x} = 10\cos 22°$, $v_{0y} = 10\operatorname{sen}22°$. Luego $y = 0$ y factor común.'
+    pasos:
+      - titulo: Descomposición y ecuaciones
+        desarrollo: |
+          $$\cx{v_{0x}} = 9,27\un{m/s} \quad \cy{v_{0y}} = 3,75\un{m/s} \qquad \cx{x = 9,27\,t} \quad \cy{y = 3,75\,t - 4,9\,t^2}$$
+      - titulo: 'y = 0 y paso al eje X'
+        desarrollo: |
+          $$0 = t\,(3,75 - 4,9\,t) \Rightarrow t = 0,765\un{s} \qquad \cx{x} = 9,27\cdot 0,765 = 7,09\un{m}$$
+    resultado: 'Marca de **7,09 m**.'
+  - id: b
+    enunciado: ¿Qué altura máxima alcanza?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'y_{\text{máx}}', etiqueta: 'Altura máxima', unidad: m, valor: 0.716 }
+    pistas:
+      - 'Arriba $v_y = 0$.'
+    pasos:
+      - titulo: 'vᵧ = 0 y sustituir'
+        desarrollo: |
+          $$0 = 3,75 - 9,8\,t \Rightarrow t = 0,382\un{s} \qquad \cy{y} = 3,75\cdot 0,382 - 4,9\cdot 0,382^2 = 0,72\un{m}$$
+    resultado: 'Altura máxima de **0,72 m**.'
+laboratorio: { v0: 10, angulo: 22, h0: 0 }

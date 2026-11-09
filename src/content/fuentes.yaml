@@ -1,0 +1,68 @@
+# Procedencia de todo el material de la plataforma.
+#   alumno     → material de clase del alumno (enunciados reconstruidos del cuaderno).
+#   externo    → recurso con licencia abierta del que se ADAPTA contenido (con atribución).
+#   referencia → recurso consultado solo para identificar tipos de problema y nivel;
+#                no se reproduce ningún enunciado. Inspira ejercicios originales.
+#   curriculo  → normativa usada para organizar el temario.
+
+- id: cuaderno-alumno
+  tipo: alumno
+  titulo: Cuaderno de Física del alumno (1.º de Bachillerato). Tema 1, Cinemática en una dimensión, y Tema 2, Cinemática en dos dimensiones
+  autor: Alumno de 1.º de Bachillerato. Apuntes transcritos, traducidos del catalán y revisados por Nataly Jaya
+  licencia: Material privado de clase, usado con permiso
+  consultado: '2026-11-07'
+  uso: Ejemplos guiados y ejercicios marcados «Del cuaderno de clase». Los enunciados se han reconstruido a partir del cuaderno y los resultados se han recalculado. Los errores del cuaderno alimentan la sección «Errores frecuentes».
+
+- id: fisiquimicamente-parabolico
+  tipo: externo
+  titulo: Movimiento parabólico (apuntes de 1.º de Bachillerato)
+  autor: Rodrigo Alcaraz de la Osa (Fisiquimicamente)
+  url: https://fisiquimicamente.com/recursos-fisica-quimica/apuntes/1bach/movimiento-parabolico/
+  licencia: CC BY-SA 4.0
+  licencia_url: https://creativecommons.org/licenses/by-sa/4.0/deed.es
+  consultado: '2026-11-07'
+  uso: Ejemplo del chorro de agua lanzado desde una ventana. Se reutilizan los datos y la pregunta del ejemplo original. La redacción, la resolución comentada, las pistas y los errores frecuentes son nuevos. Esta adaptación se comparte con la misma licencia, CC BY-SA 4.0.
+
+- id: uv-bosch-tiro
+  tipo: referencia
+  titulo: Tiro parabólico (hoja de problemas con soluciones)
+  autor: Juan Bosch, Universitat de València
+  url: https://www.uv.es/jbosch/PDF/TiroParabolico.pdf
+  licencia: No indicada
+  consultado: '2026-11-07'
+  uso: Solo como referencia de tipos de problema. Alcance y altura máxima desde el suelo o desde una altura, posición y velocidad en un instante, y problemas inversos (hallar el ángulo para un alcance dado o la velocidad para dar en un blanco). No se reproduce ningún enunciado.
+
+- id: ermengol-estiu-2026
+  tipo: referencia
+  titulo: Física de 1r de Batxillerat. Deures d'estiu 2026
+  autor: INS Ermengol IV, Departament de Ciències
+  url: https://agora.xtec.cat/iesermengolquart/wp-content/uploads/usu1239/2026/06/1r-Batxillerat-FISICA-DEURES-ESTIU-2026.pdf
+  licencia: No indicada
+  consultado: '2026-11-07'
+  uso: Referencia del nivel de examen en Cataluña. Tipologías como el avión que suelta un paquete sobre un terreno, el proyectil lanzado desde un acantilado, el pase a un jugador que corre o el tiro con arco. No se reproduce ningún enunciado.
+
+- id: rd-243-2022
+  tipo: curriculo
+  titulo: Real Decreto 243/2022, de 5 de abril, por el que se establecen la ordenación y las enseñanzas mínimas del Bachillerato (Física y Química de 1.º)
+  autor: Ministerio de Educación y Formación Profesional (BOE)
+  url: https://www.boe.es/buscar/act.php?id=BOE-A-2022-5521
+  licencia: Texto normativo
+  consultado: '2026-11-07'
+  uso: Estructura del temario de 1.º. Bloques de Cinemática, Estática y dinámica, y Energía.
+
+- id: decret-171-2022
+  tipo: curriculo
+  titulo: Decret 171/2022, d'ordenació dels ensenyaments del batxillerat (annex de Física). DOGC núm. 8758, 22.9.2022
+  autor: Generalitat de Catalunya, Departament d'Educació
+  url: https://www.sindicat.net/wp-content/uploads/2023/05/decret171_annex_2_Fisica.pdf
+  licencia: Texto normativo
+  consultado: '2026-11-07'
+  uso: En Cataluña, «Física» es una materia propia en 1r con tres sabers (cinemàtica, estàtica i dinàmica, energia). El campo gravitatorio, el electromagnetismo y las ondas son de 2n.
+
+- id: hoja-cooperativa-2026-10-28
+  tipo: alumno
+  titulo: Hoja de problemas cooperativos de cinemática (Tema 2, lanzamientos), 28 de octubre de 2026
+  autor: Trabajo en grupo del alumno con las correcciones del profesor. Transcrito, traducido del catalán y resuelto por Nataly Jaya, que también preparó las variantes
+  licencia: Material privado de clase, usado con permiso
+  consultado: '2026-11-08'
+  uso: Los tres problemas principales (saltador, bola de la mesa y moto entre rampas) con su resolución y las correcciones del profesor, y las nueve variantes de práctica.

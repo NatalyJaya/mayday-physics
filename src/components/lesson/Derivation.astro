@@ -1,0 +1,35 @@
+---
+// Contenedor de una deducción paso a paso (cada paso es un <Paso>).
+interface Props {
+	titulo?: string;
+}
+const { titulo } = Astro.props;
+---
+
+<section class="derivation">
+	{titulo && <p class="title">{titulo}</p>}
+	<ol><slot /></ol>
+</section>
+
+<style>
+	.derivation {
+		margin: 1.5em 0 2em;
+		padding: 1.1rem 1.2rem 0.4rem;
+		border-radius: var(--radius);
+		border: 1px solid var(--line);
+		background: var(--surface);
+	}
+	.title {
+		font: 650 0.82rem var(--font-display);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		margin-bottom: 0.9rem;
+	}
+	ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		counter-reset: paso;
+	}
+</style>

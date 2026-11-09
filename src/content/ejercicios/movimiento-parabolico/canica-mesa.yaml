@@ -1,0 +1,88 @@
+titulo: La canica que se escapa de la mesa
+tema: movimiento-parabolico
+orden: 4
+procedencia: original
+dificultad: basico
+habilidades: [planteamiento, matematicas]
+resumen: Lanzamiento horizontal desde una mesa de 80 cm. Tiempo de caída, distancia y qué cambia si rueda más rápido.
+enunciado: |
+  Una canica rueda por una mesa de **80 cm** de altura y sale por el borde a **1,5 m/s**. Desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 1.5
+  angulo: 0
+  h0: 0.8
+  soporte: mesa
+  etiquetas: { alcance: '?' }
+datos:
+  - { simbolo: 'y_0', valor: '0,80\un{m}', significado: 'altura de la mesa, en metros' }
+  - { simbolo: '\cx{v_{0x}}', valor: '1,5\un{m/s}', significado: 'sale rodando en horizontal' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'no tiene velocidad vertical al salir' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - El tiempo que tarda en llegar al suelo.
+  - A qué distancia del borde de la mesa cae.
+interpretacion: |
+  Mientras rueda por la mesa, la mesa la sostiene. En cuanto sale del borde, solo actúa la gravedad: es un **lanzamiento horizontal** desde 0,80 m.
+conceptos:
+  - '$\cx{x} = \cx{v_{0x}}\,t$ e $\cy{y} = y_0 - 4,9\,t^2$.'
+  - 'En el suelo, $\cy{y} = 0$.'
+apartados:
+  - id: a
+    enunciado: ¿Cuánto tarda en llegar al suelo y a qué distancia del borde de la mesa cae?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't'
+          etiqueta: Tiempo de caída
+          unidad: s
+          valor: 0.4041
+          trampas:
+            - { valor: 4.04, explicacion: 'Revisa las unidades: la altura debe ir en metros (0,80 m), no en centímetros.' }
+            - { valor: 0.163, explicacion: 'Eso es $t^2$. Te falta hacer la raíz cuadrada.' }
+        - simbolo: '\cx{x}'
+          etiqueta: Distancia desde el borde
+          unidad: m
+          valor: 0.606
+    pistas:
+      - Pasa los 80 cm a metros antes de nada.
+      - 'Pon $y = 0$ en $y = 0,80 - 4,9\,t^2$ y despeja $t$.'
+    pasos:
+      - titulo: Ecuaciones
+        desarrollo: |
+          $$\cx{x = 1,5\,t} \qquad \cy{y = 0,80 - 4,9\,t^2}$$
+        porque: Origen en el suelo, bajo el borde de la mesa. La velocidad vertical inicial es cero.
+      - titulo: Tiempo de caída
+        desarrollo: |
+          $$0 = 0,80 - 4,9\,t^2 \;\Rightarrow\; t = \sqrt{\frac{0,80}{4,9}} = 0,404\un{s}$$
+        porque: 'El tiempo de caída solo depende de la altura: es el mismo que si la canica se dejara caer desde el borde.'
+      - titulo: Distancia horizontal
+        desarrollo: |
+          $$\cx{x} = 1,5\cdot 0,404 = 0,61\un{m}$$
+    resultado: 'Tarda **0,40 s** y cae a **61 cm** del borde de la mesa.'
+  - id: b
+    enunciado: Si la canica saliera a 3,0 m/s, el doble de rápido, ¿qué pasaría?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: Tardaría la mitad y caería en el mismo sitio.
+          explicacion: 'El tiempo de caída no depende de la velocidad horizontal: sigue siendo 0,40 s.'
+        - texto: Tardaría lo mismo y caería al doble de distancia.
+          correcta: true
+          explicacion: 'Mismo tiempo de caída (lo fija la altura) y el doble de velocidad horizontal: $x = 3,0\cdot 0,404 = 1,21$ m, justo el doble.'
+        - texto: Tardaría el doble y caería al cuádruple de distancia.
+          explicacion: 'La velocidad horizontal no cambia el tiempo de caída, así que la distancia solo se duplica.'
+    pistas:
+      - ¿Qué ecuación da el tiempo de caída? ¿Aparece en ella la velocidad horizontal?
+    pasos:
+      - titulo: El tiempo no cambia
+        desarrollo: '$t = \sqrt{0,80/4,9} = 0,40$ s, igual que antes.'
+      - titulo: La distancia, sí
+        desarrollo: '$x = 3,0\cdot 0,404 = 1,21$ m, el doble que antes.'
+    resultado: 'Tarda **lo mismo** y cae **al doble de distancia**.'
+errores:
+  - error: Usar la altura en centímetros
+    explicacion: 'Con $g$ en m/s², las distancias tienen que ir en metros. Con 80 cm saldría un tiempo diez veces más largo que el real.'
+  - error: 'Usar $v = e/t$ para el movimiento vertical'
+    explicacion: 'Esa ecuación solo vale si la velocidad es constante. En vertical la canica acelera: hay que usar la del MRUA.'
+laboratorio: { v0: 1.5, angulo: 0, h0: 0.8 }

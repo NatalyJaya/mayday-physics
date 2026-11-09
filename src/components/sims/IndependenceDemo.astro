@@ -1,0 +1,53 @@
+---
+import Icon from '../ui/Icon.astro';
+---
+
+<independence-demo class="sim wide">
+	<div class="sim-head">
+		<h4>Experimento: soltar una y lanzar la otra</h4>
+		<p class="muted">Las dos salen desde 20 m de altura en el mismo instante. Puntos: posición cada 0,2 s.</p>
+	</div>
+	<svg class="sim-svg" viewBox="0 0 640 360" role="img" aria-label="La bola A se deja caer y la bola B se lanza en horizontal desde la misma altura. En cada instante están a la misma altura y llegan al suelo a la vez."></svg>
+	<div class="sim-readout num" aria-live="off">
+		<span data-out="t">t = 0,00 s</span>
+		<span data-out="ya"></span>
+		<span data-out="yb"></span>
+	</div>
+	<p class="result" data-out="res" hidden aria-live="polite"></p>
+	<div class="sim-controls">
+		<button type="button" class="btn btn-primary play" data-state="paused">
+			<span class="i-play"><Icon name="play" size={16} /></span><span class="i-pause"><Icon name="pause" size={16} /></span>
+			<span class="lbl">Soltar las dos</span>
+		</button>
+		<button type="button" class="btn btn-ghost btn-sm reset" aria-label="Volver al inicio"><Icon name="reset" size={16} /></button>
+		<div class="param">
+			<label for="ind-vx">Velocidad horizontal de B <i>vₓ</i>: <output class="num">10 m/s</output></label>
+			<input id="ind-vx" type="range" min="0" max="20" step="1" value="10" />
+		</div>
+	</div>
+</independence-demo>
+
+<style>
+	.result {
+		margin: 0.6rem 0 0;
+		padding: 0.55rem 0.8rem;
+		border-radius: 10px;
+		background: var(--ok-soft);
+		color: var(--ok);
+		font-weight: 700;
+	}
+	.param input {
+		width: 100%;
+	}
+	.play .i-pause,
+	.play[data-state='playing'] .i-play {
+		display: none;
+	}
+	.play[data-state='playing'] .i-pause {
+		display: inline-flex;
+	}
+</style>
+
+<script>
+	import '../../sims/independence-demo';
+</script>

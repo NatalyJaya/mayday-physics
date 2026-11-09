@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import { SITE } from '../site';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+const { title, description = SITE.description } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name}: ${SITE.tagline}`;
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<meta name="color-scheme" content="light dark" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{fullTitle}</title>
+		<script is:inline>
+			// Aplica el tema guardado antes de pintar, para evitar un destello.
+			try {
+				const t = localStorage.getItem('mayday-theme');
+				if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+			} catch {}
+		</script>
+	</head>
+	<body>
+		<a class="skip" href="#contenido">Saltar al contenido</a>
+		<SiteHeader />
+		<main id="contenido">
+			<slot />
+		</main>
+		<SiteFooter />
+	</body>
+</html>
+
+<style>
+	.skip {
+		position: absolute;
+		left: 1rem;
+		top: -100px;
+		z-index: 100;
+		background: var(--accent);
+		color: var(--accent-ink);
+		padding: 0.5rem 1rem;
+		border-radius: 8px;
+	}
+	.skip:focus {
+		top: 1rem;
+	}
+</style>

@@ -1,0 +1,136 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../../components/layout/Breadcrumbs.astro';
+import StageNav from '../../../../components/layout/StageNav.astro';
+import ExerciseView from '../../../../components/exercises/ExerciseView.astro';
+import Icon from '../../../../components/ui/Icon.astro';
+import {
+	blockUrl,
+	exerciseSlug,
+	exerciseUrl,
+	getExercises,
+	getTopics,
+	isAvailable,
+	stageUrl,
+	topicUrl,
+} from '../../../../lib/content';
+
+export async function getStaticPaths() {
+	const topics = (await getTopics()).filter(isAvailable);
+	const perTopic = await Promise.all(
+		topics.map(async (topic) => {
+			const list = await getExercises(topic.id, 'practica');
+			return list.map((entry, i) => ({
+				params: { bloque: topic.data.bloque.id, tema: topic.id, ejercicio: exerciseSlug(entry) },
+				props: { topic, entry, prev: list[i - 1], next: list[i + 1], index: i, total: list.length },
+			}));
+		}),
+	);
+	return perTopic.flat();
+}
+
+const { topic, entry, prev, next, index, total } = Astro.props;
+const block = await getEntry('bloques', topic.data.bloque.id);
+---
+
+<BaseLayout title={`${entry.data.titulo} · Práctica`} description={entry.data.resumen}>
+	<div class="container head">
+		<Breadcrumbs
+			items={[
+				{ label: block?.data.titulo ?? '', href: blockUrl(topic.data.bloque.id) },
+				{ label: topic.data.titulo, href: topicUrl(topic) },
+				{ label: '6. Práctica', href: stageUrl(topic, 'practica') },
+				{ label: entry.data.titulo },
+			]}
+		/>
+		<StageNav topic={topic} current="practica" />
+		<p class="eyebrow">Ejercicio {index + 1} de {total}</p>
+		<h1>{entry.data.titulo}</h1>
+	</div>
+	<div class="container body">
+		<ExerciseView entry={entry} topic={topic} />
+		<nav class="ex-pager" aria-label="Otros ejercicios">
+			{
+				prev ? (
+					<a href={exerciseUrl(topic, prev)} class="pg">
+						<span class="k"><Icon name="arrow-left" size={16} /> Anterior</span>
+						<span class="v">{prev.data.titulo}</span>
+					</a>
+				) : (
+					<span />
+				)
+			}
+			<a href={stageUrl(topic, 'practica')} class="all">Todos los ejercicios</a>
+			{
+				next ? (
+					<a href={exerciseUrl(topic, next)} class="pg nx">
+						<span class="k">Siguiente <Icon name="arrow-right" size={16} /></span>
+						<span class="v">{next.data.titulo}</span>
+					</a>
+				) : (
+					<span />
+				)
+			}
+		</nav>
+	</div>
+</BaseLayout>
+
+<style>
+	.head {
+		padding-top: 1.75rem;
+	}
+	.head h1 {
+		font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem);
+		max-width: 26ch;
+	}
+	.body {
+		max-width: 860px;
+		margin-left: max(0px, calc((100% - var(--page-max)) / 2));
+	}
+	.ex-pager {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		gap: 1rem;
+		align-items: center;
+		margin-top: 3rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line);
+	}
+	.pg {
+		display: grid;
+		gap: 0.15rem;
+		text-decoration: none;
+		color: var(--ink);
+	}
+	.pg:hover .v {
+		color: var(--accent);
+	}
+	.nx {
+		text-align: right;
+		justify-items: end;
+	}
+	.k {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: 0.85rem;
+		color: var(--ink-3);
+	}
+	.v {
+		font-weight: 700;
+	}
+	.all {
+		font-size: 0.92rem;
+	}
+	@media (max-width: 640px) {
+		.ex-pager {
+			grid-template-columns: 1fr 1fr;
+		}
+		.all {
+			grid-column: 1 / -1;
+			grid-row: 2;
+			text-align: center;
+		}
+	}
+</style>

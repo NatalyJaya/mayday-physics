@@ -1,0 +1,87 @@
+titulo: Tres piedras desde un acantilado
+tema: movimiento-parabolico
+orden: 3
+procedencia: original
+dificultad: basico
+habilidades: [conceptual]
+resumen: Razonar sin calcular. Qué decide el tiempo de caída y qué decide dónde cae una piedra lanzada en horizontal.
+enunciado: |
+  Desde lo alto de un acantilado, en el mismo instante:
+
+  - la piedra **A** se deja caer,
+  - la piedra **B** se lanza horizontalmente a 5 m/s,
+  - la piedra **C** se lanza horizontalmente a 15 m/s.
+
+  No hay rozamiento con el aire.
+interpretacion: |
+  Las tres piedras empiezan con velocidad vertical **cero** y caen la misma altura con la misma aceleración. Lo único que las diferencia es su velocidad horizontal.
+conceptos:
+  - 'El tiempo de caída sale solo del eje Y: $0 = h - 4,9\,t^2 \Rightarrow t = \sqrt{h/4,9}$.'
+  - 'La distancia horizontal es $x = \cx{v_{0x}}\,t$.'
+apartados:
+  - id: a
+    enunciado: ¿En qué orden llegan al agua?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: Primero A, luego B y por último C.
+          explicacion: 'Las piedras lanzadas recorren un camino más largo, pero también más deprisa. Lo que decide cuándo llegan es su movimiento **vertical**, que es idéntico en las tres.'
+        - texto: Primero C, luego B y por último A.
+          explicacion: La velocidad horizontal no ayuda a bajar antes. Las tres empiezan con velocidad vertical cero.
+        - texto: Las tres llegan a la vez.
+          correcta: true
+          explicacion: 'Caen la misma altura, empezando con $v_y = 0$ y con la misma aceleración. En vertical hacen exactamente el mismo movimiento.'
+    pistas:
+      - ¿Cuánto vale la velocidad vertical inicial de cada piedra?
+    pasos:
+      - titulo: Fíjate solo en el eje Y
+        desarrollo: 'Para las tres, $y = h - 4,9\,t^2$. La ecuación no contiene la velocidad horizontal, así que el tiempo hasta $y = 0$ es el mismo.'
+        porque: Los movimientos horizontal y vertical son independientes.
+    resultado: '**Llegan las tres a la vez.**'
+  - id: b
+    enunciado: ¿Dónde cae C comparada con B?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: A la misma distancia de la base del acantilado.
+          explicacion: 'Tardan lo mismo, pero C avanza más deprisa durante ese tiempo.'
+        - texto: Al triple de distancia.
+          correcta: true
+          explicacion: 'Las dos están en el aire el mismo tiempo $t$. Como $x = v_{0x}\,t$, si la velocidad horizontal es el triple, la distancia también.'
+        - texto: A nueve veces la distancia, porque depende del cuadrado de la velocidad.
+          explicacion: 'Eso pasaría con la altura de una piedra lanzada hacia arriba, que depende de $v_0^2$. Aquí el tiempo es fijo y la distancia es proporcional a la velocidad horizontal.'
+    pistas:
+      - Las dos están en el aire el mismo tiempo. ¿Qué ecuación da la distancia horizontal?
+    pasos:
+      - titulo: Mismo tiempo, distinta velocidad horizontal
+        desarrollo: |
+          $$\frac{x_C}{x_B} = \frac{15\,t}{5\,t} = 3$$
+    resultado: 'C cae **al triple de distancia** que B. A cae justo al pie del acantilado.'
+  - id: c
+    enunciado: Si B se lanzara exactamente igual pero desde el doble de altura, ¿por cuánto se multiplicaría su tiempo de caída?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: Por 2.
+          explicacion: 'La altura no es proporcional al tiempo, sino al tiempo **al cuadrado**: $h = 4,9\,t^2$. Cae cada vez más deprisa, así que el segundo tramo lo recorre en menos tiempo que el primero.'
+        - texto: 'Por $\sqrt 2 \approx 1,41$.'
+          correcta: true
+          explicacion: 'De $h = 4,9\,t^2$ sale $t = \sqrt{h/4,9}$. Si $h$ se duplica, $t$ se multiplica por $\sqrt 2$.'
+        - texto: Por 4.
+          explicacion: 'Al revés: si el **tiempo** se duplicara, la altura caída se multiplicaría por 4.'
+        - texto: No cambiaría, porque sigue saliendo a 5 m/s.
+          explicacion: 'La velocidad horizontal no influye en el tiempo de caída, pero la altura sí.'
+    pistas:
+      - 'Despeja $t$ de $0 = h - 4,9\,t^2$. ¿Cómo depende $t$ de $h$?'
+    pasos:
+      - titulo: Tiempo en función de la altura
+        desarrollo: |
+          $$t = \sqrt{\frac{h}{4,9}} \qquad\Rightarrow\qquad \frac{t'}{t} = \sqrt{\frac{2h}{h}} = \sqrt 2 \approx 1,41$$
+        porque: El tiempo crece con la raíz cuadrada de la altura.
+    resultado: 'El tiempo de caída se multiplica por **√2 ≈ 1,41**.'
+errores:
+  - error: Pensar que lo que va más rápido llega antes
+    explicacion: Solo cuenta la velocidad en la dirección en la que hay que avanzar. Para llegar al suelo, la vertical.
+  - error: Suponer que todo es proporcional
+    explicacion: 'La distancia horizontal sí es proporcional a la velocidad horizontal ($x = v_x\,t$), pero el tiempo de caída va con la raíz de la altura.'
+laboratorio: { v0: 5, angulo: 0, h0: 30 }

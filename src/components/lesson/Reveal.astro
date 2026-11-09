@@ -1,0 +1,47 @@
+---
+// Contenido plegable: para ampliaciones o respuestas que conviene no ver aún.
+import Icon from '../ui/Icon.astro';
+interface Props {
+	titulo: string;
+	abierto?: boolean;
+}
+const { titulo, abierto = false } = Astro.props;
+---
+
+<details class="reveal" open={abierto}>
+	<summary><Icon name="chevron" size={18} /> <span>{titulo}</span></summary>
+	<div class="inner"><slot /></div>
+</details>
+
+<style>
+	.reveal {
+		margin: 1.25em 0;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--surface);
+	}
+	summary {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.8rem 1rem;
+		cursor: pointer;
+		font-weight: 700;
+		list-style: none;
+		min-height: 44px;
+	}
+	summary::-webkit-details-marker {
+		display: none;
+	}
+	summary :global(.icon) {
+		transition: transform 0.15s;
+		transform: rotate(-90deg);
+		color: var(--ink-3);
+	}
+	.reveal[open] summary :global(.icon) {
+		transform: none;
+	}
+	.inner {
+		padding: 0 1.15rem 0.4rem;
+	}
+</style>

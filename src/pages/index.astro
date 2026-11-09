@@ -1,11 +1,165 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlockCard from '../components/syllabus/BlockCard.astro';
+import MethodStrip from '../components/syllabus/MethodStrip.astro';
+import DecompositionDiagram from '../components/sims/DecompositionDiagram.astro';
+import Icon from '../components/ui/Icon.astro';
+import { getBlocks, getTopics } from '../lib/content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const blocks = await getBlocks();
+const topics = await getTopics();
+const topicsOf = (id: string) => topics.filter((t) => t.data.bloque.id === id);
+const core = blocks.filter((b) => b.data.nivel === 'nucleo');
+const extra = blocks.filter((b) => b.data.nivel === 'ampliacion');
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout>
+	<section class="hero">
+		<div class="container hero-grid">
+			<div class="copy">
+				<p class="eyebrow">Física · 1.º de Bachillerato</p>
+				<h1>La física se entiende antes de calcularse.</h1>
+				<p class="lead">
+					Aquí no se memorizan fórmulas. Primero ves qué ocurre, luego entiendes de dónde sale cada ecuación, y al
+					final la usas para resolver problemas con pistas y corrección paso a paso.
+				</p>
+				<div class="actions">
+					<a class="btn btn-primary" href="/cinematica/movimiento-parabolico/">
+						Empieza por el movimiento parabólico <Icon name="arrow-right" />
+					</a>
+					<a class="btn" href="#temario">Ver el temario</a>
+				</div>
+			</div>
+			<div class="instrument card">
+				<div class="instrument-head">
+					<span class="dot-live" aria-hidden="true"></span>
+					<span>Un lanzamiento son <strong>dos movimientos</strong> a la vez</span>
+				</div>
+				<DecompositionDiagram animate />
+			</div>
+		</div>
+	</section>
+
+	<section class="section method-section">
+		<div class="container">
+			<div class="section-head">
+				<p class="eyebrow">Cómo se aprende aquí</p>
+				<h2>Seis pasos, siempre en el mismo orden</h2>
+				<p class="lead">
+					Todos los temas siguen el mismo recorrido. Primero entiendes la física, después las matemáticas y, al final,
+					lo aplicas a los problemas.
+				</p>
+			</div>
+			<MethodStrip />
+		</div>
+	</section>
+
+	<section class="section syllabus" id="temario">
+		<div class="container">
+			<div class="section-head">
+				<p class="eyebrow">Temario</p>
+				<h2>El curso de 1.º</h2>
+				<p class="lead">
+					Los tres bloques de física del currículo de 1.º de Bachillerato. Empezamos por la cinemática y el resto de
+					temas se irán abriendo.
+				</p>
+			</div>
+			<div class="blocks-core">
+				{core.map((b) => <BlockCard block={b} topics={topicsOf(b.id)} />)}
+			</div>
+
+			<div class="section-head extra-head">
+				<h3>Ampliación según tu centro</h3>
+				<p class="muted">
+					Con el currículo actual estos bloques son de 2.º, pero hay centros que adelantan parte a 1.º. Si tu temario
+					los incluye, también los tendrás aquí.
+				</p>
+			</div>
+			<div class="blocks-extra">
+				{extra.map((b) => <BlockCard block={b} topics={topicsOf(b.id)} size="sm" />)}
+			</div>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.hero {
+		padding-block: clamp(2.5rem, 2rem + 4vw, 5rem) clamp(1.5rem, 1rem + 2vw, 3rem);
+	}
+	.hero-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+		gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+		align-items: center;
+	}
+	.copy h1 {
+		max-width: 14ch;
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		margin-top: 1.75rem;
+	}
+	.instrument {
+		padding: 1rem 1.25rem 1.25rem;
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow);
+	}
+	.instrument-head {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-size: 0.95rem;
+		color: var(--ink-2);
+		margin-bottom: 0.75rem;
+	}
+	.dot-live {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--ok);
+		box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 20%, transparent);
+	}
+	.section-head {
+		margin-bottom: 1.75rem;
+	}
+	.method-section {
+		padding-top: clamp(1.5rem, 1rem + 2vw, 3rem);
+	}
+	.blocks-core {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+	.extra-head {
+		margin-top: 3.25rem;
+		margin-bottom: 1.25rem;
+	}
+	.extra-head p {
+		max-width: 70ch;
+		margin: 0;
+	}
+	.blocks-extra {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+	}
+	@media (max-width: 980px) {
+		.hero-grid {
+			grid-template-columns: 1fr;
+		}
+		.copy h1 {
+			max-width: 18ch;
+		}
+		.blocks-core,
+		.blocks-extra {
+			grid-template-columns: 1fr;
+		}
+	}
+	@media (min-width: 640px) and (max-width: 980px) {
+		.blocks-extra {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+</style>

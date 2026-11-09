@@ -1,0 +1,85 @@
+---
+// Fórmula clave enmarcada, con su nombre y sus condiciones de uso.
+import { richInline } from '../../lib/rich-text';
+
+interface Props {
+	titulo: string;
+	usala?: string;
+	nousar?: string;
+}
+const { titulo, usala, nousar } = Astro.props;
+const usa = usala ? await richInline(usala) : '';
+const no = nousar ? await richInline(nousar) : '';
+---
+
+<div class="formula">
+	<p class="name">{titulo}</p>
+	<div class="math"><slot /></div>
+	{
+		(usa || no) && (
+			<dl>
+				{usa && (
+					<div class="ok">
+						<dt>Úsala cuando</dt>
+						<dd set:html={usa} />
+					</div>
+				)}
+				{no && (
+					<div class="no">
+						<dt>No la uses si</dt>
+						<dd set:html={no} />
+					</div>
+				)}
+			</dl>
+		)
+	}
+</div>
+
+<style>
+	.formula {
+		margin: 1.5em 0;
+		border: 1.5px solid var(--ink);
+		border-radius: var(--radius);
+		background: var(--surface);
+		padding: 0.9rem 1.15rem 0.8rem;
+	}
+	.name {
+		font: 650 0.82rem var(--font-display);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		margin-bottom: 0.2rem;
+	}
+	.math :global(.katex-display) {
+		margin: 0.4em 0 0.6em;
+	}
+	dl {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.75rem;
+		margin: 0.25rem 0 0;
+		border-top: 1px solid var(--line);
+		padding-top: 0.75rem;
+	}
+	dt {
+		font: 650 0.75rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+	}
+	.ok dt {
+		color: var(--ok);
+	}
+	.no dt {
+		color: var(--bad);
+	}
+	dd {
+		margin: 0.15rem 0 0;
+		font-size: 0.93rem;
+		color: var(--ink-2);
+	}
+	@media (max-width: 600px) {
+		dl {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

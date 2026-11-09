@@ -1,0 +1,417 @@
+---
+// Un apartado en modo práctica: el alumno responde, pide pistas y, cuando
+// quiere, ve la solución paso a paso. Nada se muestra antes de tiempo.
+import Icon from '../ui/Icon.astro';
+import type { RenderedPart } from '../../lib/exercise-render';
+
+interface Props {
+	part: RenderedPart;
+	exId: string;
+	single: boolean;
+}
+const { part, exId, single } = Astro.props;
+const r = part.respuesta;
+const fid = (i: number) => `${exId}-${part.id}-${i}`;
+const spec = r.tipo === 'numerica' ? r.campos.map((c) => c.spec) : r.tipo === 'opciones' ? r.opciones.map((o) => o.correcta) : null;
+---
+
+<exercise-part class="part" data-kind={r.tipo} data-part={part.id}>
+	<header class="part-head">
+		{!single && <span class="pid">{part.id})</span>}
+		<p class="prompt" set:html={part.enunciado} />
+	</header>
+
+	<form class="answer" novalidate>
+		{
+			r.tipo === 'numerica' && (
+				<div class="fields">
+					{r.campos.map((c, i) => (
+						<div class="field" data-i={i}>
+							<label for={fid(i)}>
+								<span class="sym" set:html={c.simbolo} /> <span class="f-label">{c.etiqueta}</span>
+							</label>
+							<span class="input">
+								<input id={fid(i)} type="text" inputmode="decimal" autocomplete="off" spellcheck="false" />
+								{c.unidad && <span class="unit">{c.unidad}</span>}
+							</span>
+							<p class="field-fb" aria-live="polite" />
+						</div>
+					))}
+				</div>
+			)
+		}
+		{
+			r.tipo === 'opciones' && (
+				<fieldset class="options">
+					<legend class="visually-hidden">Elige una opción</legend>
+					{r.opciones.map((o, i) => (
+						<label class="opt" data-i={i}>
+							<input type="radio" name={`${exId}-${part.id}`} value={i} />
+							<span set:html={o.html} />
+						</label>
+					))}
+				</fieldset>
+			)
+		}
+		{
+			r.tipo === 'abierta' && (
+				<p class="open-note">
+					<Icon name="pencil" size={16} /> Resuélvelo en tu cuaderno. Después compáralo con la solución.
+					{r.criterio && <span set:html={` ${r.criterio}`} />}
+				</p>
+			)
+		}
+		<div class="actions">
+			{r.tipo !== 'abierta' && <button class="btn btn-primary btn-sm check" type="submit"><Icon name="check" size={16} /> Comprobar</button>}
+			{
+				part.pistas.length > 0 && (
+					<button class="btn btn-sm hint-btn" type="button" data-total={part.pistas.length}>
+						<Icon name="bulb" size={16} /> <span>Pista</span>
+					</button>
+				)
+			}
+			<button class="btn btn-ghost btn-sm sol-btn" type="button"><Icon name="eye" size={16} /> Ver la solución</button>
+		</div>
+	</form>
+
+	<div class="feedback" aria-live="polite" hidden></div>
+	{
+		r.tipo === 'opciones' &&
+			r.opciones.map((o, i) => (
+				<template class="opt-fb" data-i={i} set:html={o.explicacion} />
+			))
+	}
+
+	<div class="nudge" hidden>
+		<p>
+			<strong>¿Lo has intentado ya?</strong> Equivocarse y corregirse es lo que más ayuda a aprender. Si te has
+			atascado, prueba antes con una pista.
+		</p>
+		<div class="actions">
+			{part.pistas.length > 0 && <button class="btn btn-sm nudge-hint" type="button"><Icon name="bulb" size={16} /> Dame una pista</button>}
+			<button class="btn btn-ghost btn-sm nudge-go" type="button">Ver la solución igualmente</button>
+		</div>
+	</div>
+
+	{
+		part.pistas.length > 0 && (
+			<ol class="hints">
+				{part.pistas.map((h, i) => (
+					<li hidden>
+						<span class="hint-n">Pista {i + 1}</span>
+						<div set:html={h} />
+					</li>
+				))}
+			</ol>
+		)
+	}
+
+	<section class="solution" hidden aria-label="Solución paso a paso">
+		<p class="sol-title">Solución paso a paso</p>
+		<ol class="steps">
+			{
+				part.pasos.map((s, i) => (
+					<li class="step" hidden={i > 0}>
+						<p class="step-title" set:html={s.titulo} />
+						<div class="step-work" set:html={s.desarrollo} />
+						{s.porque && (
+							<p class="step-why">
+								<strong>Por qué este paso:</strong> <span set:html={s.porque} />
+							</p>
+						)}
+					</li>
+				))
+			}
+		</ol>
+		<div class="step-nav">
+			{
+				part.pasos.length > 1 && (
+					<>
+						<button class="btn btn-sm next-step" type="button">Siguiente paso <Icon name="arrow-right" size={16} /></button>
+						<button class="btn btn-ghost btn-sm all-steps" type="button">Ver todos los pasos</button>
+					</>
+				)
+			}
+		</div>
+		<div class="result" hidden={part.pasos.length > 1}>
+			<p class="result-k">Resultado</p>
+			<div set:html={part.resultado} />
+		</div>
+		{
+			r.tipo === 'abierta' && (
+				<div class="self" hidden={part.pasos.length > 1}>
+					<span>¿Te había salido igual?</span>
+					<button class="btn btn-sm self-yes" type="button"><Icon name="check" size={16} /> Sí</button>
+					<button class="btn btn-ghost btn-sm self-no" type="button">No del todo</button>
+				</div>
+			)
+		}
+	</section>
+	{spec && <script type="application/json" class="spec" set:html={JSON.stringify(spec)} />}
+</exercise-part>
+
+<style>
+	.part {
+		display: block;
+		padding: 1.1rem 1.2rem 1.15rem;
+		border: 1px solid var(--line);
+		border-radius: var(--radius);
+		background: var(--surface);
+		margin-bottom: 0.9rem;
+	}
+	.part.solved {
+		border-color: color-mix(in srgb, var(--ok) 45%, var(--line));
+	}
+	.part-head {
+		display: flex;
+		gap: 0.6rem;
+		align-items: baseline;
+		margin-bottom: 0.8rem;
+	}
+	.pid {
+		font: 700 1.05rem var(--font-display);
+		color: var(--accent);
+	}
+	.prompt {
+		margin: 0;
+		font-weight: 600;
+	}
+	.fields {
+		display: grid;
+		gap: 0.7rem;
+	}
+	.field label {
+		display: block;
+		font-size: 0.93rem;
+		margin-bottom: 0.3rem;
+	}
+	.field .sym {
+		margin-right: 0.35rem;
+	}
+	.field .f-label {
+		color: var(--ink-2);
+	}
+	.input {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+	.input input {
+		font: 600 1rem var(--font-body);
+		width: 9.5rem;
+		min-height: 44px;
+		padding: 0.4rem 0.65rem;
+		border: 1.5px solid var(--line-strong);
+		border-radius: 10px;
+		background: var(--surface);
+		color: var(--ink);
+		font-variant-numeric: tabular-nums;
+	}
+	.input input:focus {
+		border-color: var(--accent);
+		outline: none;
+		box-shadow: var(--focus);
+	}
+	.field.ok input {
+		border-color: var(--ok);
+		background: var(--ok-soft);
+	}
+	.field.ko input {
+		border-color: var(--bad);
+	}
+	.field.warn input {
+		border-color: var(--warn);
+	}
+	.unit {
+		color: var(--ink-3);
+		font-weight: 600;
+	}
+	.field-fb {
+		margin: 0.3rem 0 0;
+		font-size: 0.9rem;
+	}
+	.field-fb:empty {
+		display: none;
+	}
+	.field.ok .field-fb {
+		color: var(--ok);
+		font-weight: 700;
+	}
+	.field.ko .field-fb {
+		color: var(--bad);
+	}
+	.field.warn .field-fb {
+		color: var(--warn);
+	}
+	.options {
+		border: 0;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.45rem;
+	}
+	.opt {
+		display: flex;
+		gap: 0.65rem;
+		align-items: flex-start;
+		padding: 0.6rem 0.8rem;
+		border: 1px solid var(--line-strong);
+		border-radius: 10px;
+		cursor: pointer;
+		min-height: 44px;
+	}
+	.opt:hover {
+		border-color: var(--accent);
+	}
+	.opt input {
+		margin-top: 0.3rem;
+		accent-color: var(--accent);
+	}
+	.opt.ok {
+		border-color: var(--ok);
+		background: var(--ok-soft);
+	}
+	.opt.ko {
+		border-color: var(--bad);
+		background: var(--bad-soft);
+	}
+	.open-note {
+		display: flex;
+		gap: 0.5rem;
+		align-items: baseline;
+		color: var(--ink-2);
+		font-size: 0.95rem;
+		margin: 0;
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 0.85rem;
+	}
+	.feedback {
+		margin-top: 0.75rem;
+		padding: 0.6rem 0.8rem;
+		border-radius: 10px;
+		font-size: 0.95rem;
+	}
+	.feedback.ok {
+		background: var(--ok-soft);
+		color: var(--ok);
+	}
+	.feedback.ko {
+		background: var(--bad-soft);
+		color: var(--ink);
+	}
+	.feedback :global(p) {
+		margin: 0;
+	}
+	.feedback :global(strong) {
+		display: block;
+		margin-bottom: 0.15rem;
+	}
+	.nudge {
+		margin-top: 0.75rem;
+		padding: 0.75rem 0.9rem;
+		border-radius: 10px;
+		background: var(--warn-soft);
+		font-size: 0.95rem;
+	}
+	.nudge p {
+		margin: 0;
+	}
+	.hints {
+		list-style: none;
+		padding: 0;
+		margin: 0.75rem 0 0;
+		display: grid;
+		gap: 0.5rem;
+	}
+	.hints li {
+		padding: 0.6rem 0.85rem;
+		border-left: 3px solid var(--accent);
+		background: var(--accent-soft);
+		border-radius: 0 10px 10px 0;
+	}
+	.hint-n {
+		font: 650 0.75rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--accent);
+	}
+	.hints :global(p:last-child) {
+		margin-bottom: 0;
+	}
+	.solution {
+		margin-top: 1rem;
+		padding-top: 0.9rem;
+		border-top: 1px dashed var(--line-strong);
+	}
+	.sol-title,
+	.result-k {
+		font: 650 0.8rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--ink-3);
+		margin-bottom: 0.6rem;
+	}
+	.steps {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		counter-reset: st;
+	}
+	.step {
+		counter-increment: st;
+		position: relative;
+		padding: 0 0 0.8rem 2.3rem;
+	}
+	.step::before {
+		content: counter(st);
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 1.6rem;
+		height: 1.6rem;
+		display: grid;
+		place-items: center;
+		border-radius: 50%;
+		background: var(--ink);
+		color: var(--bg);
+		font: 650 0.8rem var(--font-display);
+	}
+	.step-title {
+		font-weight: 700;
+		margin-bottom: 0.3rem;
+	}
+	.step-work :global(p:last-child) {
+		margin-bottom: 0.4rem;
+	}
+	.step-why {
+		font-size: 0.92rem;
+		color: var(--ink-2);
+		background: var(--surface-2);
+		border-radius: 8px;
+		padding: 0.45rem 0.7rem;
+		margin: 0.2rem 0 0;
+	}
+	.step-nav {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+	.result {
+		margin-top: 0.6rem;
+		padding: 0.75rem 0.95rem 0.2rem;
+		border-radius: 10px;
+		border: 1.5px solid var(--ink);
+	}
+	.self {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 0.8rem;
+		font-weight: 600;
+	}
+</style>

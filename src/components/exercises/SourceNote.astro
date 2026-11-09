@@ -1,0 +1,79 @@
+---
+// Atribución de un ejercicio: de dónde sale y con qué licencia.
+import { getEntry } from 'astro:content';
+import Icon from '../ui/Icon.astro';
+import type { Exercise } from '../../lib/schemas';
+
+interface Props {
+	ex: Exercise;
+}
+const { ex } = Astro.props;
+const src = ex.fuente ? await getEntry('fuentes', ex.fuente) : undefined;
+const inspired = (await Promise.all(ex.inspirado_en.map((id) => getEntry('fuentes', id)))).filter(Boolean);
+---
+
+<aside class="source">
+	<Icon name="quote" size={16} />
+	<div>
+		{
+			ex.procedencia === 'alumno' && (
+				<p>
+					<strong>Del cuaderno de clase.</strong> {ex.nota_fuente ?? 'Ejercicio del material del alumno.'}
+				</p>
+			)
+		}
+		{
+			ex.procedencia === 'externo' && src && (
+				<p>
+					<strong>Adaptado de:</strong>{' '}
+					{src.data.url ? <a href={src.data.url} rel="noopener">{src.data.titulo}</a> : src.data.titulo}, de {src.data.autor}.
+					Licencia{' '}
+					{src.data.licencia_url ? <a href={src.data.licencia_url} rel="license noopener">{src.data.licencia}</a> : src.data.licencia}.
+					{ex.nota_fuente && <> {ex.nota_fuente}</>}
+				</p>
+			)
+		}
+		{
+			ex.procedencia === 'original' && (
+				<p>
+					<strong>Ejercicio original</strong>{ex.nota_fuente ? <>. {ex.nota_fuente}</> : ' creado para esta plataforma.'}
+					{inspired.length > 0 && (
+						<>
+							{' '}
+							Sigue un tipo de problema habitual en 1.º de Bachillerato (ver{' '}
+							{inspired.map((s, i) => (
+								<>
+									{i > 0 && ', '}
+									<a href="/fuentes/#referencias">{s!.data.autor}</a>
+								</>
+							))}
+							); el enunciado y los datos son nuevos.
+						</>
+					)}
+				</p>
+			)
+		}
+	</div>
+</aside>
+
+<style>
+	.source {
+		display: flex;
+		gap: 0.6rem;
+		align-items: flex-start;
+		margin-top: 2rem;
+		padding: 0.75rem 0.9rem;
+		border-radius: var(--radius-sm);
+		background: var(--surface-2);
+		color: var(--ink-2);
+		font-size: 0.88rem;
+	}
+	.source :global(.icon) {
+		flex: none;
+		margin-top: 0.2rem;
+		color: var(--ink-3);
+	}
+	p {
+		margin: 0;
+	}
+</style>

@@ -1,0 +1,146 @@
+titulo: La moto que salta entre dos rampas
+tema: movimiento-parabolico
+orden: 80
+procedencia: alumno
+fuente: hoja-cooperativa-2026-10-28
+nota_fuente: Problema 3 de la hoja cooperativa del 28/10 (traducido del catalán). El grupo sacó un 5 por un error matemático, que se explica abajo.
+coleccion: cooperativa-2026-10-28
+dificultad: examen
+habilidades: [planteamiento, matematicas, multipaso, unidades]
+resumen: La incógnita es v₀. Sistema de dos ecuaciones con dos incógnitas, paso a km/h y altura máxima.
+enunciado: |
+  Un especialista salta en moto entre dos rampas. Las alturas de salida y de llegada son iguales, **3,75 m**. La longitud del salto es **36 m** y las rampas están inclinadas **21°**. Determina el módulo de la **velocidad inicial** necesaria, en km/h, y la **altura máxima** desde el suelo. Trata la moto como un punto y desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 22.962
+  angulo: 21
+  h0: 3.75
+  llegada: 3.75
+  soporte: rampa
+  etiquetas: { v0: 'v₀ = ?', angulo: '21°', h0: '3,75 m', alcance: '36 m' }
+  marcas:
+    - { tipo: rampa, x: 36, altura: 3.75 }
+  claves:
+    - { t: 0.8397, etiqueta: 'altura máx. = ?' }
+  ancho: 42
+visual:
+  - titulo: Sabemos dónde llega, no con qué velocidad sale
+    texto: |
+      En los problemas anteriores conocíamos $v_0$ y buscábamos dónde caía. Aquí es **al revés** (mira el dibujo del enunciado): conocemos el punto de llegada, $(36;\ 3,75)$ m, y buscamos $v_0$. Hay **dos incógnitas**, $v_0$ y $t$, así que hacen falta **dos ecuaciones**: la del eje X y la del eje Y.
+  - titulo: Un sistema de dos ecuaciones
+    figura:
+      tipo: flujo
+      pasos:
+        - { eje: x, titulo: '(1) Eje X en la llegada', texto: '$36 = 0,934\,v_0\,t$' }
+        - { eje: y, titulo: '(2) Eje Y en la llegada', texto: '$3,75 = 3,75 + 0,358\,v_0\,t - 4,9\,t^2$' }
+        - { eje: c, titulo: 'Despeja en (1)', texto: '$v_0 = \dfrac{36}{0,934\,t}$' }
+        - { eje: c, titulo: 'Sustituye en (2)', texto: 'solo donde aparece $v_0$; la $t$ se simplifica' }
+    texto: |
+      En (2), los 3,75 de los dos lados se cancelan: como sale y llega a la misma altura, es como un salto desde el suelo.
+  - titulo: 'El error del grupo: sustituir solo donde está v₀'
+    texto: |
+      ✗ **Mal** (lo que hizo el grupo): dividir **toda** la expresión entre $0,93\,t$:
+
+      $$\frac{36\cdot 0,35\,t - 4,9\,t^2}{0,93\,t}$$
+
+      ✓ **Bien**: cambiar $v_0$ por $\dfrac{36}{0,934\,t}$ **solo** en el término que lo lleva. El $-4,9\,t^2$ no se toca:
+
+      $$0 = 0,358\cdot\frac{36}{0,934\,t}\cdot t - 4,9\,t^2$$
+datos:
+  - { simbolo: 'y_0', valor: '3,75\un{m}', significado: 'altura de la rampa de salida' }
+  - { simbolo: '(x,\ y)_{\text{llegada}}', valor: '(36;\ 3,75)\un{m}', significado: 'punto donde aterriza' }
+  - { simbolo: '\alpha', valor: '21^\circ', significado: 'inclinación de las rampas' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'La velocidad inicial $v_0$ (en km/h).'
+  - La altura máxima desde el suelo.
+interpretacion: |
+  La moto sale de lo alto de una rampa con la inclinación de la rampa, describe una parábola y aterriza en otra rampa igual de alta. Como salida y llegada están a la misma altura, el vuelo es simétrico.
+conceptos:
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2$.'
+  - 'Sistema: despeja una incógnita en una ecuación y sustitúyela en la otra.'
+  - 'De m/s a km/h se multiplica por 3,6.'
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad debe salir la moto? Dala también en km/h.
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 1.679 }
+        - simbolo: 'v_0'
+          etiqueta: Velocidad inicial
+          unidad: m/s
+          valor: 22.96
+          tolerancia: 0.008
+          trampas:
+            - { valor: 23.23, tolerancia: 0.005, explicacion: 'Casi: has usado $\operatorname{sen}21° = 0,35$. Vale 0,358. Usa al menos tres decimales o deja el valor en la calculadora.' }
+        - simbolo: 'v_0'
+          etiqueta: La misma velocidad
+          unidad: km/h
+          valor: 82.66
+          tolerancia: 0.008
+          trampas:
+            - { valor: 6.378, explicacion: 'De m/s a km/h se **multiplica** por 3,6.' }
+    pistas:
+      - 'Escribe las dos ecuaciones en el punto de llegada: $x = 36$ m e $y = 3,75$ m.'
+      - 'De la (1): $v_0 = 36/(0,934\,t)$. Sustitúyelo en la (2) solo donde aparece $v_0$.'
+      - 'Debe quedarte $0 = 13,80 - 4,9\,t^2$.'
+    pasos:
+      - titulo: Ecuaciones con v₀ como incógnita
+        desarrollo: |
+          $$\cos 21^\circ = 0,934 \qquad \operatorname{sen}21^\circ = 0,358$$
+
+          $$\cx{x = 0,934\,v_0\,t} \qquad \cy{y = 3,75 + 0,358\,v_0\,t - 4,9\,t^2}$$
+      - titulo: Impón el punto de llegada
+        desarrollo: |
+          $$(1)\quad 36 = 0,934\,v_0\,t \qquad\qquad (2)\quad 3,75 = 3,75 + 0,358\,v_0\,t - 4,9\,t^2$$
+        porque: 'En el instante en que aterriza, la moto está en $(36;\ 3,75)$. Los 3,75 de (2) se cancelan.'
+      - titulo: Sustitución
+        piensa: 'Si despejas $v_0$ en (1), ¿dónde lo sustituyes en (2)?'
+        desarrollo: |
+          De (1), $v_0 = \dfrac{36}{0,934\,t}$. Solo donde aparece $v_0$:
+
+          $$0 = 0,358\cdot\frac{36}{0,934\,t}\cdot t - 4,9\,t^2 = 13,80 - 4,9\,t^2 \;\Rightarrow\; t^2 = \frac{13,80}{4,9} = 2,82 \;\Rightarrow\; t = 1,68\un{s}$$
+        porque: 'La $t$ del numerador y la del denominador se cancelan. El término $-4,9\,t^2$ no lleva $v_0$, así que no se toca.'
+      - titulo: v₀ y paso a km/h
+        desarrollo: |
+          $$v_0 = \frac{36}{0,934\cdot 1,68} = 22,96\un{m/s} \qquad 22,96\cdot 3,6 = 82,7\un{km/h}$$
+    resultado: 'Tiene que salir a **22,96 m/s = 82,7 km/h**. El vuelo dura 1,68 s.'
+  - id: b
+    enunciado: ¿Qué altura máxima alcanza, medida desde el suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'y_{\text{máx}}'
+          etiqueta: Altura máxima desde el suelo
+          unidad: m
+          valor: 7.205
+          trampas:
+            - { valor: 3.455, explicacion: 'Eso es lo que sube **por encima de la rampa**. Desde el suelo hay que sumar los 3,75 m.' }
+    pistas:
+      - 'Calcula $v_{0y} = 22,96\cdot\operatorname{sen}21°$ y usa $v_y = 0$.'
+    pasos:
+      - titulo: 'Altura máxima: vᵧ = 0'
+        desarrollo: |
+          $$\cy{v_{0y}} = 22,96\cdot 0,358 = 8,23\un{m/s} \qquad 0 = 8,23 - 9,8\,t \;\Rightarrow\; t = 0,84\un{s}$$
+      - titulo: Sustituye en y
+        desarrollo: |
+          $$\cy{y} = 3,75 + 8,23\cdot 0,84 - 4,9\cdot 0,84^2 = 7,20\un{m}$$
+        porque: 'La ecuación ya incluye los 3,75 m de la rampa, así que da la altura desde el suelo. Comprobación: 0,84 s es la mitad de 1,68 s.'
+    resultado: 'Llega a **7,20 m** desde el suelo.'
+errores:
+  - error: 'Dividir toda la expresión al sustituir (corrección del profesor: «error matemàtic», un 5)'
+    explicacion: 'El grupo escribió $(36\cdot 0,35\,t - 4,9\,t^2)/(0,93\,t)$. Solo se cambia $v_0$ en el término que lo contiene; el $-4,9\,t^2$ se queda igual. Por eso se atascaron.'
+  - error: 'Redondear $\operatorname{sen}21°$ a 0,35'
+    explicacion: 'Vale 0,358. Con 0,35 sale $v_0 = 23,3$ m/s en lugar de 22,96. Usa al menos tres decimales.'
+  - error: No terminar el problema
+    explicacion: 'Faltaba pasar a km/h y la altura máxima. Revisa al final que has contestado todo lo que pide el enunciado.'
+alternativas:
+  - titulo: Atajo para comprobar (no visto en clase)
+    desarrollo: |
+      Si sale y llega a la misma altura, el alcance es $R = \dfrac{v_0^2\operatorname{sen}2\alpha}{g}$. Despejando:
+
+      $$v_0^2 = \frac{36\cdot 9,8}{\operatorname{sen}42^\circ} = 527 \;\Rightarrow\; v_0 = 22,96\un{m/s}$$
+
+      Úsalo solo para comprobar: en el examen, el profesor quiere el sistema.
+laboratorio: { v0: 22.96, angulo: 21, h0: 3.75 }

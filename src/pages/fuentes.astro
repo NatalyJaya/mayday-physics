@@ -1,0 +1,207 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/layout/Breadcrumbs.astro';
+import Icon from '../components/ui/Icon.astro';
+import { exerciseSlug, exerciseUrl, getSources, getTopic, stageUrl } from '../lib/content';
+import { ORIGINS } from '../lib/taxonomy';
+
+const sources = await getSources();
+const exercises = await getCollection('ejercicios');
+const counts = Object.fromEntries(Object.keys(ORIGINS).map((k) => [k, exercises.filter((e) => e.data.procedencia === k).length]));
+
+const groups = [
+	{ tipo: 'alumno', id: 'alumno', title: 'Material del alumno', intro: 'La fuente principal: los apuntes y ejercicios del cuaderno de clase.' },
+	{ tipo: 'externo', id: 'externos', title: 'Recursos con licencia abierta', intro: 'Material del que se ha adaptado contenido, respetando su licencia y citando la autoría.' },
+	{ tipo: 'referencia', id: 'referencias', title: 'Referencias de tipos de problema', intro: 'Colecciones consultadas para identificar los problemas que más se repiten y su nivel. No se reproduce ningún enunciado: se usan como inspiración para crear ejercicios originales.' },
+	{ tipo: 'curriculo', id: 'curriculo', title: 'Currículo', intro: 'Normativa usada para organizar el temario.' },
+];
+
+const usedBy = async (sourceId: string) => {
+	const list = exercises.filter((e) => e.data.fuente === sourceId || e.data.inspirado_en.includes(sourceId));
+	return Promise.all(
+		list.map(async (e) => {
+			const t = await getTopic(e.data.tema);
+			return { title: e.data.titulo, href: e.data.rol === 'practica' ? exerciseUrl(t, e) : `${stageUrl(t, 'aplica')}#ejemplo-${exerciseSlug(e)}` };
+		}),
+	);
+};
+const uses = Object.fromEntries(await Promise.all(sources.map(async (s) => [s.id, await usedBy(s.id)])));
+---
+
+<BaseLayout title="Fuentes y licencias" description="De dónde sale el material de la plataforma y con qué licencia se usa.">
+	<div class="container head">
+		<Breadcrumbs items={[{ label: 'Fuentes y licencias' }]} />
+		<h1>Fuentes y licencias</h1>
+		<p class="lead">
+			Cada ejercicio indica su procedencia. Hay tres tipos y se distinguen con una etiqueta de color en toda la web.
+		</p>
+		<ul class="origins">
+			{
+				Object.entries(ORIGINS).map(([k, o]) => (
+					<li>
+						<span class:list={['tag', `o-${k}`]}>{o.label}</span>
+						<span>
+							{o.descripcion} <strong>{counts[k]}</strong> {counts[k] === 1 ? 'ejercicio' : 'ejercicios'}.
+						</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	{
+		groups.map((g) => {
+			const list = sources.filter((s) => s.data.tipo === g.tipo);
+			return (
+				list.length > 0 && (
+					<section class="container group" id={g.id}>
+						<h2>{g.title}</h2>
+						<p class="muted">{g.intro}</p>
+						<div class="cards">
+							{list.map((s) => (
+								<article class="card src">
+									<h3>{s.data.url ? <a href={s.data.url} rel="noopener">{s.data.titulo} <Icon name="external" size={14} /></a> : s.data.titulo}</h3>
+									<p class="author">{s.data.autor}</p>
+									<dl>
+										<div>
+											<dt>Licencia</dt>
+											<dd>{s.data.licencia_url ? <a href={s.data.licencia_url} rel="license noopener">{s.data.licencia}</a> : s.data.licencia}</dd>
+										</div>
+										{s.data.consultado && (
+											<div>
+												<dt>Consultado</dt>
+												<dd>{new Date(s.data.consultado).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</dd>
+											</div>
+										)}
+										<div class="full">
+											<dt>Cómo se usa</dt>
+											<dd>{s.data.uso}</dd>
+										</div>
+										{uses[s.id].length > 0 && (
+											<div class="full">
+												<dt>Ejercicios relacionados</dt>
+												<dd>
+													{uses[s.id].map((u: { title: string; href: string }, i: number) => (
+														<>
+															{i > 0 && ' · '}
+															<a href={u.href}>{u.title}</a>
+														</>
+													))}
+												</dd>
+											</div>
+										)}
+									</dl>
+								</article>
+							))}
+						</div>
+					</section>
+				)
+			);
+		})
+	}
+
+	<section class="container group">
+		<h2>Criterios</h2>
+		<ul class="rules">
+			<li>Solo se reproduce o adapta contenido con licencia que lo permite, citando la autoría, la licencia y los cambios.</li>
+			<li>Las adaptaciones de recursos CC BY-SA se comparten con la misma licencia.</li>
+			<li>
+				Si un recurso no indica licencia, o la suya no permite este uso, solo se analizan los <em>tipos</em> de problema
+				y se crean ejercicios originales con datos y redacción nuevos.
+			</li>
+			<li>Todos los resultados numéricos se recalculan y se verifican automáticamente con el modelo físico de la plataforma.</li>
+		</ul>
+	</section>
+</BaseLayout>
+
+<style>
+	.head {
+		padding-top: 1.75rem;
+	}
+	.origins {
+		list-style: none;
+		padding: 0;
+		margin: 1.25rem 0 0;
+		display: grid;
+		gap: 0.5rem;
+	}
+	.origins li {
+		display: flex;
+		gap: 0.75rem;
+		align-items: baseline;
+		flex-wrap: wrap;
+	}
+	.o-alumno {
+		background: var(--q-y-soft);
+		color: var(--q-y-text);
+		border-color: transparent;
+	}
+	.o-original {
+		background: var(--accent-soft);
+		color: var(--accent);
+		border-color: transparent;
+	}
+	.o-externo {
+		background: var(--q-g-soft);
+		color: var(--q-g-text);
+		border-color: transparent;
+	}
+	.group {
+		margin-top: 3rem;
+	}
+	.group > p {
+		max-width: 70ch;
+	}
+	.cards {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+		gap: 1rem;
+		margin-top: 1rem;
+	}
+	.src {
+		padding: 1.15rem 1.25rem;
+		border-radius: var(--radius-lg);
+	}
+	.src h3 {
+		font-size: 1.05rem;
+		margin-bottom: 0.25rem;
+	}
+	.src h3 a {
+		color: var(--ink);
+	}
+	.author {
+		color: var(--ink-3);
+		font-size: 0.92rem;
+	}
+	dl {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.6rem 1rem;
+		margin: 0;
+		font-size: 0.93rem;
+	}
+	dl .full {
+		grid-column: 1 / -1;
+	}
+	dt {
+		font: 650 0.74rem var(--font-display);
+		text-transform: uppercase;
+		letter-spacing: 0.07em;
+		color: var(--ink-3);
+	}
+	dd {
+		margin: 0.1rem 0 0;
+		color: var(--ink-2);
+	}
+	.rules {
+		max-width: 75ch;
+		display: grid;
+		gap: 0.4rem;
+	}
+	@media (max-width: 420px) {
+		.cards {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

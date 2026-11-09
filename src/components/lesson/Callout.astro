@@ -1,0 +1,65 @@
+---
+// Recuadros de las lecciones. Cada tipo tiene una función didáctica concreta.
+import Icon from '../ui/Icon.astro';
+
+const TYPES = {
+	idea: { icon: 'bulb', label: 'Idea clave' },
+	ojo: { icon: 'alert', label: 'Ojo' },
+	analogia: { icon: 'compass', label: 'Piénsalo así' },
+	porque: { icon: 'help', label: '¿Por qué?' },
+	repaso: { icon: 'book', label: 'Repaso exprés' },
+	limite: { icon: 'target', label: 'Cuándo NO sirve' },
+} as const;
+
+interface Props {
+	tipo?: keyof typeof TYPES;
+	titulo?: string;
+}
+const { tipo = 'idea', titulo } = Astro.props;
+const t = TYPES[tipo];
+---
+
+<aside class:list={['callout', tipo]}>
+	<p class="label"><Icon name={t.icon} size={17} /> {titulo ?? t.label}</p>
+	<div class="body"><slot /></div>
+</aside>
+
+<style>
+	.callout {
+		--c: var(--accent);
+		--c-soft: var(--accent-soft);
+		margin: 1.5em 0;
+		padding: 1rem 1.15rem 0.2rem;
+		border-radius: var(--radius);
+		background: var(--c-soft);
+		border: 1px solid color-mix(in srgb, var(--c) 22%, transparent);
+	}
+	.ojo,
+	.limite {
+		--c: var(--warn);
+		--c-soft: var(--warn-soft);
+	}
+	.analogia {
+		--c: var(--q-x-text);
+		--c-soft: var(--q-x-soft);
+	}
+	.porque,
+	.repaso {
+		--c: var(--ink-2);
+		--c-soft: var(--surface-2);
+	}
+	.label {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		margin: 0 0 0.45rem;
+		font: 650 0.82rem var(--font-display);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--c);
+	}
+	.body :global(p:last-child),
+	.body :global(ul:last-child) {
+		margin-bottom: 0.8rem;
+	}
+</style>

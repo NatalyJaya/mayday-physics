@@ -1,0 +1,110 @@
+---
+// Explorador de ángulos complementarios (lanzamiento desde el suelo).
+---
+
+<angle-explorer class="sim wide">
+	<div class="sim-head">
+		<h4>Un ángulo y su complementario</h4>
+		<p class="muted">Desde el suelo y volviendo al suelo. En gris claro: 15°, 30°, 45°, 60° y 75°.</p>
+	</div>
+	<div class="layout">
+		<figure>
+			<svg class="sim-svg" viewBox="0 0 520 300" role="img" aria-label="Trayectorias con el ángulo elegido (línea continua) y su complementario (discontinua)."></svg>
+			<figcaption class="key">
+				<span><i class="line main"></i> α = <output data-out="a"></output></span>
+				<span><i class="line comp"></i> 90° − α = <output data-out="b"></output></span>
+			</figcaption>
+		</figure>
+		<figure>
+			<svg class="sim-svg" viewBox="0 0 320 300" role="img" aria-label="Alcance en función del ángulo: una curva simétrica con el máximo en 45 grados."></svg>
+			<figcaption class="muted">Alcance según el ángulo, con la misma v₀</figcaption>
+		</figure>
+	</div>
+	<table class="cmp num">
+		<thead><tr><th></th><th>Alcance</th><th>Tiempo de vuelo</th><th>Altura máxima</th></tr></thead>
+		<tbody>
+			<tr><th>α</th><td data-out="Ra"></td><td data-out="Ta"></td><td data-out="Ha"></td></tr>
+			<tr><th>90° − α</th><td data-out="Rb"></td><td data-out="Tb"></td><td data-out="Hb"></td></tr>
+		</tbody>
+	</table>
+	<div class="sim-controls">
+		<div class="param">
+			<label>Ángulo <i>α</i></label>
+			<input type="range" data-k="a" min="5" max="85" step="1" value="30" aria-label="Ángulo de lanzamiento (grados)" />
+		</div>
+		<div class="param">
+			<label>Velocidad inicial <i>v₀</i>: <output class="num" data-out="v"></output></label>
+			<input type="range" data-k="v" min="5" max="30" step="0.5" value="20" aria-label="Velocidad inicial (m/s)" />
+		</div>
+	</div>
+</angle-explorer>
+
+<style>
+	.layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+	}
+	figure {
+		margin: 0;
+	}
+	figcaption {
+		font-size: 0.88rem;
+		margin-top: 0.3rem;
+	}
+	.key {
+		display: flex;
+		gap: 1.25rem;
+		flex-wrap: wrap;
+	}
+	.key span {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-weight: 700;
+	}
+	.line {
+		width: 24px;
+		height: 0;
+		border-top: 2.5px solid var(--ink);
+	}
+	.line.comp {
+		border-top: 2.5px dashed var(--q-ghost);
+	}
+	.cmp {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 0.75rem;
+		font-size: 0.94rem;
+	}
+	.cmp th,
+	.cmp td {
+		text-align: left;
+		padding: 0.4rem 0.5rem;
+		border-bottom: 1px solid var(--line);
+	}
+	.cmp thead th {
+		font-size: 0.8rem;
+		color: var(--ink-3);
+	}
+	.cmp td {
+		font-weight: 700;
+	}
+	.param input {
+		width: 100%;
+	}
+	.param label {
+		font-weight: 700;
+		font-size: 0.93rem;
+	}
+	@media (max-width: 720px) {
+		.layout {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	import '../../sims/angle-explorer';
+</script>

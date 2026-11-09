@@ -1,0 +1,102 @@
+titulo: ¿Con qué ángulo apunta la arquera?
+tema: movimiento-parabolico
+orden: 2
+procedencia: original
+inspirado_en: [uv-bosch-tiro, ermengol-estiu-2026]
+dificultad: avanzado
+habilidades: [planteamiento, matematicas, conceptual, multipaso]
+resumen: Problema inverso. Conocido el alcance, halla el ángulo. Hay dos soluciones, y hay que entender por qué.
+enunciado: |
+  Una arquera dispara flechas a **40 m/s**. La diana está a **70 m** y su centro a la misma altura desde la que sale la flecha. Desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 40
+  angulo: 12.69
+  h0: 1.5
+  trayectoria: false
+  etiquetas: { v0: 'v₀ = 40 m/s', angulo: 'α = ?', h0: '' }
+  marcas:
+    - { tipo: diana, x: 70, altura: 1.5, etiqueta: 'diana a 70 m' }
+datos:
+  - { simbolo: 'v_0', valor: '40\un{m/s}', significado: 'velocidad de salida de la flecha' }
+  - { simbolo: 'R', valor: '70\un{m}', significado: 'distancia horizontal hasta la diana' }
+  - { simbolo: '\Delta y', valor: '0', significado: 'sale y llega a la misma altura' }
+incognitas:
+  - 'El ángulo (o ángulos) con el que debe disparar.'
+  - El tiempo de vuelo en cada caso.
+interpretacion: |
+  Hasta ahora conocíamos el ángulo y calculábamos el alcance. Ahora es al revés: conocemos el alcance y buscamos el ángulo. Como la flecha sale y llega a la misma altura, sirve la fórmula del alcance en terreno llano, y ya sabemos que dos ángulos complementarios dan el mismo alcance.
+conceptos:
+  - '$R = \dfrac{v_0^2\operatorname{sen}2\alpha}{g}$ (misma altura de salida y de llegada).'
+  - '$t_v = \dfrac{2\,v_0\operatorname{sen}\alpha}{g}$.'
+apartados:
+  - id: a
+    enunciado: ¿Con qué ángulo debe disparar? Hay dos respuestas; escribe las dos.
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\alpha_1'
+          etiqueta: Ángulo menor
+          unidad: '°'
+          valor: 12.69
+          trampas:
+            - { valor: 25.39, explicacion: 'Ese es $2\alpha$. Te falta dividir entre 2.' }
+        - simbolo: '\alpha_2'
+          etiqueta: Ángulo mayor
+          unidad: '°'
+          valor: 77.31
+    pistas:
+      - 'Despeja $\operatorname{sen}2\alpha$ de la fórmula del alcance.'
+      - 'Hay dos ángulos entre 0° y 180° con el mismo seno: $\beta$ y $180° - \beta$.'
+    pasos:
+      - titulo: Despeja sen 2α
+        desarrollo: |
+          $$\operatorname{sen}2\alpha = \frac{g\,R}{v_0^2} = \frac{9,8\cdot 70}{40^2} = 0,429$$
+        porque: 'Si este número saliera mayor que 1, no habría solución: la flecha no llegaría a 70 m con ningún ángulo.'
+      - titulo: Las dos soluciones
+        piensa: '¿Qué otro ángulo entre 0° y 180° tiene el mismo seno que 25,4°?'
+        desarrollo: |
+          $$2\alpha = \arcsen(0,429) = 25,4^\circ \;\Rightarrow\; \alpha_1 = 12,7^\circ$$
+
+          $$2\alpha = 180^\circ - 25,4^\circ = 154,6^\circ \;\Rightarrow\; \alpha_2 = 77,3^\circ$$
+        porque: 'La calculadora solo da una solución del arcoseno, pero $\operatorname{sen}\beta = \operatorname{sen}(180° - \beta)$. Fíjate en que $\alpha_1 + \alpha_2 = 90°$: son complementarios.'
+    resultado: 'Puede disparar con **12,7°** o con **77,3°**.'
+  - id: b
+    enunciado: ¿Cuánto tarda la flecha en llegar a la diana en cada caso?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_1', etiqueta: 'Tiempo con el ángulo menor', unidad: s, valor: 1.794 }
+        - { simbolo: 't_2', etiqueta: 'Tiempo con el ángulo mayor', unidad: s, valor: 7.964 }
+    pistas:
+      - '$t_v = 2\,v_0\operatorname{sen}\alpha/g$, o bien $t = R/(v_0\cos\alpha)$.'
+    pasos:
+      - titulo: Tiempo de vuelo para cada ángulo
+        desarrollo: |
+          $$t_1 = \frac{2\cdot 40\operatorname{sen}12,7^\circ}{9,8} = 1,79\un{s} \qquad t_2 = \frac{2\cdot 40\operatorname{sen}77,3^\circ}{9,8} = 7,96\un{s}$$
+        porque: 'Comprobación con el eje X: $t_1 = 70/(40\cos 12,7°) = 1,79$ s.'
+    resultado: '**1,79 s** con 12,7° y **7,96 s** con 77,3°.'
+  - id: c
+    enunciado: ¿Qué ángulo usaría una arquera real? ¿Por qué?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: El de 77,3°, porque la flecha llega con más fuerza.
+          explicacion: 'Sin rozamiento, la flecha llega con la misma rapidez (40 m/s) en los dos casos. Además, a 77,3° subiría casi 78 m y estaría ocho segundos expuesta al viento.'
+        - texto: El de 12,7°, porque la flecha tarda mucho menos y va más baja.
+          correcta: true
+          explicacion: 'Tarda 1,8 s en lugar de 8 s y sube solo unos 4 m. Así el viento y el rozamiento, que nuestro modelo desprecia, influyen mucho menos y es más fácil apuntar.'
+        - texto: Le da igual, porque las dos dan en la diana.
+          explicacion: 'En el modelo ideal sí, pero en la realidad el aire existe y un vuelo de 8 s acumula muchísimo más error.'
+    pistas:
+      - Compara el tiempo de vuelo y la altura que alcanza la flecha en cada caso.
+    pasos:
+      - titulo: Compara los dos tiros
+        desarrollo: 'Con 12,7°, la flecha sube unos 3,9 m y vuela 1,8 s. Con 77,3°, sube unos 77,7 m y vuela 8,0 s.'
+    resultado: '**12,7°.** El modelo da dos soluciones, pero la física real elige la del vuelo corto.'
+errores:
+  - error: Quedarse solo con la solución que da la calculadora
+    explicacion: 'El arcoseno da un único ángulo, pero $\operatorname{sen}\beta = \operatorname{sen}(180° - \beta)$. En los problemas inversos, piensa siempre si hay una segunda solución.'
+  - error: Olvidar dividir entre 2
+    explicacion: 'La calculadora te da $2\alpha$, no $\alpha$.'
+laboratorio: { v0: 40, angulo: 12.7, h0: 0 }

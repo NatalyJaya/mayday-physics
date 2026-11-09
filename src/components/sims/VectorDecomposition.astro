@@ -1,0 +1,91 @@
+---
+interface Props {
+	v?: number;
+	a?: number;
+}
+const { v = 20, a = 35 } = Astro.props;
+---
+
+<vector-decomposition class="sim wide" data-v={v} data-a={a}>
+	<div class="sim-head">
+		<h4>Descompón la velocidad inicial</h4>
+		<p class="muted">Arrastra el punto violeta o usa los deslizadores.</p>
+	</div>
+	<div class="layout">
+		<svg class="sim-svg" viewBox="0 0 520 340" role="img" aria-label="Vector velocidad inicial y sus componentes horizontal y vertical, que forman un triángulo rectángulo."></svg>
+		<div class="side">
+			<div class="param">
+				<label>Módulo <i>v₀</i>: <output class="num" data-out="v"></output></label>
+				<input type="range" data-k="v" min="0" max="30" step="0.5" aria-label="Módulo de la velocidad (m/s)" />
+			</div>
+			<div class="param">
+				<label>Ángulo <i>α</i>: <output class="num" data-out="a"></output></label>
+				<input type="range" data-k="a" min="0" max="90" step="1" aria-label="Ángulo con la horizontal (grados)" />
+			</div>
+			<dl class="num">
+				<div class="cx"><dt>Componente horizontal</dt><dd data-out="vx"></dd></div>
+				<div class="cy"><dt>Componente vertical</dt><dd data-out="vy"></dd></div>
+				<div><dt>Comprobación (Pitágoras)</dt><dd data-out="check"></dd></div>
+			</dl>
+		</div>
+	</div>
+</vector-decomposition>
+
+<style>
+	.layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		gap: 1.25rem;
+		align-items: center;
+	}
+	.param {
+		margin-bottom: 0.8rem;
+	}
+	.param label {
+		font-weight: 700;
+		font-size: 0.93rem;
+	}
+	.param input {
+		width: 100%;
+	}
+	dl {
+		display: grid;
+		gap: 6px;
+		margin: 0;
+	}
+	dl div {
+		background: var(--surface-2);
+		border-radius: 10px;
+		padding: 0.45rem 0.7rem;
+	}
+	dt {
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--ink-3);
+	}
+	.cx dt {
+		color: var(--q-x-text);
+	}
+	.cy dt {
+		color: var(--q-y-text);
+	}
+	dd {
+		margin: 0;
+		font-weight: 700;
+	}
+	:global(.sim-svg .q-x-fill) {
+		fill: var(--q-x-text);
+	}
+	:global(.sim-svg .q-y-fill) {
+		fill: var(--q-y-text);
+	}
+	@media (max-width: 720px) {
+		.layout {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	import '../../sims/vector-decomposition';
+</script>

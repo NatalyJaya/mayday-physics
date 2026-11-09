@@ -1,0 +1,12 @@
+# Colecciones de ejercicios: hojas de clase, repasos de examen…
+# Cada ejercicio indica la suya con «coleccion: <id>». Las variantes
+# («variante_de») se muestran agrupadas bajo su problema principal.
+
+- id: cooperativa-2026-10-28
+  titulo: Hoja cooperativa del 28 de octubre
+  corto: Hoja cooperativa 28/10
+  tema: movimiento-parabolico
+  fecha: '2026-10-28'
+  descripcion: Los tres problemas de lanzamientos del Tema 2 que se trabajaron en grupo, con las correcciones del profesor, y tres variantes de cada uno para practicar de más fácil a más difícil.
+  fuente: hoja-cooperativa-2026-10-28
+  principales: [saltador-longitud, bola-mesa, moto-rampas]

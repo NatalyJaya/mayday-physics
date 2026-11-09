@@ -1,0 +1,16 @@
+---
+// Marca: una parábola con sus dos «sombras» sobre los ejes. Es la idea
+// central del primer tema (un movimiento = dos movimientos independientes).
+interface Props {
+	size?: number;
+}
+const { size = 30 } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" class="logo">
+	<rect x="0.5" y="0.5" width="31" height="31" rx="9" fill="var(--ink)"></rect>
+	<path d="M6 25 Q 15 -3 26 25" fill="none" stroke="var(--bg)" stroke-width="2.2" stroke-linecap="round"></path>
+	<circle cx="20.2" cy="12.3" r="2.6" fill="var(--q-y)"></circle>
+	<path d="M20.2 15.5V25" stroke="var(--q-x)" stroke-width="1.6" stroke-dasharray="1.6 1.8"></path>
+	<path d="M6 25h20" stroke="var(--bg)" stroke-opacity=".55" stroke-width="1.4"></path>
+</svg>

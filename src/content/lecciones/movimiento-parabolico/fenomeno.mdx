@@ -1,0 +1,95 @@
+---
+tema: movimiento-parabolico
+etapa: fenomeno
+titulo: Un movimiento, dos movimientos
+descripcion: Antes de ver ninguna fórmula, vamos a entender qué le pasa a cualquier objeto que lanzas al aire y por qué siempre dibuja la misma curva.
+minutos: 12
+---
+
+## Lanzar cosas es más habitual de lo que parece
+
+Un tiro a canasta, el chorro de una fuente, un saltador de longitud, una piedra que lanzas al mar o un paquete que se suelta desde un avión. Parecen situaciones muy distintas, pero en todas pasa lo mismo:
+
+1. El objeto **sale con una velocidad**, que puede ser horizontal o inclinada.
+2. A partir de ese momento **nada lo empuja**. Solo actúa la gravedad, que tira de él hacia abajo.
+3. Su camino es una curva muy concreta, una **parábola**: sube cada vez más despacio, alcanza un punto más alto y baja cada vez más deprisa.
+
+A este tipo de movimiento lo llamamos **movimiento parabólico**. Si sale en horizontal, como el paquete del avión, se llama **lanzamiento horizontal**. Si sale con un ángulo, como el balón, se llama **lanzamiento oblicuo**.
+
+## La pregunta que lo explica todo
+
+Haz este experimento mental antes de seguir leyendo.
+
+<Predict
+	pregunta="Desde la misma altura y en el mismo instante, **dejas caer** una pelota A y **lanzas horizontalmente** otra pelota B. ¿Cuál llega antes al suelo?"
+	opciones={[
+		{ texto: 'A, la que se deja caer, porque recorre un camino más corto.', explicacion: 'El camino de B es más largo, sí, pero B también recorre ese camino más deprisa. Lo que decide cuándo toca el suelo no es la longitud del camino, sino lo rápido que **baja**.' },
+		{ texto: 'B, la lanzada, porque va más rápido.', explicacion: 'B va más rápido, pero **en horizontal**. Para llegar al suelo lo que cuenta es la velocidad **vertical**, y las dos empiezan con velocidad vertical cero.' },
+		{ texto: 'Llegan a la vez.', correcta: true, explicacion: 'Las dos empiezan sin velocidad vertical y la gravedad les cambia esa velocidad exactamente igual. En vertical hacen el mismo movimiento, así que en cada instante están a la misma altura.' },
+		{ texto: 'Depende de cuál pese más.', explicacion: 'Sin rozamiento con el aire, todos los objetos caen con la misma aceleración, sea cual sea su masa. Galileo ya lo comprobó hace cuatro siglos.' },
+	]}
+	despues="Compruébalo en la simulación de abajo. Las líneas discontinuas unen las dos pelotas en cada instante."
+/>
+
+<IndependenceDemo />
+
+Fíjate en tres cosas:
+
+- Las **líneas discontinuas** son horizontales: en cada instante, A y B están **a la misma altura**.
+- Si cambias la velocidad horizontal de B, B cae más lejos, pero **tarda lo mismo**.
+- La bola B avanza en horizontal **lo mismo en cada intervalo**, mientras cae cada vez más deprisa.
+
+## Dos movimientos que no se molestan
+
+¿Por qué ocurre esto? Porque la gravedad **solo tira hacia abajo**. Puede cambiar la velocidad vertical del objeto, pero no tiene ningún efecto sobre la horizontal. Y como no hay nada más (despreciamos el aire), nadie cambia la velocidad horizontal.
+
+Así que un lanzamiento son, en realidad, **dos movimientos a la vez**:
+
+- En **horizontal** (eje X), la velocidad no cambia. Es un **movimiento rectilíneo uniforme (MRU)**.
+- En **vertical** (eje Y), la gravedad cambia la velocidad siempre al mismo ritmo, 9,8 m/s cada segundo. Es un **movimiento rectilíneo uniformemente acelerado (MRUA)**, la misma caída libre que ya conoces.
+
+<DecompositionDiagram />
+
+<Callout tipo="idea">
+	Un lanzamiento es un MRU en horizontal y una caída libre en vertical que ocurren **a la vez** y **no se influyen entre sí**. Lo único que tienen en común es el **tiempo**: los dos relojes marcan lo mismo.
+</Callout>
+
+<Callout tipo="analogia">
+	Imagina el sol justo encima de la pelota: su **sombra en el suelo** se mueve en línea recta y siempre igual de rápido. Ahora ilumínala de lado: su **sombra en una pared** sube frenando y baja acelerando, como una pelota lanzada hacia arriba. Estudiar un lanzamiento es estudiar esas dos sombras por separado.
+</Callout>
+
+<Reveal titulo="Para pensar: una pelota que cae dentro de un tren">
+	Vas en un tren que circula en línea recta a velocidad constante y sueltas una pelota. Para ti, cae recta hacia abajo, justo a tus pies. Pero alguien que mira desde el andén ve que la pelota avanza a la vez que el tren mientras cae: para esa persona, la pelota describe **una parábola**.
+
+	Es el mismo movimiento visto desde dos sitios. La velocidad horizontal «viaja» con la pelota y la caída ocurre igual que si no la tuviera. Galileo usó este mismo razonamiento con un barco para defender que la Tierra se mueve.
+</Reveal>
+
+## ¿Por qué precisamente una parábola?
+
+Mira otra vez las posiciones marcadas a intervalos iguales de tiempo:
+
+- En horizontal, entre punto y punto el objeto avanza **siempre la misma distancia**.
+- En vertical, lo que cae en cada intervalo **crece de forma regular**. Partiendo del reposo, en intervalos iguales cae distancias proporcionales a 1, 3, 5, 7…
+
+Avanzar a ritmo fijo hacia un lado mientras caes cada vez más deprisa produce una curva que se dobla cada vez más. Esa curva es una parábola. En la etapa 3 lo demostraremos con las ecuaciones, pero la idea ya la tienes.
+
+## Lo que simplificamos: el modelo
+
+Para que todo esto funcione hacemos tres suposiciones. Son las del modelo que usarás en clase:
+
+1. **No hay rozamiento con el aire.** Es una buena aproximación para objetos compactos y no muy rápidos: una piedra, una pelota de tenis o una canica.
+2. **La gravedad es constante**: siempre 9,8 m/s², hacia abajo. Vale cerca de la superficie de la Tierra y para alturas pequeñas comparadas con su radio.
+3. **El objeto es un punto.** No gira ni tiene tamaño; solo nos interesa dónde está.
+
+<Callout tipo="limite">
+	Este modelo falla con una pluma, un globo o un volante de bádminton, porque el aire los frena mucho y su trayectoria deja de ser simétrica. También falla con un balón con mucho efecto, que se curva por el giro, y con un cohete o un pájaro, que se impulsan a sí mismos. Tampoco sirve para proyectiles que recorren cientos de kilómetros, porque la Tierra ya no es plana para ellos.
+</Callout>
+
+## Lo que te llevas de esta etapa
+
+- Todo objeto lanzado sin propulsión y sin rozamiento describe una **parábola**.
+- Se estudia como **dos movimientos independientes**: un **MRU en horizontal** y un **MRUA (caída libre) en vertical**.
+- El **tiempo** es lo que conecta los dos movimientos.
+- El tiempo que tarda en caer depende **solo** del movimiento vertical.
+
+En la siguiente etapa ponemos nombre y unidades a cada una de las magnitudes que intervienen.

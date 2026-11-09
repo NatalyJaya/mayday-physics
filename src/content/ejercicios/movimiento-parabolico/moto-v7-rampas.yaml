@@ -1,0 +1,67 @@
+titulo: Otra moto, otras rampas
+tema: movimiento-parabolico
+orden: 81
+procedencia: original
+nota_fuente: Variante V7 de la moto, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: moto-rampas
+dificultad: avanzado
+habilidades: [planteamiento, matematicas, multipaso, unidades]
+resumen: Como el P3 con otros números. Sistema para v₀, paso a km/h y altura máxima.
+enunciado: |
+  Una moto salta entre dos rampas de **4 m** de altura, separadas **30 m** e inclinadas **25°**. Halla $v_0$ en km/h y la altura máxima desde el suelo.
+figura:
+  tipo: lanzamiento
+  v0: 19.59
+  angulo: 25
+  h0: 4
+  llegada: 4
+  soporte: rampa
+  etiquetas: { v0: 'v₀ = ?', h0: '4 m', alcance: '30 m' }
+  marcas:
+    - { tipo: rampa, x: 30, altura: 4 }
+  ancho: 35
+datos:
+  - { simbolo: 'y_0', valor: '4\un{m}', significado: 'altura de salida y de llegada' }
+  - { simbolo: '(x,\ y)_{\text{llegada}}', valor: '(30;\ 4)\un{m}', significado: 'donde aterriza' }
+  - { simbolo: '\alpha', valor: '25^\circ', significado: 'inclinación de las rampas' }
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad tiene que salir? Dala también en km/h.
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 1.690 }
+        - { simbolo: 'v_0', etiqueta: 'Velocidad inicial', unidad: m/s, valor: 19.59 }
+        - { simbolo: 'v_0', etiqueta: 'La misma velocidad', unidad: km/h, valor: 70.53 }
+    pistas:
+      - '$30 = 0,906\,v_0\,t$ y $4 = 4 + 0,423\,v_0\,t - 4,9\,t^2$.'
+      - Sustituye $v_0$ **solo** en el término que lo lleva.
+    pasos:
+      - titulo: Sistema
+        desarrollo: |
+          $$30 = 0,906\,v_0\,t \qquad 0 = 0,423\,v_0\,t - 4,9\,t^2$$
+      - titulo: Sustitución
+        desarrollo: |
+          $$0 = \frac{0,423\cdot 30}{0,906} - 4,9\,t^2 = 14,0 - 4,9\,t^2 \Rightarrow t = 1,69\un{s}$$
+      - titulo: v₀ y km/h
+        desarrollo: |
+          $$v_0 = \frac{30}{0,906\cdot 1,69} = 19,6\un{m/s} = 70,5\un{km/h}$$
+    resultado: '$v_0 = $ **19,6 m/s = 70,5 km/h**.'
+  - id: b
+    enunciado: ¿Qué altura máxima alcanza desde el suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'y_{\text{máx}}'
+          etiqueta: Altura máxima desde el suelo
+          unidad: m
+          valor: 7.497
+          trampas:
+            - { valor: 3.497, explicacion: 'Eso es lo que sube sobre la rampa: suma los 4 m.' }
+    pasos:
+      - titulo: 'vᵧ = 0 y sustituir'
+        desarrollo: |
+          $$\cy{v_{0y}} = 8,28\un{m/s} \quad t = 0,845\un{s} \qquad \cy{y} = 4 + 8,28\cdot 0,845 - 4,9\cdot 0,845^2 = 7,50\un{m}$$
+    resultado: 'Llega a **7,50 m** desde el suelo.'
+laboratorio: { v0: 19.59, angulo: 25, h0: 4 }

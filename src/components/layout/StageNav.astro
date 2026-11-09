@@ -1,0 +1,102 @@
+---
+// Barra de progreso de las seis etapas, en cada página de un tema.
+import { STAGES, type StageId } from '../../lib/taxonomy';
+import { stageUrl, type Topic } from '../../lib/content';
+
+interface Props {
+	topic: Topic;
+	current: StageId;
+}
+const { topic, current } = Astro.props;
+const idx = STAGES.findIndex((s) => s.id === current);
+---
+
+<nav class="stage-nav" aria-label="Etapas del tema">
+	<ol>
+		{
+			STAGES.map((s, i) => (
+				<li class:list={{ done: i < idx, current: i === idx }}>
+					<a href={stageUrl(topic, s.id)} aria-current={i === idx ? 'step' : undefined}>
+						<span class="n">{i + 1}</span>
+						<span class="t">{s.corto}</span>
+					</a>
+				</li>
+			))
+		}
+	</ol>
+</nav>
+
+<style>
+	.stage-nav {
+		margin: 0 0 1.75rem;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+	.stage-nav::-webkit-scrollbar {
+		display: none;
+	}
+	ol {
+		display: flex;
+		gap: 4px;
+		list-style: none;
+		margin: 0;
+		padding: 4px;
+		background: var(--surface-2);
+		border-radius: 999px;
+		width: max-content;
+		min-width: 100%;
+	}
+	li {
+		flex: 1;
+	}
+	a {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.45rem;
+		padding: 0.4rem 0.85rem;
+		border-radius: 999px;
+		color: var(--ink-2);
+		text-decoration: none;
+		font-weight: 600;
+		font-size: 0.9rem;
+		white-space: nowrap;
+		min-height: 38px;
+	}
+	a:hover {
+		color: var(--ink);
+		background: var(--surface);
+	}
+	.n {
+		display: grid;
+		place-items: center;
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		font: 650 0.78rem var(--font-display);
+		border: 1.5px solid var(--line-strong);
+	}
+	.done .n {
+		background: var(--ink-3);
+		border-color: var(--ink-3);
+		color: var(--bg);
+	}
+	.current a {
+		background: var(--surface);
+		color: var(--ink);
+		box-shadow: var(--shadow-sm);
+	}
+	.current .n {
+		background: var(--accent);
+		border-color: var(--accent);
+		color: var(--accent-ink);
+	}
+	@media (max-width: 700px) {
+		li:not(.current) .t {
+			display: none;
+		}
+		a {
+			padding: 0.4rem 0.55rem;
+		}
+	}
+</style>

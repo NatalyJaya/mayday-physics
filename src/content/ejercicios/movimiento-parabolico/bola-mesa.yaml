@@ -1,0 +1,131 @@
+titulo: La bola que cae de la mesa
+tema: movimiento-parabolico
+orden: 70
+procedencia: alumno
+fuente: hoja-cooperativa-2026-10-28
+nota_fuente: Problema 2 de la hoja cooperativa del 28/10 (traducido del catalán), con la corrección del profesor.
+coleccion: cooperativa-2026-10-28
+dificultad: intermedio
+habilidades: [planteamiento, vectores, matematicas, multipaso]
+resumen: Horizontal «al revés». Dan la velocidad final y hay que sacar el ángulo, la altura de la mesa y la distancia.
+enunciado: |
+  Una bola rueda sobre una mesa y cae al suelo. Sale de la mesa a **1,8 m/s** y llega al suelo a **4,2 m/s**. Determina la dirección y el sentido de la velocidad al llegar al suelo (el ángulo), la **altura** desde la que cae y la **distancia horizontal** que recorre hasta tocar el suelo. Desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 1.8
+  angulo: 0
+  h0: 0.7347
+  soporte: mesa
+  etiquetas: { v0: '1,8 m/s', h0: 'h = ?', alcance: 'x = ?' }
+  claves:
+    - { t: 0.3872, etiqueta: 'llega a 4,2 m/s' }
+visual:
+  - titulo: Lo que sabes y lo que no
+    texto: |
+      La bola sale **rodando**, así que es un **lanzamiento horizontal**: $v_{0x} = 1,8$ m/s y $v_{0y} = 0$. Lo raro de este problema (mira el dibujo del enunciado) es que **no dan la altura**: dan lo rápido que llega al suelo. Hay que trabajar «hacia atrás».
+  - titulo: La velocidad final es la hipotenusa
+    figura:
+      tipo: triangulo
+      vx: 1.8
+      vy: -3.79
+      etiquetas: { vx: 'vₓ = 1,8 m/s (no cambia)', vy: 'vᵧ = ?', v: 'v = 4,2 m/s', angulo: 'α = ?' }
+    texto: |
+      Al llegar, $v_x$ sigue valiendo 1,8 m/s (MRU). Los 4,2 m/s son la **hipotenusa**: con Pitágoras «al revés» sale $v_y$, y con el arcotangente, el ángulo. $v_y$ apunta hacia abajo, así que será **negativa**.
+  - titulo: El tiempo hace de puente
+    figura:
+      tipo: flujo
+      pasos:
+        - { eje: y, titulo: 'Velocidad vertical', texto: 'Pitágoras: $v_y = -\sqrt{v^2 - v_x^2}$' }
+        - { eje: y, titulo: 'Tiempo de caída', texto: '$v_y = 0 - 9,8\,t$ → $t$' }
+        - { eje: y, titulo: 'Altura de la mesa', texto: '$0 = h - 4,9\,t^2$ → $h$' }
+        - { eje: x, titulo: 'Distancia', texto: '$x = 1,8\cdot t$' }
+    texto: |
+      Aunque falte un dato, el esquema es el de siempre: se saca lo que se pueda de cada eje y el **tiempo** conecta los dos.
+datos:
+  - { simbolo: '\cx{v_{0x}}', valor: '1,8\un{m/s}', significado: 'sale rodando en horizontal' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'no tiene velocidad vertical al salir' }
+  - { simbolo: 'v', valor: '4,2\un{m/s}', significado: 'módulo de la velocidad al llegar al suelo' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - El ángulo de la velocidad al llegar.
+  - 'La altura $h$ de la mesa.'
+  - La distancia horizontal recorrida.
+interpretacion: |
+  En un lanzamiento horizontal la velocidad horizontal no cambia y la vertical crece hacia abajo mientras cae. Por eso, al llegar, la velocidad es mayor que al salir (4,2 frente a 1,8 m/s): toda la diferencia es velocidad **vertical** que le ha dado la gravedad.
+conceptos:
+  - 'Pitágoras: $v^2 = \cx{v_x}^2 + \cy{v_y}^2$; ángulo: $\tan\alpha = \cy{v_y}/\cx{v_x}$.'
+  - '$\cy{v_y} = \cy{v_{0y}} - 9,8\,t$ e $\cy{y} = h - 4,9\,t^2$; $\cx{x} = \cx{v_{0x}}\,t$.'
+apartados:
+  - id: a
+    enunciado: ¿Con qué ángulo llega al suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical al llegar', unidad: m/s, valor: -3.795 }
+        - simbolo: '\alpha'
+          etiqueta: Ángulo por debajo de la horizontal (sin signo)
+          unidad: '°'
+          valor: 64.62
+          trampas:
+            - { valor: 2.108, explicacion: 'Eso es el valor de la **tangente**, no el ángulo. Aplica el arcotangente: $\alpha = \arctan(2,11)$.' }
+            - { valor: -64.62, explicacion: 'Bien calculado: el signo menos indica que apunta hacia abajo. Aquí se pide el ángulo por debajo de la horizontal, sin signo.' }
+    pistas:
+      - '$v_x$ no ha cambiado: 1,8 m/s. ¿Qué lado del triángulo es la velocidad de 4,2 m/s?'
+      - '$v_y = -\sqrt{4,2^2 - 1,8^2}$ (negativa porque baja).'
+    pasos:
+      - titulo: Componente vertical de la velocidad final
+        piensa: Si $v_x$ sigue siendo 1,8 m/s y el módulo es 4,2 m/s, ¿qué relación hay entre los tres?
+        desarrollo: |
+          $$v^2 = \cx{v_x}^2 + \cy{v_y}^2 \;\Rightarrow\; |\cy{v_y}| = \sqrt{4,2^2 - 1,8^2} = \sqrt{17,64 - 3,24} = 3,79\un{m/s}$$
+
+          La bola baja, así que $\cy{v_y} = -3,79$ m/s.
+        porque: '4,2 m/s es la hipotenusa y las componentes, los catetos.'
+      - titulo: Ángulo
+        desarrollo: |
+          $$\tan\alpha = \frac{\cy{v_y}}{\cx{v_x}} = \frac{-3,79}{1,8} = -2,11 \;\Rightarrow\; \alpha = \arctan(-2,11) = -64,6^\circ$$
+        porque: 'La tangente da un número; el **arcotangente** devuelve el ángulo. El signo menos significa «por debajo de la horizontal».'
+    resultado: 'Llega a 4,2 m/s formando **64,6° por debajo** de la horizontal.'
+  - id: b
+    enunciado: ¿Desde qué altura cae?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 0.3872 }
+        - { simbolo: 'h', etiqueta: 'Altura de la mesa', unidad: m, valor: 0.7347 }
+    pistas:
+      - 'Primero el tiempo, con la ecuación de la **velocidad** en Y: $v_y = 0 - 9,8\,t$.'
+      - 'Después, la ecuación de la **posición** en Y: la bola sale de $y_0 = h$ y llega a $y = 0$.'
+    pasos:
+      - titulo: Tiempo de caída
+        desarrollo: |
+          $$\cy{v_y} = \cy{v_{0y}} + g\,t \;\Rightarrow\; -3,79 = 0 - 9,8\,t \;\Rightarrow\; t = 0,387\un{s}$$
+      - titulo: 'Altura de la mesa (método de clase)'
+        desarrollo: |
+          $$\cy{y} = h - 4,9\,t^2 \;\Rightarrow\; 0 = h - 4,9\cdot 0,387^2 \;\Rightarrow\; h = 0,73\un{m}$$
+        porque: 'Es lo que pide el profesor: usar el tiempo en la ecuación de la posición.'
+    resultado: 'La mesa mide **0,73 m** de alto. La bola tarda 0,39 s en caer.'
+  - id: c
+    enunciado: ¿Qué distancia horizontal recorre hasta tocar el suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{x}', etiqueta: 'Distancia horizontal', unidad: m, valor: 0.697 }
+    pistas:
+      - 'En horizontal es un MRU: $x = v_x\cdot t$ con el tiempo de caída.'
+    pasos:
+      - titulo: Eje X (MRU)
+        desarrollo: |
+          $$\cx{x} = 1,8\cdot 0,387 = 0,70\un{m}$$
+    resultado: 'Cae a **0,70 m** del borde de la mesa.'
+errores:
+  - error: 'Usar $v_y^2 = v_{0y}^2 + 2gh$ (corrección del profesor: «¿de dónde sale esto? No lo hemos hecho en clase»)'
+    explicacion: 'El resultado (0,73 m) es correcto, pero en el examen el profesor quiere **su método**: sacar el tiempo y usarlo en la ecuación de la posición.'
+  - error: 'Escribir $\alpha = \tan(v_y/v_x)$'
+    explicacion: 'Al revés: $\tan\alpha = v_y/v_x$, así que $\alpha = \arctan(v_y/v_x)$. La tangente da un número; el arcotangente, el ángulo.'
+  - error: Olvidar el signo de vᵧ
+    explicacion: 'La bola baja: $v_y$ es negativa. Si la pones positiva, el tiempo te sale negativo.'
+alternativas:
+  - titulo: La fórmula que usó el grupo (no vista en clase)
+    desarrollo: |
+      $v_y^2 = v_{0y}^2 + 2\,g\,\Delta y$ relaciona la velocidad con la altura sin pasar por el tiempo: $3,79^2 = 0 + 2\cdot 9,8\cdot h$, de donde $h = 0,73$ m. Sirve para **comprobar** tu resultado, pero en el examen usa el método del tiempo.
+laboratorio: { v0: 1.8, angulo: 0, h0: 0.73 }

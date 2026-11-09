@@ -1,0 +1,14 @@
+---
+// Rejilla para agrupar fichas de variables.
+---
+
+<div class="var-grid wide"><slot /></div>
+
+<style>
+	.var-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+		gap: 0.9rem;
+		margin: 1.25em 0 1.75em;
+	}
+</style>

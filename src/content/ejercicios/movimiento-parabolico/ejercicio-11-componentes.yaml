@@ -1,0 +1,75 @@
+titulo: La componente que falta
+tema: movimiento-parabolico
+orden: 2
+procedencia: alumno
+fuente: cuaderno-alumno
+nota_fuente: Ejercicio 11 del cuaderno. En el cuaderno solo aparecen los datos (v₀ = 32 m/s y v₀ₓ = 20 m/s) y la incógnita; el enunciado es una reconstrucción mínima.
+dificultad: basico
+habilidades: [vectores, matematicas]
+resumen: Conocidos el módulo de la velocidad inicial y su componente horizontal, halla la vertical y el ángulo.
+enunciado: |
+  Un objeto se lanza con una velocidad inicial de **32 m/s**. Su componente horizontal vale **20 m/s**.
+datos:
+  - { simbolo: 'v_0', valor: '32\un{m/s}', significado: 'módulo de la velocidad inicial (la hipotenusa)' }
+  - { simbolo: '\cx{v_{0x}}', valor: '20\un{m/s}', significado: 'componente horizontal (un cateto)' }
+incognitas:
+  - 'La componente vertical $\cy{v_{0y}}$.'
+  - 'El ángulo de lanzamiento $\alpha$.'
+interpretacion: |
+  La velocidad inicial y sus dos componentes forman un triángulo rectángulo: $v_0$ es la hipotenusa y $\cx{v_{0x}}$ y $\cy{v_{0y}}$ son los catetos. Nos dan la hipotenusa y un cateto y nos piden el otro cateto.
+conceptos:
+  - 'Teorema de Pitágoras: $v_0^2 = \cx{v_{0x}}^2 + \cy{v_{0y}}^2$.'
+  - 'Coseno: $\cos\alpha = \dfrac{\cx{v_{0x}}}{v_0}$ (cateto contiguo entre hipotenusa).'
+apartados:
+  - id: a
+    enunciado: ¿Cuánto vale la componente vertical de la velocidad inicial?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\cy{v_{0y}}'
+          etiqueta: Componente vertical
+          unidad: m/s
+          valor: 24.98
+          trampas:
+            - { valor: 12, explicacion: 'Has restado $32 - 20$. Las componentes no se suman ni se restan: forman un triángulo rectángulo con $v_0$.' }
+            - { valor: 37.74, explicacion: 'Has sumado los cuadrados. $v_0$ es la hipotenusa, así que hay que **restar**: $v_{0y}^2 = v_0^2 - v_{0x}^2$.' }
+            - { valor: 624, explicacion: 'Eso es $v_{0y}^2$. Te falta la raíz cuadrada.' }
+    pistas:
+      - Dibuja el triángulo. ¿Cuál de los tres lados es la hipotenusa?
+      - 'Pitágoras al revés: $v_{0y} = \sqrt{v_0^2 - v_{0x}^2}$.'
+    pasos:
+      - titulo: Identifica el triángulo
+        desarrollo: '$v_0 = 32$ m/s es la hipotenusa. $v_{0x} = 20$ m/s y $v_{0y}$ son los catetos.'
+        porque: Las componentes son perpendiculares entre sí y el vector es la diagonal.
+      - titulo: Despeja con Pitágoras
+        desarrollo: |
+          $$v_0^2 = \cx{v_{0x}}^2 + \cy{v_{0y}}^2 \;\Rightarrow\; \cy{v_{0y}} = \sqrt{v_0^2 - \cx{v_{0x}}^2} = \sqrt{32^2 - 20^2} = \sqrt{624} = 24,98\un{m/s}$$
+        porque: 'Primero se despeja $v_{0y}^2$ y después se hace la raíz. No escribas «$\sqrt{\ldots} = v_{0y}^2$»: la raíz ya te da $v_{0y}$.'
+    resultado: '$v_{0y} = 24,98$ m/s (hacia arriba).'
+  - id: b
+    enunciado: ¿Qué ángulo forma la velocidad inicial con la horizontal?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\alpha'
+          etiqueta: Ángulo con la horizontal
+          unidad: '°'
+          valor: 51.32
+          trampas:
+            - { valor: 38.68, explicacion: 'Ese es el ángulo con la **vertical**. Con la horizontal, el cateto contiguo es $v_{0x}$: $\cos\alpha = 20/32$.' }
+    pistas:
+      - ¿Qué cateto es contiguo al ángulo que forma con la horizontal?
+      - '$\cos\alpha = v_{0x}/v_0$.'
+    pasos:
+      - titulo: Elige la razón trigonométrica
+        desarrollo: |
+          $$\cos\alpha = \frac{\cx{v_{0x}}}{v_0} = \frac{20}{32} = 0,625 \;\Rightarrow\; \alpha = \arccos(0,625) = 51,3^\circ$$
+        porque: 'Conocemos la hipotenusa y el cateto contiguo, así que lo más directo es el coseno. También valdría $\operatorname{sen}\alpha = 24,98/32$ o $\tan\alpha = 24,98/20$.'
+      - titulo: Comprueba
+        desarrollo: '$32\cos 51,3° = 20,0$ m/s y $32\operatorname{sen} 51,3° = 24,98$ m/s. Cuadra.'
+    resultado: 'La velocidad inicial forma **51,3°** con la horizontal.'
+errores:
+  - error: 'Escribir $\sqrt{32^2 - 20^2} = v_{0y}^2$'
+    explicacion: 'La raíz ya despeja $v_{0y}$. Si escribes $v_{0y}^2$ al otro lado, el resultado parece correcto por casualidad, pero la igualdad es falsa.'
+  - error: Calcular el ángulo con la vertical en lugar de con la horizontal
+    explicacion: Los dos ángulos suman 90°. Fíjate siempre en respecto a qué eje te piden el ángulo.

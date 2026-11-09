@@ -1,0 +1,114 @@
+titulo: Leer un lanzamiento en una gráfica
+tema: movimiento-parabolico
+orden: 3
+procedencia: original
+dificultad: intermedio
+habilidades: [graficas, vectores, conceptual]
+resumen: A partir de las gráficas de vₓ y vᵧ frente al tiempo, reconstruye el lanzamiento completo.
+enunciado: |
+  Las gráficas muestran cómo cambian las dos componentes de la velocidad de una pelota lanzada desde el suelo, hasta que vuelve al suelo.
+figura:
+  tipo: grafica
+  titulo: Componentes de la velocidad frente al tiempo
+  x: { simbolo: 't', unidad: 's', min: 0, max: 3.5 }
+  y: { simbolo: 'v', unidad: 'm/s', min: -16, max: 16 }
+  series:
+    - { etiqueta: 'vₓ (horizontal)', eje: x, puntos: [[0, 8], [3, 8]] }
+    - { etiqueta: 'vᵧ (vertical)', eje: y, puntos: [[0, 14.7], [3, -14.7]] }
+interpretacion: |
+  La gráfica de $\cx{v_x}$ es horizontal: la velocidad horizontal no cambia (MRU). La de $\cy{v_y}$ es una recta que baja: la velocidad vertical cambia siempre al mismo ritmo (MRUA). Donde $\cy{v_y}$ cruza el cero, la pelota está en lo más alto.
+conceptos:
+  - 'La pendiente de una gráfica velocidad–tiempo es la aceleración.'
+  - 'El área bajo una gráfica velocidad–tiempo es el desplazamiento.'
+  - '$v_0 = \sqrt{\cx{v_{0x}}^2 + \cy{v_{0y}}^2}$ y $\tan\alpha = \cy{v_{0y}}/\cx{v_{0x}}$.'
+apartados:
+  - id: a
+    enunciado: ¿Cuánto valen las componentes de la velocidad inicial? ¿En qué instante alcanza la altura máxima y cuánto dura el vuelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{v_{0x}}', etiqueta: 'Componente horizontal inicial', unidad: m/s, valor: 8 }
+        - { simbolo: '\cy{v_{0y}}', etiqueta: 'Componente vertical inicial', unidad: m/s, valor: 14.7 }
+        - { simbolo: 't_s', etiqueta: 'Instante de la altura máxima', unidad: s, valor: 1.5 }
+        - { simbolo: 't_v', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 3 }
+    pistas:
+      - Los valores iniciales se leen en $t = 0$.
+      - En el punto más alto, ¿qué vale $v_y$? Busca dónde corta la recta naranja el eje de tiempos.
+    pasos:
+      - titulo: Lectura en t = 0
+        desarrollo: '$\cx{v_{0x}} = 8$ m/s y $\cy{v_{0y}} = 14,7$ m/s.'
+      - titulo: Corte con el eje de tiempos
+        desarrollo: '$\cy{v_y} = 0$ en $t_s = 1,5$ s: es el punto más alto. La gráfica termina en $t_v = 3$ s, el doble, como corresponde a un vuelo simétrico.'
+        porque: 'Comprobación: $t_s = v_{0y}/9,8 = 14,7/9,8 = 1,5$ s.'
+    resultado: '$v_{0x} = 8$ m/s, $v_{0y} = 14,7$ m/s, altura máxima a los **1,5 s** y vuelo de **3 s**.'
+  - id: b
+    enunciado: ¿Con qué velocidad (módulo) y con qué ángulo se lanzó la pelota?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'v_0', etiqueta: 'Velocidad inicial', unidad: m/s, valor: 16.74 }
+        - simbolo: '\alpha'
+          etiqueta: Ángulo con la horizontal
+          unidad: '°'
+          valor: 61.44
+          trampas:
+            - { valor: 28.56, explicacion: 'Ese es el ángulo con la vertical. Con la horizontal, $\tan\alpha = v_{0y}/v_{0x}$.' }
+    pistas:
+      - Las dos componentes forman un triángulo rectángulo con $v_0$.
+    pasos:
+      - titulo: Módulo
+        desarrollo: |
+          $$v_0 = \sqrt{8^2 + 14,7^2} = \sqrt{280,1} = 16,7\un{m/s}$$
+      - titulo: Ángulo
+        desarrollo: |
+          $$\tan\alpha = \frac{14,7}{8} = 1,84 \;\Rightarrow\; \alpha = 61,4^\circ$$
+    resultado: 'Se lanzó a **16,7 m/s** formando **61,4°** con la horizontal.'
+  - id: c
+    enunciado: ¿Qué altura máxima alcanzó? ¿Qué distancia horizontal recorrió?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'h_{\text{máx}}'
+          etiqueta: Altura máxima
+          unidad: m
+          valor: 11.03
+          trampas:
+            - { valor: 22.05, explicacion: 'Has calculado el área de un rectángulo. Bajo la recta de $v_y$ hay un **triángulo**: falta multiplicar por ½.' }
+        - { simbolo: '\cx{R}', etiqueta: 'Alcance', unidad: m, valor: 24 }
+    pistas:
+      - El desplazamiento es el área bajo la gráfica de velocidad.
+      - 'La altura máxima es el área del triángulo naranja entre $t = 0$ y $t = 1,5$ s. El alcance, el área del rectángulo azul.'
+    pasos:
+      - titulo: Altura máxima como un área
+        desarrollo: |
+          $$h_{\text{máx}} = \tfrac12\cdot 1,5\cdot 14,7 = 11,0\un{m}$$
+        porque: 'Entre 0 y 1,5 s la pelota sube, y lo que sube es el área bajo la gráfica de $v_y$, un triángulo. Coincide con $v_{0y}^2/(2\cdot 9,8)$.'
+      - titulo: Alcance como un área
+        desarrollo: |
+          $$R = 8\cdot 3 = 24\un{m}$$
+        porque: 'Bajo la recta horizontal de $v_x$ hay un rectángulo de base 3 s y altura 8 m/s.'
+    resultado: 'Altura máxima de **11,0 m** y alcance de **24 m**.'
+  - id: d
+    enunciado: ¿Cuánto vale la pendiente de la recta de vᵧ y qué significa?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: '$-9,8$ m/s². Es la aceleración de la gravedad.'
+          correcta: true
+          explicacion: 'Pendiente $= \Delta v_y/\Delta t = (-14,7 - 14,7)/3 = -9,8$ m/s². En una gráfica velocidad–tiempo, la pendiente es la aceleración.'
+        - texto: '$-14,7$ m/s. Es la velocidad final.'
+          explicacion: 'La pendiente no es un valor de la gráfica, sino cuánto cambia la velocidad por cada segundo.'
+        - texto: 'Cero, porque la recta pasa por el origen.'
+          explicacion: 'La recta no pasa por el origen y además está inclinada. Su pendiente es negativa.'
+    pistas:
+      - 'Pendiente = cambio de $v_y$ dividido entre el tiempo que tarda en cambiar.'
+    pasos:
+      - titulo: Pendiente
+        desarrollo: '$\dfrac{-14,7 - 14,7}{3 - 0} = -9,8$ m/s².'
+    resultado: 'La pendiente es **−9,8 m/s²**: la aceleración de la gravedad.'
+errores:
+  - error: Leer la altura máxima en la gráfica de velocidades
+    explicacion: 'En esta gráfica no hay posiciones, solo velocidades. La altura se obtiene del **área**, no de leer un punto.'
+  - error: Pensar que la velocidad es cero en el punto más alto
+    explicacion: 'Solo se anula $v_y$. La recta azul muestra que $v_x$ sigue valiendo 8 m/s.'
+laboratorio: { v0: 16.74, angulo: 61.44, h0: 0 }

@@ -1,0 +1,63 @@
+# Bloques del temario de Física de 1.º de Bachillerato.
+#
+# Los tres bloques de «nucleo» son los del currículo vigente para 1.º:
+#   - Real Decreto 243/2022 (enseñanzas mínimas, Física y Química de 1.º):
+#     Cinemática · Estática y dinámica · Energía.
+#   - Decret 171/2022 (Cataluña, materia «Física» de 1r): los mismos tres sabers.
+# Los bloques de «ampliacion» son de 2.º en el currículo actual, pero algunos
+# centros los adelantan (o los daban en 1.º con el currículo anterior, LOMCE).
+# El orden de los bloques y de los temas es orientativo: cada centro elige el suyo.
+
+- id: cinematica
+  titulo: Cinemática
+  lema: Cómo se mueven las cosas
+  descripcion: Describir el movimiento sin preguntarse todavía por qué ocurre. Posición, velocidad y aceleración en línea recta, en el plano y en círculos.
+  nivel: nucleo
+  orden: 1
+  icono: cinematica
+  curriculo: Bloque «Cinemática» de 1.º (RD 243/2022 · Decret 171/2022)
+
+- id: dinamica
+  titulo: Dinámica
+  lema: Por qué se mueven
+  descripcion: Las fuerzas como causa de los cambios de movimiento. Leyes de Newton, rozamiento, planos inclinados, equilibrio, cantidad de movimiento e impulso.
+  nivel: nucleo
+  orden: 2
+  icono: dinamica
+  curriculo: Bloque «Estática y dinámica» de 1.º (RD 243/2022 · Decret 171/2022)
+
+- id: energia
+  titulo: Trabajo y energía
+  lema: Lo que se conserva
+  descripcion: Trabajo, potencia y energía mecánica. Resolver problemas de movimiento sin seguirlo instante a instante, y primeras ideas de calor y temperatura.
+  nivel: nucleo
+  orden: 3
+  icono: energia
+  curriculo: Bloque «Energía» de 1.º (RD 243/2022 · Decret 171/2022)
+
+- id: gravitacion
+  titulo: Gravitación
+  lema: De la manzana a los planetas
+  descripcion: Leyes de Kepler, ley de la gravitación universal y campo gravitatorio. La misma fuerza que hace caer un proyectil mantiene la Luna en su órbita.
+  nivel: ampliacion
+  orden: 4
+  icono: gravitacion
+  curriculo: En el currículo vigente, «Campo gravitatorio» es de 2.º. Algunos centros introducen la gravitación universal en 1.º, dentro de dinámica.
+
+- id: ondas
+  titulo: Oscilaciones y ondas
+  lema: Lo que va y vuelve
+  descripcion: Movimiento armónico simple en muelles y péndulos, y ondas que transportan energía sin transportar materia.
+  nivel: ampliacion
+  orden: 5
+  icono: ondas
+  curriculo: En el currículo vigente, «Vibraciones y ondas» es de 2.º. Con el currículo anterior, el movimiento armónico simple se estudiaba en 1.º.
+
+- id: electricidad
+  titulo: Electricidad
+  lema: Cargas, campos y corrientes
+  descripcion: Carga eléctrica, ley de Coulomb, campo y potencial eléctrico, y circuitos de corriente continua.
+  nivel: ampliacion
+  orden: 6
+  icono: electricidad
+  curriculo: En el currículo vigente, el campo eléctrico es de 2.º. Algunos centros ven en 1.º la ley de Coulomb o la energía y la potencia eléctricas.

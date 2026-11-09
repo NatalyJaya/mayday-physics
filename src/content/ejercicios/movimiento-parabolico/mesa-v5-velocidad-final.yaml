@@ -1,0 +1,48 @@
+titulo: De la velocidad final a la altura
+tema: movimiento-parabolico
+orden: 72
+procedencia: original
+nota_fuente: Variante V5 de la bola de la mesa, preparada por Nataly Jaya para la hoja cooperativa del 28/10.
+coleccion: cooperativa-2026-10-28
+variante_de: bola-mesa
+dificultad: intermedio
+habilidades: [vectores, planteamiento, multipaso]
+resumen: Igual que el P2 con otros números. Trabajar hacia atrás desde la velocidad de llegada.
+enunciado: |
+  Una pelota sale horizontal de una mesa a **2 m/s** y llega al suelo a **5 m/s**. Halla el ángulo de llegada, la altura de la mesa y la distancia horizontal.
+figura: { tipo: triangulo, vx: 2, vy: -4.58, etiquetas: { vx: 'vₓ = 2 m/s', vy: 'vᵧ = ?', v: 'v = 5 m/s', angulo: 'α = ?' } }
+datos:
+  - { simbolo: '\cx{v_x}', valor: '2\un{m/s}', significado: 'no cambia en todo el vuelo' }
+  - { simbolo: 'v', valor: '5\un{m/s}', significado: 'módulo al llegar al suelo' }
+apartados:
+  - id: a
+    enunciado: ¿Con qué ángulo llega?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical al llegar', unidad: m/s, valor: -4.583 }
+        - { simbolo: '\alpha', etiqueta: 'Ángulo bajo la horizontal (sin signo)', unidad: '°', valor: 66.42 }
+    pistas:
+      - '$v_y = -\sqrt{5^2 - 2^2}$.'
+    pasos:
+      - titulo: Pitágoras al revés y arcotangente
+        desarrollo: |
+          $$\cy{v_y} = -\sqrt{5^2 - 2^2} = -\sqrt{21} = -4,58\un{m/s} \qquad \tan\alpha = \frac{-4,58}{2} \Rightarrow \alpha = -66,4^\circ$$
+    resultado: 'Llega **66,4° por debajo** de la horizontal.'
+  - id: b
+    enunciado: ¿Qué altura tiene la mesa y a qué distancia cae la pelota?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'h', etiqueta: 'Altura de la mesa', unidad: m, valor: 1.071 }
+        - { simbolo: '\cx{x}', etiqueta: 'Distancia horizontal', unidad: m, valor: 0.9352 }
+    pistas:
+      - 'Primero el tiempo con $v_y = -9,8\,t$; luego $0 = h - 4,9\,t^2$ y $x = 2\,t$.'
+    pasos:
+      - titulo: Tiempo
+        desarrollo: '$-4,58 = -9,8\,t \Rightarrow t = 0,468$ s.'
+      - titulo: Altura (método de clase) y distancia
+        desarrollo: |
+          $$0 = h - 4,9\cdot 0,468^2 \Rightarrow h = 1,07\un{m} \qquad \cx{x} = 2\cdot 0,468 = 0,94\un{m}$$
+    resultado: 'La mesa mide **1,07 m** y la pelota cae a **0,94 m**.'
+laboratorio: { v0: 2, angulo: 0, h0: 1.07 }

@@ -1,0 +1,111 @@
+titulo: El pase largo y la carrera
+tema: movimiento-parabolico
+orden: 3
+procedencia: original
+inspirado_en: [ermengol-estiu-2026]
+dificultad: examen
+habilidades: [planteamiento, multipaso, unidades, matematicas]
+resumen: Un lanzamiento y un MRU a la vez. ¿A qué velocidad tiene que correr el compañero para llegar a tiempo?
+enunciado: |
+  Una jugadora lanza un balón a **15 m/s** con un ángulo de **45°**. Su compañera está a **35 m** de distancia, en la dirección del lanzamiento, y en el mismo instante empieza a correr **hacia la lanzadora** a velocidad constante. Quiere atrapar el balón justo antes de que toque el suelo.
+
+  Desprecia el rozamiento con el aire y la altura de las manos (el balón sale del suelo y se recoge a ras de suelo).
+figura:
+  tipo: lanzamiento
+  v0: 15
+  angulo: 45
+  etiquetas: { alcance: '?' }
+  marcas:
+    - { tipo: persona, x: 35, etiqueta: 'compañera, a 35 m' }
+  ancho: 38
+datos:
+  - { simbolo: 'v_0', valor: '15\un{m/s}', significado: 'velocidad del balón' }
+  - { simbolo: '\alpha', valor: '45^\circ', significado: 'ángulo de lanzamiento' }
+  - { simbolo: 'x_{0,C}', valor: '35\un{m}', significado: 'posición inicial de la compañera' }
+incognitas:
+  - Dónde y cuándo cae el balón.
+  - La velocidad a la que debe correr la compañera, en m/s y en km/h.
+  - Esa velocidad si sale con medio segundo de retraso.
+interpretacion: |
+  Hay **dos cuerpos**: el balón (movimiento parabólico) y la compañera (MRU en sentido negativo del eje X). Se encuentran cuando están **en el mismo sitio a la vez**: la compañera tiene que llegar al punto de caída justo en el instante en que llega el balón.
+conceptos:
+  - 'Balón: $t_v = \dfrac{2\,\cy{v_{0y}}}{9,8}$ y $R = \cx{v_{0x}}\,t_v$.'
+  - 'Compañera (MRU): $x_C = 35 - v\,(t - t_0)$.'
+  - 'Encuentro: misma posición en el mismo instante.'
+apartados:
+  - id: a
+    enunciado: ¿Dónde cae el balón y cuánto tarda?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_v', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 2.165 }
+        - { simbolo: '\cx{R}', etiqueta: 'Alcance', unidad: m, valor: 22.96 }
+    pistas:
+      - 'Descompón: $v_{0x} = v_{0y} = 15\cos 45° = 10,61$ m/s.'
+    pasos:
+      - titulo: Componentes
+        desarrollo: |
+          $$\cx{v_{0x}} = \cy{v_{0y}} = 15\cos 45^\circ = 10,61\un{m/s}$$
+        porque: 'A 45° el seno y el coseno son iguales.'
+      - titulo: Tiempo de vuelo y alcance
+        desarrollo: |
+          $$0 = 10,61\,t - 4,9\,t^2 \;\Rightarrow\; t_v = \frac{10,61}{4,9} = 2,165\un{s} \qquad R = 10,61\cdot 2,165 = 22,96\un{m}$$
+    resultado: 'El balón cae a **22,96 m** de la lanzadora, a los **2,17 s**.'
+  - id: b
+    enunciado: ¿A qué velocidad constante debe correr la compañera? Dala en m/s y en km/h.
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'v'
+          etiqueta: Velocidad de la compañera
+          unidad: m/s
+          valor: 5.563
+          trampas:
+            - { valor: 16.17, explicacion: 'Has dividido los 35 m entre el tiempo. La compañera no tiene que llegar hasta la lanzadora, sino hasta el punto de caída: le bastan $35 - 22,96$ m.' }
+        - simbolo: 'v'
+          etiqueta: La misma velocidad
+          unidad: km/h
+          valor: 20.03
+          trampas:
+            - { valor: 1.545, explicacion: 'De m/s a km/h se **multiplica** por 3,6.' }
+    pistas:
+      - ¿Cuántos metros tiene que recorrer la compañera hasta el punto de caída?
+      - Los tiene que recorrer en el mismo tiempo que el balón está en el aire.
+    pasos:
+      - titulo: Distancia que debe recorrer
+        desarrollo: |
+          $$d = 35 - 22,96 = 12,04\un{m}$$
+        porque: 'Corre desde 35 m hasta 22,96 m, en sentido negativo del eje X.'
+      - titulo: Velocidad (MRU)
+        desarrollo: |
+          $$v = \frac{d}{t} = \frac{12,04}{2,165} = 5,56\un{m/s} \qquad 5,56\cdot 3,6 = 20,0\un{km/h}$$
+        porque: 'Tiene que estar en el punto de caída en el mismo instante que el balón: esa es la condición de encuentro.'
+    resultado: 'Debe correr a **5,56 m/s**, unos **20 km/h**.'
+  - id: c
+    enunciado: Si la compañera reacciona tarde y empieza a correr 0,5 s después del lanzamiento, ¿a qué velocidad tiene que correr?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'v'
+          etiqueta: Velocidad necesaria con retraso
+          unidad: m/s
+          valor: 7.232
+          trampas:
+            - { valor: 4.519, explicacion: 'Has sumado el retraso. Si sale más tarde, tiene **menos** tiempo para correr: $2,165 - 0,5$.' }
+    pistas:
+      - '¿Cuánto tiempo tiene ahora para recorrer los 12,04 m?'
+    pasos:
+      - titulo: Tiempo disponible
+        desarrollo: |
+          $$t - t_0 = 2,165 - 0,5 = 1,665\un{s}$$
+        porque: 'Como en los problemas de encuentro de MRU: si sale en $t_0 = 0,5$ s, en el instante $t$ solo lleva $t - 0,5$ segundos corriendo.'
+      - titulo: Velocidad
+        desarrollo: |
+          $$v = \frac{12,04}{1,665} = 7,23\un{m/s} \approx 26\un{km/h}$$
+    resultado: 'Tendría que correr a **7,23 m/s** (26 km/h). Medio segundo de retraso le exige un 30 % más de velocidad.'
+errores:
+  - error: Dividir toda la distancia inicial entre el tiempo
+    explicacion: 'La compañera va al punto de caída, no a la posición de la lanzadora.'
+  - error: Olvidar el retraso o sumarlo en lugar de restarlo
+    explicacion: 'Si sale $t_0$ segundos tarde, en el instante $t$ lleva $(t - t_0)$ segundos corriendo. Es lo mismo que en los problemas de encuentro del Tema 1.'
+laboratorio: { v0: 15, angulo: 45, h0: 0 }

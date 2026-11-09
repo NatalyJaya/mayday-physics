@@ -1,0 +1,230 @@
+# Temas de cada bloque. Para desbloquear un tema:
+#   1. Cambia su «estado» a «disponible».
+#   2. Crea sus lecciones en src/content/lecciones/<id>/ (una por etapa).
+#   3. Añade sus ejercicios en src/content/ejercicios/<id>/.
+
+# ─── Cinemática ───────────────────────────────────────────────────────────
+
+- id: mru
+  bloque: cinematica
+  titulo: Movimiento rectilíneo uniforme
+  sigla: MRU
+  estado: proximamente
+  orden: 1
+  resumen: Velocidad constante en línea recta. Gráficas posición–tiempo y problemas de encuentro entre dos móviles.
+  aprenderas:
+    - Posición, desplazamiento y velocidad (y por qué puede ser negativa)
+    - La ecuación x = x₀ + v·(t − t₀) cuando un móvil sale más tarde
+    - Gráficas x–t y v–t
+    - Cuándo y dónde se cruzan dos coches
+
+- id: mrua
+  bloque: cinematica
+  titulo: Movimiento rectilíneo uniformemente acelerado
+  sigla: MRUA
+  estado: proximamente
+  orden: 2
+  resumen: Cuando la velocidad cambia siempre al mismo ritmo. Incluye la caída libre y el lanzamiento vertical.
+  aprenderas:
+    - Qué es la aceleración y qué significa su signo
+    - Las ecuaciones de la velocidad y de la posición
+    - Caída libre y lanzamiento vertical con g = −9,8 m/s²
+    - Gráficas v–t (rectas) y x–t (parábolas)
+  requisitos: [mru]
+
+- id: movimiento-parabolico
+  bloque: cinematica
+  titulo: Movimiento parabólico
+  estado: disponible
+  orden: 3
+  resumen: Lanzamientos horizontales y oblicuos. Un MRU en horizontal y una caída libre en vertical, a la vez.
+  esencia: Un lanzamiento son dos movimientos sencillos a la vez. En horizontal, velocidad constante; en vertical, la misma caída libre de siempre. Lo único que los une es el tiempo.
+  aprenderas:
+    - Por qué el movimiento horizontal y el vertical son independientes
+    - Descomponer la velocidad inicial con seno y coseno
+    - Tiempo de vuelo, altura máxima y alcance
+    - Lanzamientos desde el suelo y desde una altura
+  requisitos: [mru, mrua]
+
+- id: movimiento-circular
+  bloque: cinematica
+  titulo: Movimiento circular
+  sigla: MCU · MCUA
+  estado: proximamente
+  orden: 4
+  resumen: Magnitudes angulares, periodo y frecuencia. Por qué hay aceleración aunque la rapidez no cambie.
+  aprenderas:
+    - Radianes, velocidad angular y su relación con la lineal
+    - Periodo y frecuencia
+    - Aceleración normal (centrípeta) y tangencial
+  requisitos: [mru, mrua]
+
+# ─── Dinámica ─────────────────────────────────────────────────────────────
+
+- id: leyes-de-newton
+  bloque: dinamica
+  titulo: Leyes de Newton
+  estado: proximamente
+  orden: 1
+  resumen: Inercia, F = m·a y acción–reacción. Qué hace realmente una fuerza.
+  aprenderas:
+    - Por qué no hace falta una fuerza para mantener un movimiento
+    - La segunda ley como relación entre fuerza resultante y aceleración
+    - Parejas de acción y reacción
+
+- id: fuerzas
+  bloque: dinamica
+  titulo: Fuerzas habituales y planos inclinados
+  estado: proximamente
+  orden: 2
+  resumen: Peso, normal, rozamiento y tensión. Diagramas de fuerzas, planos inclinados y cuerpos enlazados.
+  aprenderas:
+    - Dibujar el diagrama de fuerzas de un cuerpo
+    - Rozamiento estático y dinámico
+    - Planos inclinados y poleas
+  requisitos: [leyes-de-newton]
+
+- id: dinamica-circular
+  bloque: dinamica
+  titulo: Dinámica del movimiento circular
+  estado: proximamente
+  orden: 3
+  resumen: Qué fuerza obliga a un cuerpo a girar. Curvas, peraltes y la fuerza centrípeta.
+  aprenderas:
+    - La fuerza centrípeta no es una fuerza nueva
+    - Curvas con y sin peralte
+  requisitos: [movimiento-circular, fuerzas]
+
+- id: momento-lineal
+  bloque: dinamica
+  titulo: Cantidad de movimiento e impulso
+  estado: proximamente
+  orden: 4
+  resumen: El momento lineal, el impulso de una fuerza y su conservación en choques y explosiones.
+  aprenderas:
+    - Momento lineal p = m·v
+    - Impulso y por qué los airbags funcionan
+    - Conservación en choques y explosiones
+  requisitos: [leyes-de-newton]
+
+- id: estatica
+  bloque: dinamica
+  titulo: Estática y momento de una fuerza
+  estado: proximamente
+  orden: 5
+  resumen: Cuándo un cuerpo está en equilibrio. Momento de una fuerza, palancas y sólido rígido.
+  aprenderas:
+    - Condiciones de equilibrio
+    - Momento de una fuerza respecto a un punto
+  requisitos: [fuerzas]
+
+# ─── Trabajo y energía ────────────────────────────────────────────────────
+
+- id: trabajo-potencia
+  bloque: energia
+  titulo: Trabajo y potencia
+  estado: proximamente
+  orden: 1
+  resumen: Cuándo una fuerza «trabaja» y lo rápido que lo hace. Rendimiento de máquinas.
+  aprenderas:
+    - Trabajo de una fuerza constante
+    - Potencia y rendimiento
+
+- id: energia-mecanica
+  bloque: energia
+  titulo: Energía cinética y potencial
+  estado: proximamente
+  orden: 2
+  resumen: La energía del movimiento y la de la posición. Teorema de las fuerzas vivas.
+  aprenderas:
+    - Energía cinética y teorema del trabajo y la energía
+    - Energía potencial gravitatoria y elástica
+  requisitos: [trabajo-potencia]
+
+- id: conservacion-energia
+  bloque: energia
+  titulo: Conservación de la energía
+  estado: proximamente
+  orden: 3
+  resumen: Sistemas conservativos y no conservativos. Resolver un lanzamiento con energía en una sola línea.
+  aprenderas:
+    - Conservación de la energía mecánica
+    - Qué pasa con la energía cuando hay rozamiento
+  requisitos: [energia-mecanica]
+
+- id: termodinamica
+  bloque: energia
+  titulo: Calor y temperatura
+  estado: proximamente
+  orden: 4
+  resumen: Variables termodinámicas, transferencias de energía y el primer principio.
+  aprenderas:
+    - Diferencia entre calor y temperatura
+    - Primer principio de la termodinámica
+
+# ─── Ampliación ───────────────────────────────────────────────────────────
+
+- id: gravitacion-universal
+  bloque: gravitacion
+  titulo: Leyes de Kepler y gravitación universal
+  estado: proximamente
+  orden: 1
+  resumen: Cómo se mueven los planetas y la ley que lo explica todo con una sola fórmula.
+  aprenderas:
+    - Las tres leyes de Kepler
+    - Ley de la gravitación universal
+  requisitos: [dinamica-circular]
+
+- id: campo-gravitatorio
+  bloque: gravitacion
+  titulo: Campo gravitatorio
+  estado: proximamente
+  orden: 2
+  resumen: La gravedad como una propiedad del espacio alrededor de una masa. Por qué g vale 9,8 m/s².
+  aprenderas:
+    - Intensidad del campo gravitatorio
+    - Energía potencial gravitatoria a gran escala
+  requisitos: [gravitacion-universal]
+
+- id: mas
+  bloque: ondas
+  titulo: Movimiento armónico simple
+  sigla: MAS
+  estado: proximamente
+  orden: 1
+  resumen: Muelles y péndulos. El movimiento que se repite y su relación con el movimiento circular.
+  aprenderas:
+    - Amplitud, periodo, frecuencia y fase
+    - Muelles y péndulo simple
+
+- id: ondas-mecanicas
+  bloque: ondas
+  titulo: Ondas
+  estado: proximamente
+  orden: 2
+  resumen: Perturbaciones que viajan. Longitud de onda, frecuencia y velocidad de propagación.
+  aprenderas:
+    - Ondas transversales y longitudinales
+    - La relación v = λ·f
+  requisitos: [mas]
+
+- id: campo-electrico
+  bloque: electricidad
+  titulo: Ley de Coulomb y campo eléctrico
+  estado: proximamente
+  orden: 1
+  resumen: Fuerzas entre cargas y la idea de campo eléctrico.
+  aprenderas:
+    - Ley de Coulomb
+    - Campo y potencial eléctrico
+
+- id: corriente-electrica
+  bloque: electricidad
+  titulo: Corriente y circuitos
+  estado: proximamente
+  orden: 2
+  resumen: Intensidad, tensión y resistencia. Ley de Ohm, energía y potencia en circuitos.
+  aprenderas:
+    - Ley de Ohm
+    - Asociación de resistencias
+    - Energía y potencia eléctricas
