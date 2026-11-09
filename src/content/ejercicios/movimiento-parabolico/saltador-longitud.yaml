@@ -10,17 +10,17 @@ habilidades: [planteamiento, vectores, matematicas]
 resumen: Oblicuo desde el suelo. La marca del salto (alcance) y la altura máxima.
 enunciado: |
   Un saltador de longitud empieza el salto con una velocidad de **9,5 m/s** y una inclinación de **20°** respecto a la horizontal. Determina la **marca** que consigue (la distancia horizontal del salto) y la **altura máxima** que alcanza. Trata al saltador como un punto y desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 9.5
+  angulo: 20
+  etiquetas: { v0: '9,5 m/s', alcance: 'marca = ?' }
+  claves:
+    - { t: 0.3316, etiqueta: 'altura máx. = ?' }
 visual:
   - titulo: La marca del salto es el alcance
-    figura:
-      tipo: lanzamiento
-      v0: 9.5
-      angulo: 20
-      etiquetas: { v0: '9,5 m/s', alcance: 'marca = ?' }
-      claves:
-        - { t: 0.3316, etiqueta: 'altura máx.: vᵧ = 0' }
     texto: |
-      La «marca» es la distancia horizontal hasta que vuelve al suelo: el **alcance**. El saltador sale del suelo ($y_0 = 0$) y vuelve al suelo, así que el salto es **simétrico**: la altura máxima está justo a la mitad.
+      En el dibujo del enunciado, la «marca» es la distancia horizontal hasta que vuelve al suelo: el **alcance**. El saltador sale del suelo ($y_0 = 0$) y vuelve al suelo, así que el salto es **simétrico**: la altura máxima está justo a la mitad del vuelo.
   - titulo: Parte la velocidad en dos
     figura:
       tipo: triangulo

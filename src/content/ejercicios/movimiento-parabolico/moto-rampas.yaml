@@ -10,23 +10,23 @@ habilidades: [planteamiento, matematicas, multipaso, unidades]
 resumen: La incógnita es v₀. Sistema de dos ecuaciones con dos incógnitas, paso a km/h y altura máxima.
 enunciado: |
   Un especialista salta en moto entre dos rampas. Las alturas de salida y de llegada son iguales, **3,75 m**. La longitud del salto es **36 m** y las rampas están inclinadas **21°**. Determina el módulo de la **velocidad inicial** necesaria, en km/h, y la **altura máxima** desde el suelo. Trata la moto como un punto y desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 22.962
+  angulo: 21
+  h0: 3.75
+  llegada: 3.75
+  soporte: rampa
+  etiquetas: { v0: 'v₀ = ?', angulo: '21°', h0: '3,75 m', alcance: '36 m' }
+  marcas:
+    - { tipo: rampa, x: 36, altura: 3.75 }
+  claves:
+    - { t: 0.8397, etiqueta: 'altura máx. = ?' }
+  ancho: 42
 visual:
   - titulo: Sabemos dónde llega, no con qué velocidad sale
-    figura:
-      tipo: lanzamiento
-      v0: 22.962
-      angulo: 21
-      h0: 3.75
-      llegada: 3.75
-      soporte: rampa
-      etiquetas: { v0: 'v₀ = ?', angulo: '21°', h0: '3,75 m', alcance: '36 m' }
-      marcas:
-        - { tipo: rampa, x: 36, altura: 3.75 }
-      claves:
-        - { t: 0.8397, etiqueta: 'altura máx. = ?' }
-      ancho: 42
     texto: |
-      En los problemas anteriores conocíamos $v_0$ y buscábamos dónde caía. Aquí es **al revés**: conocemos el punto de llegada, $(36;\ 3,75)$ m, y buscamos $v_0$. Hay **dos incógnitas**, $v_0$ y $t$, así que hacen falta **dos ecuaciones**: la del eje X y la del eje Y.
+      En los problemas anteriores conocíamos $v_0$ y buscábamos dónde caía. Aquí es **al revés** (mira el dibujo del enunciado): conocemos el punto de llegada, $(36;\ 3,75)$ m, y buscamos $v_0$. Hay **dos incógnitas**, $v_0$ y $t$, así que hacen falta **dos ecuaciones**: la del eje X y la del eje Y.
   - titulo: Un sistema de dos ecuaciones
     figura:
       tipo: flujo

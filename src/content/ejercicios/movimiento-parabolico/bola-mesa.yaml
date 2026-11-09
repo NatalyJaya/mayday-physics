@@ -10,19 +10,19 @@ habilidades: [planteamiento, vectores, matematicas, multipaso]
 resumen: Horizontal «al revés». Dan la velocidad final y hay que sacar el ángulo, la altura de la mesa y la distancia.
 enunciado: |
   Una bola rueda sobre una mesa y cae al suelo. Sale de la mesa a **1,8 m/s** y llega al suelo a **4,2 m/s**. Determina la dirección y el sentido de la velocidad al llegar al suelo (el ángulo), la **altura** desde la que cae y la **distancia horizontal** que recorre hasta tocar el suelo. Desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 1.8
+  angulo: 0
+  h0: 0.7347
+  soporte: mesa
+  etiquetas: { v0: '1,8 m/s', h0: 'h = ?', alcance: 'x = ?' }
+  claves:
+    - { t: 0.3872, etiqueta: 'llega a 4,2 m/s' }
 visual:
   - titulo: Lo que sabes y lo que no
-    figura:
-      tipo: lanzamiento
-      v0: 1.8
-      angulo: 0
-      h0: 0.7347
-      soporte: mesa
-      etiquetas: { v0: '1,8 m/s', h0: 'h = ?', alcance: 'x = ?' }
-      claves:
-        - { t: 0.3872, etiqueta: 'llega a 4,2 m/s' }
     texto: |
-      La bola sale **rodando**, así que es un **lanzamiento horizontal**: $v_{0x} = 1,8$ m/s y $v_{0y} = 0$. Lo raro de este problema es que **no dan la altura**: dan lo rápido que llega al suelo. Hay que trabajar «hacia atrás».
+      La bola sale **rodando**, así que es un **lanzamiento horizontal**: $v_{0x} = 1,8$ m/s y $v_{0y} = 0$. Lo raro de este problema (mira el dibujo del enunciado) es que **no dan la altura**: dan lo rápido que llega al suelo. Hay que trabajar «hacia atrás».
   - titulo: La velocidad final es la hipotenusa
     figura:
       tipo: triangulo
