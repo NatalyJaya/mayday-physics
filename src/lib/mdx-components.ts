@@ -11,6 +11,7 @@ import Predict from '../components/lesson/Predict.astro';
 import DecompositionDiagram from '../components/sims/DecompositionDiagram.astro';
 import ProjectileLab from '../components/sims/ProjectileLab.astro';
 import IndependenceDemo from '../components/sims/IndependenceDemo.astro';
+import TrainFrames from '../components/sims/TrainFrames.astro';
 import VectorDecomposition from '../components/sims/VectorDecomposition.astro';
 import AngleExplorer from '../components/sims/AngleExplorer.astro';
 import GuidedExample from '../components/exercises/GuidedExample.astro';
@@ -27,6 +28,7 @@ export const lessonComponents = {
 	DecompositionDiagram,
 	ProjectileLab,
 	IndependenceDemo,
+	TrainFrames,
 	VectorDecomposition,
 	AngleExplorer,
 	GuidedExample,

@@ -1,0 +1,64 @@
+---
+import Icon from '../ui/Icon.astro';
+---
+
+<train-frames class="sim wide">
+	<div class="sim-head">
+		<h4>La misma caída, vista desde dos sitios</h4>
+		<p class="muted">Cámara lenta. Puntos: posición de la pelota cada 0,05 s.</p>
+	</div>
+	<svg class="sim-svg" role="img" aria-label="Arriba, vista desde dentro del tren: la pelota cae en línea recta a los pies de quien la suelta mientras el andén pasa hacia atrás. Abajo, vista desde el andén: el tren avanza y la pelota, que sigue siempre justo debajo de la mano, describe una parábola."></svg>
+	<div class="sim-readout num" aria-live="off">
+		<span data-out="t">t = 0,00 s</span>
+		<span data-out="tren"></span>
+		<span data-out="anden"></span>
+	</div>
+	<p class="legend muted">
+		<span><span class="sw sw-x"></span> velocidad horizontal</span>
+		<span><span class="sw sw-y"></span> velocidad vertical</span>
+	</p>
+	<p class="result" data-out="res" hidden aria-live="polite"></p>
+	<div class="sim-controls">
+		<button type="button" class="btn btn-primary play" data-state="paused">
+			<span class="i-play"><Icon name="play" size={16} /></span><span class="i-pause"><Icon name="pause" size={16} /></span>
+			<span class="lbl">Soltar la pelota</span>
+		</button>
+		<button type="button" class="btn btn-ghost btn-sm reset" aria-label="Volver al inicio"><Icon name="reset" size={16} /></button>
+		<div class="param">
+			<label for="tf-v">Velocidad del tren: <output class="num">8 m/s</output></label>
+			<input id="tf-v" type="range" min="0" max="12" step="1" value="8" />
+		</div>
+	</div>
+</train-frames>
+
+<style>
+	.legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px 16px;
+		margin: 0.5rem 0 0;
+		font-size: 0.88rem;
+	}
+	.result {
+		margin: 0.6rem 0 0;
+		padding: 0.55rem 0.8rem;
+		border-radius: 10px;
+		background: var(--ok-soft);
+		color: var(--ok);
+		font-weight: 700;
+	}
+	.param input {
+		width: 100%;
+	}
+	.play .i-pause,
+	.play[data-state='playing'] .i-play {
+		display: none;
+	}
+	.play[data-state='playing'] .i-pause {
+		display: inline-flex;
+	}
+</style>
+
+<script>
+	import '../../sims/train-frames';
+</script>
