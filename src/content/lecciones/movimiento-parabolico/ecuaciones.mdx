@@ -152,6 +152,17 @@ $$
 
 El **signo** de $\cy{v_y}$ te dice si en ese instante sube (positivo) o baja (negativo). La velocidad siempre es **tangente** a la trayectoria: apunta hacia donde se está moviendo el objeto en ese momento.
 
+<VelocityTriangle />
+
+Las tres razones salen del **mismo triángulo**: la velocidad $v$ es la hipotenusa, $\cx{v_x}$ es el cateto contiguo al ángulo y $\cy{v_y}$ el opuesto.
+
+- $\cos\theta = \cx{v_x}/v$ y $\operatorname{sen}\theta = \cy{v_y}/v$ son las que usas **al principio**, para descomponer $v_0$: $\cx{v_{0x}} = v_0\cos\alpha$ y $\cy{v_{0y}} = v_0\operatorname{sen}\alpha$.
+- $\tan\theta = \cy{v_y}/\cx{v_x}$ es la que usas **en un instante cualquiera**, porque entonces las ecuaciones te dan las dos componentes y lo que no conoces es $v$ ni $\theta$. La tangente no necesita la hipotenusa: $\tan\theta = \dfrac{\operatorname{sen}\theta}{\cos\theta} = \dfrac{\cy{v_y}/v}{\cx{v_x}/v} = \dfrac{\cy{v_y}}{\cx{v_x}}$.
+
+<Callout tipo="ojo">
+	Si $\cy{v_y}$ es negativa, $\tan\theta$ también lo es y el ángulo sale **negativo**: la velocidad apunta por **debajo** de la horizontal. No es un error, es el objeto bajando.
+</Callout>
+
 ## Para saber más: la ecuación de la trayectoria
 
 Si de la ecuación del eje X despejas el tiempo, $t = x / v_{0x}$ (con $x_0 = 0$), y lo sustituyes en la del eje Y, desaparece el tiempo y te queda la altura en función de la distancia:

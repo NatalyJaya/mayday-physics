@@ -93,6 +93,7 @@
 projectile-lab,
 independence-demo,
 train-frames,
+velocity-triangle,
 vector-decomposition,
 angle-explorer {
 	display: block;
@@ -977,5 +978,72 @@ projectile-lab .lab-graphs figcaption span {
 	}
 	.sim-svg .tf-note {
 		font-size: 17px;
+	}
+}
+
+/* ─── Triángulo de la velocidad (razones trigonométricas) ────────────── */
+.sim-svg .vt-tangent {
+	stroke: var(--ink-3);
+	stroke-width: 1.2;
+	stroke-dasharray: 6 5;
+}
+.sim-svg .vt-right {
+	fill: none;
+	stroke: var(--ink-3);
+	stroke-width: 1.4;
+}
+.sim-svg .vt-side {
+	stroke-width: 5;
+	stroke-linecap: round;
+	transition: opacity 0.2s;
+}
+.sim-svg .s-adj {
+	stroke: var(--q-x);
+}
+.sim-svg .s-opp {
+	stroke: var(--q-y);
+}
+.sim-svg .s-hyp {
+	stroke: var(--q-v);
+}
+.sim-svg .vt-lbl {
+	font-size: 15px;
+	paint-order: stroke;
+	stroke: var(--surface);
+	stroke-width: 4px;
+	stroke-linejoin: round;
+	transition: opacity 0.2s;
+}
+.sim-svg .vt-sym {
+	font-weight: 700;
+	font-style: italic;
+}
+.sim-svg .vt-role {
+	font-size: 12px;
+	font-weight: 600;
+	fill: var(--ink-3);
+}
+.sim-svg .l-adj .vt-sym {
+	fill: var(--q-x-text);
+}
+.sim-svg .l-opp .vt-sym {
+	fill: var(--q-y-text);
+}
+.sim-svg .l-hyp .vt-sym {
+	fill: var(--ink);
+}
+/* El lado que NO interviene en la razón elegida se atenúa */
+velocity-triangle[data-focus='cos'] .vt-tri :is(.s-opp, .l-opp),
+velocity-triangle[data-focus='sen'] .vt-tri :is(.s-adj, .l-adj),
+velocity-triangle[data-focus='tan'] .vt-tri :is(.s-hyp, .l-hyp) {
+	opacity: 0.18;
+}
+@media (max-width: 560px) {
+	.sim-svg.vt-scene .label,
+	.sim-svg.vt-scene .vlabel {
+		font-size: 20px;
+	}
+	.sim-svg.vt-scene .tick {
+		font-size: 16px;
 	}
 }
