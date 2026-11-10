@@ -173,6 +173,20 @@ const gName = `${id}-g`;
 				<div class="cx"><dt>vₓ</dt><dd class="num" data-out="vx"></dd></div>
 				<div class="cy"><dt>vᵧ</dt><dd class="num" data-out="vy"></dd></div>
 				<div><dt>|v|</dt><dd class="num" data-out="v"></dd></div>
+				<div class="wide-row angle-row">
+					<svg class="theta-dial" viewBox="0 0 48 48" aria-hidden="true">
+						<circle cx="24" cy="24" r="19" class="td-ring"></circle>
+						<line x1="24" y1="24" x2="45" y2="24" class="td-ref"></line>
+						<path class="td-arc"></path>
+						<line x1="24" y1="24" x2="24" y2="24" class="td-v"></line>
+						<path class="td-head"></path>
+						<circle cx="24" cy="24" r="2.5" class="td-dot"></circle>
+					</svg>
+					<div>
+						<dt>θ <span class="hint">dirección de la velocidad · <span class="nw">tan θ = <span class="q-y">vᵧ</span> / <span class="q-x">vₓ</span></span></span></dt>
+						<dd class="num"><span data-out="theta"></span> <span class="theta-desc" data-out="theta-desc"></span></dd>
+					</div>
+				</div>
 			</dl>
 
 			<h3>Resultados del lanzamiento</h3>

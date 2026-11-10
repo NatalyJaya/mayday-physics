@@ -92,6 +92,8 @@
 /* Los elementos personalizados son «inline» por defecto */
 projectile-lab,
 independence-demo,
+train-frames,
+velocity-triangle,
 vector-decomposition,
 angle-explorer {
 	display: block;
@@ -584,6 +586,7 @@ projectile-lab .results dd {
 	font-weight: 700;
 	font-size: 0.98rem;
 }
+projectile-lab .instant .wide-row,
 projectile-lab .results .wide-row {
 	grid-column: 1 / -1;
 }
@@ -895,4 +898,211 @@ projectile-lab .lab-graphs figcaption span {
 	fill: var(--surface);
 	stroke: var(--ink-2);
 	stroke-width: 2;
+}
+
+/* ─── Pelota en el tren (dos sistemas de referencia) ─────────────────── */
+.sim-svg .tf-title {
+	font-size: 14px;
+	font-weight: 700;
+	fill: var(--ink-2);
+}
+.sim-svg .tf-sky {
+	fill: var(--surface-2);
+}
+.sim-svg .tf-frame {
+	fill: none;
+	stroke: var(--line);
+}
+.sim-svg .tf-ground {
+	fill: var(--surface-3);
+}
+.sim-svg .tf-tile {
+	stroke: var(--line-strong);
+	stroke-width: 1.5;
+}
+.sim-svg .tf-post {
+	stroke: var(--ink-3);
+	stroke-width: 3;
+	stroke-linecap: round;
+}
+.sim-svg .tf-lamp {
+	fill: var(--warn);
+}
+.sim-svg .tf-car {
+	fill: color-mix(in srgb, var(--accent-soft) 82%, transparent);
+	stroke: var(--accent);
+	stroke-width: 2;
+}
+.sim-svg .tf-window {
+	fill: color-mix(in srgb, var(--surface) 55%, transparent);
+	stroke: var(--accent);
+	stroke-width: 1;
+	opacity: 0.7;
+}
+.sim-svg .tf-floor {
+	stroke: var(--accent);
+	stroke-width: 2.5;
+}
+.sim-svg .tf-wheel {
+	fill: var(--ink-2);
+	stroke: var(--surface);
+	stroke-width: 2;
+}
+.sim-svg .tf-person circle {
+	fill: var(--ink-2);
+}
+.sim-svg .tf-person line {
+	stroke: var(--ink-2);
+	stroke-width: 3.5;
+	stroke-linecap: round;
+}
+.sim-svg .tf-start {
+	stroke: var(--ink-3);
+	stroke-width: 1.2;
+	stroke-dasharray: 2 4;
+}
+.sim-svg .tf-note {
+	font-size: 12px;
+	font-weight: 600;
+	fill: var(--ink-3);
+}
+.tf-move line {
+	stroke: var(--ink-3);
+	stroke-width: 2;
+}
+.tf-move path {
+	fill: var(--ink-3);
+}
+@media (max-width: 560px) {
+	.sim-svg .tf-title {
+		font-size: 22px;
+	}
+	.sim-svg .tf-note {
+		font-size: 17px;
+	}
+}
+
+/* ─── Triángulo de la velocidad (razones trigonométricas) ────────────── */
+.sim-svg .vt-tangent {
+	stroke: var(--ink-3);
+	stroke-width: 1.2;
+	stroke-dasharray: 6 5;
+}
+.sim-svg .vt-right {
+	fill: none;
+	stroke: var(--ink-3);
+	stroke-width: 1.4;
+}
+.sim-svg .vt-side {
+	stroke-width: 5;
+	stroke-linecap: round;
+	transition: opacity 0.2s;
+}
+.sim-svg .s-adj {
+	stroke: var(--q-x);
+}
+.sim-svg .s-opp {
+	stroke: var(--q-y);
+}
+.sim-svg .s-hyp {
+	stroke: var(--q-v);
+}
+.sim-svg .vt-lbl {
+	font-size: 15px;
+	paint-order: stroke;
+	stroke: var(--surface);
+	stroke-width: 4px;
+	stroke-linejoin: round;
+	transition: opacity 0.2s;
+}
+.sim-svg .vt-sym {
+	font-weight: 700;
+	font-style: italic;
+}
+.sim-svg .vt-role {
+	font-size: 12px;
+	font-weight: 600;
+	fill: var(--ink-3);
+}
+.sim-svg .l-adj .vt-sym {
+	fill: var(--q-x-text);
+}
+.sim-svg .l-opp .vt-sym {
+	fill: var(--q-y-text);
+}
+.sim-svg .l-hyp .vt-sym {
+	fill: var(--ink);
+}
+/* El lado que NO interviene en la razón elegida se atenúa */
+velocity-triangle[data-focus='cos'] .vt-tri :is(.s-opp, .l-opp),
+velocity-triangle[data-focus='sen'] .vt-tri :is(.s-adj, .l-adj),
+velocity-triangle[data-focus='tan'] .vt-tri :is(.s-hyp, .l-hyp) {
+	opacity: 0.18;
+}
+@media (max-width: 560px) {
+	.sim-svg.vt-scene .label,
+	.sim-svg.vt-scene .vlabel {
+		font-size: 20px;
+	}
+	.sim-svg.vt-scene .tick {
+		font-size: 16px;
+	}
+}
+
+/* Ángulo de la velocidad en «En el instante» */
+projectile-lab .instant .angle-row {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+}
+projectile-lab .instant .angle-row dt {
+	font-style: normal;
+}
+projectile-lab .instant .angle-row .hint {
+	margin-left: 0.3rem;
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: var(--ink-3);
+}
+projectile-lab .instant .angle-row .nw {
+	white-space: nowrap;
+}
+projectile-lab .theta-desc {
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--ink-3);
+}
+.theta-dial {
+	flex: none;
+	width: 54px;
+	height: 54px;
+}
+.theta-dial .td-ring {
+	fill: var(--surface);
+	stroke: var(--line);
+}
+.theta-dial .td-ref {
+	stroke: var(--ink-3);
+	stroke-width: 1;
+	stroke-dasharray: 2 2;
+}
+.theta-dial .td-arc {
+	fill: none;
+	stroke: var(--ink-2);
+	stroke-width: 1.3;
+}
+.theta-dial .td-v {
+	stroke: var(--q-v);
+	stroke-width: 2.6;
+	stroke-linecap: round;
+}
+.theta-dial .td-head,
+.theta-dial .td-dot {
+	fill: var(--q-v);
+}
+@media (max-width: 720px) {
+	projectile-lab .instant .angle-row .hint {
+		display: block;
+		margin: 0.1rem 0 0.15rem;
+	}
 }

@@ -1,0 +1,152 @@
+---
+import Icon from '../ui/Icon.astro';
+---
+
+<velocity-triangle class="sim wide" data-focus="tan">
+	<div class="sim-head">
+		<h4>La velocidad es la hipotenusa de un triángulo</h4>
+		<p class="muted">Lanzamiento a 20 m/s y 55°. Mueve el tiempo o pulsa reproducir.</p>
+	</div>
+	<div class="layout">
+		<div class="col">
+			<svg class="sim-svg vt-scene" role="img" aria-label="Trayectoria parabólica con el vector velocidad en un instante: es tangente a la curva y forma un triángulo rectángulo con sus componentes horizontal y vertical."></svg>
+			<div class="sim-readout num" aria-live="off">
+				<span data-out="t"></span>
+				<span data-out="vx"></span>
+				<span data-out="vy"></span>
+				<span data-out="state" class="state"></span>
+			</div>
+		</div>
+		<div class="col">
+			<svg class="sim-svg vt-tri" role="img" aria-label="El triángulo de la velocidad ampliado: hipotenusa v, cateto contiguo vₓ y cateto opuesto vᵧ."></svg>
+			<div class="ratios num" role="group" aria-label="Razones trigonométricas">
+				<button type="button" class="ratio" data-r="cos" aria-pressed="false">
+					<span class="def">cos θ = <span class="q-x">vₓ</span> / v</span>
+					<span class="val" data-out="cos"></span>
+				</button>
+				<button type="button" class="ratio" data-r="sen" aria-pressed="false">
+					<span class="def">sen θ = <span class="q-y">vᵧ</span> / v</span>
+					<span class="val" data-out="sen"></span>
+				</button>
+				<button type="button" class="ratio" data-r="tan" aria-pressed="true">
+					<span class="def">tan θ = <span class="q-y">vᵧ</span> / <span class="q-x">vₓ</span></span>
+					<span class="val" data-out="tan"></span>
+				</button>
+			</div>
+		</div>
+	</div>
+	<p class="note" data-out="note" aria-live="polite"></p>
+	<div class="answers num">
+		<span><span class="tag">Ángulo</span> <span data-out="theta"></span></span>
+		<span><span class="tag">Módulo (Pitágoras)</span> <span data-out="v"></span></span>
+	</div>
+	<div class="sim-controls">
+		<button type="button" class="btn btn-primary play" data-state="paused">
+			<span class="i-play"><Icon name="play" size={16} /></span><span class="i-pause"><Icon name="pause" size={16} /></span>
+			<span class="lbl">Reproducir</span>
+		</button>
+		<div class="param">
+			<label for="vt-t">Instante <i>t</i></label>
+			<input id="vt-t" type="range" min="0" step="0.01" value="0.35" />
+		</div>
+	</div>
+</velocity-triangle>
+
+<style>
+	.layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+		gap: 1rem 1.25rem;
+		align-items: start;
+	}
+	.state {
+		font-weight: 700;
+		min-width: 13.5em;
+	}
+	.ratio .val {
+		white-space: nowrap;
+	}
+	.ratios {
+		display: grid;
+		gap: 6px;
+		margin-top: 0.4rem;
+	}
+	.ratio {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 2px 10px;
+		width: 100%;
+		min-height: 44px;
+		padding: 0.45rem 0.75rem;
+		border: 1.5px solid var(--line);
+		border-radius: 10px;
+		background: var(--surface-2);
+		color: var(--ink);
+		font: inherit;
+		font-size: 0.95rem;
+		text-align: left;
+		cursor: pointer;
+	}
+	.ratio:hover {
+		border-color: var(--line-strong);
+	}
+	.ratio[aria-pressed='true'] {
+		border-color: var(--accent);
+		background: var(--accent-soft);
+	}
+	.ratio .def {
+		font-weight: 700;
+	}
+	.ratio .val {
+		color: var(--ink-2);
+		font-size: 0.9rem;
+	}
+	.note {
+		margin: 0.85rem 0 0;
+		padding: 0.6rem 0.85rem;
+		border-left: 3px solid var(--accent);
+		border-radius: 0 10px 10px 0;
+		background: var(--surface-2);
+		font-size: 0.95rem;
+		line-height: 1.5;
+	}
+	.answers {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px 10px;
+		margin-top: 0.6rem;
+		font-size: 0.95rem;
+	}
+	.answers > span {
+		background: var(--surface-2);
+		border-radius: 9px;
+		padding: 0.3rem 0.6rem;
+	}
+	.tag {
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--ink-3);
+		margin-right: 4px;
+	}
+	.param input {
+		width: 100%;
+	}
+	.play .i-pause,
+	.play[data-state='playing'] .i-play {
+		display: none;
+	}
+	.play[data-state='playing'] .i-pause {
+		display: inline-flex;
+	}
+	@media (max-width: 760px) {
+		.layout {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
+
+<script>
+	import '../../sims/velocity-triangle';
+</script>
