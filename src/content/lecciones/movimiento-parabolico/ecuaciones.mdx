@@ -165,11 +165,67 @@ Las tres razones salen del **mismo triángulo**: la velocidad $v$ es la hipotenu
 
 ## Para saber más: la ecuación de la trayectoria
 
-Si de la ecuación del eje X despejas el tiempo, $t = x / v_{0x}$ (con $x_0 = 0$), y lo sustituyes en la del eje Y, desaparece el tiempo y te queda la altura en función de la distancia:
+Las ecuaciones de posición te dicen dónde está el objeto **en cada instante**. A veces interesa otra cosa: **a qué altura pasa cuando está a una distancia dada**, sin pasar por el tiempo. Para eso hay que eliminar $t$ de las ecuaciones.
 
-$$
-y = y_0 + x\tan\alpha - \frac{9,8\,x^2}{2\,v_0^2\cos^2\alpha}
-$$
+<Derivation titulo="De las ecuaciones de posición a la ecuación de la trayectoria">
+	<Paso titulo="Parte de las dos ecuaciones de posición" porque="Son las que ya tienes. Tomamos $x_0 = 0$ (medimos las distancias desde el punto de lanzamiento) para que las cuentas queden más limpias.">
+		$$
+		\cx{x} = v_0\cos\alpha\cdot t \qquad\qquad \cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2
+		$$
+	</Paso>
+	<Paso titulo="Despeja el tiempo de la ecuación del eje X" porque="El tiempo es lo único que comparten las dos ecuaciones. Si lo escribes en función de $x$, podrás quitarlo de la ecuación de $y$. Se despeja de la de X porque es la más sencilla: no tiene $t^2$.">
+		$$
+		t = \frac{\cx{x}}{v_0\cos\alpha}
+		$$
+	</Paso>
+	<Paso titulo="Sustituye ese $t$ en la ecuación del eje Y" porque="Donde ponía $t$, ahora pones lo que vale $t$. Ojo con el último término: el $t^2$ significa que **toda** la fracción va al cuadrado.">
+		$$
+		\cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot\frac{\cx{x}}{v_0\cos\alpha} - 4,9\left(\frac{\cx{x}}{v_0\cos\alpha}\right)^{2}
+		$$
+	</Paso>
+	<Paso titulo="Simplifica el término del medio" porque="$v_0$ está arriba y abajo, así que se cancela. Lo que queda, $\operatorname{sen}\alpha/\cos\alpha$, es por definición $\tan\alpha$.">
+		$$
+		v_0\operatorname{sen}\alpha\cdot\frac{\cx{x}}{v_0\cos\alpha} = \cx{x}\cdot\frac{\operatorname{sen}\alpha}{\cos\alpha} = \cx{x}\tan\alpha
+		$$
+	</Paso>
+	<Paso titulo="Simplifica el último término" porque="Elevar una fracción al cuadrado es elevar el numerador y el denominador. Además, $4,9$ es $9,8/2$: escribirlo así deja a la vista la gravedad.">
+		$$
+		4,9\left(\frac{\cx{x}}{v_0\cos\alpha}\right)^{2} = \frac{4,9\,\cx{x}^2}{v_0^2\cos^2\alpha} = \frac{9,8\,\cx{x}^2}{2\,v_0^2\cos^2\alpha}
+		$$
+	</Paso>
+	<Paso titulo="Junta las piezas" porque="Ya no aparece $t$: la altura depende solo de la distancia horizontal.">
+		$$
+		\cy{y} = y_0 + \cx{x}\tan\alpha - \frac{9,8\,\cx{x}^2}{2\,v_0^2\cos^2\alpha}
+		$$
+	</Paso>
+	<Paso titulo="Reconoce la forma de una parábola" porque="En un lanzamiento concreto, $y_0$, $v_0$ y $\alpha$ son números fijos. Entonces los tres coeficientes son constantes, y una ecuación de la forma $y = a + b\,x - c\,x^2$ es justo una parábola que se abre hacia abajo.">
+		$$
+		\cy{y} = \underbrace{y_0}_{a} + \underbrace{\tan\alpha}_{b}\;\cx{x} - \underbrace{\frac{9,8}{2\,v_0^2\cos^2\alpha}}_{c}\;\cx{x}^2
+		$$
+	</Paso>
+</Derivation>
+
+<Formula
+	titulo="Ecuación de la trayectoria"
+	usala="te preguntan por la altura a una distancia horizontal concreta, por ejemplo si el objeto supera una red, una barrera o un muro."
+	nousar="te preguntan por un instante (cuándo llega o cuánto tarda): para eso están las ecuaciones con el tiempo. Además, aquí $x$ se mide desde el punto de lanzamiento, no desde otro origen."
+>
+	$$
+	y = y_0 + x\tan\alpha - \frac{9,8\,x^2}{2\,v_0^2\cos^2\alpha}
+	$$
+</Formula>
+
+<Reveal titulo="Ejemplo rápido: ¿supera el muro?">
+	Lanzas una pelota desde el suelo a $20$ m/s y $45°$. Hay un muro de $7$ m de alto a $10$ m de distancia. ¿Pasa por encima?
+
+	Con $\tan 45° = 1$ y $\cos^2 45° = 0,5$:
+
+	$$
+	y = 0 + 10\cdot 1 - \frac{9,8\cdot 10^2}{2\cdot 20^2\cdot 0,5} = 10 - \frac{980}{400} = 10 - 2,45 = 7,55\ \text{m}
+	$$
+
+	A $10$ m de distancia la pelota está a $7,55$ m de altura, así que **sí pasa**, con $55$ cm de margen. Ni siquiera ha hecho falta calcular el tiempo.
+</Reveal>
 
 Tiene la forma $y = a + b\,x - c\,x^2$: es **una parábola**. Es la demostración de lo que intuimos en la etapa 1. También es muy práctica cuando te preguntan si el objeto **supera un obstáculo** situado a una distancia conocida, como una barrera, una red o un muro.
 
