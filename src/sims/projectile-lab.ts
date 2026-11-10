@@ -12,7 +12,7 @@ import {
 } from '../lib/physics/projectile';
 import { fmt, fmtTrim } from '../lib/format';
 import { MiniPlot } from './core/plot';
-import { Clock, arrow, clear, el, niceStep, polyline, set, ticks, updateArrow } from './core/svg';
+import { Clock, arrow, arrowHead, clear, el, niceStep, polyline, set, ticks, updateArrow } from './core/svg';
 
 const PAD = { l: 50, r: 22, t: 26, b: 56 };
 const PLATFORM = 30; // ancho en px del edificio/plataforma de lanzamiento
@@ -454,6 +454,7 @@ class ProjectileLab extends HTMLElement {
 		out('[data-out="vx"]', `${fmt(v.vx)} m/s`);
 		out('[data-out="vy"]', `${fmt(v.vy)} m/s`);
 		out('[data-out="v"]', `${fmt(v.speed)} m/s`);
+		this.renderAngle(v.speed, v.angleDeg);
 		const state = this.q('[data-out="state"]');
 		state.textContent = this.T <= 0 ? '' : t >= this.T - 1e-9 ? 'en el suelo' : v.vy > 1e-6 ? 'subiendo' : v.vy < -1e-6 ? 'bajando' : 'en el punto más alto';
 		out('[data-eval="x"]', `\u00a0= ${fmt(pos.x)} m`);
@@ -469,6 +470,39 @@ class ProjectileLab extends HTMLElement {
 	}
 
 	// ─── Números, ecuaciones y gráficas ────────────────────────────────────
+	/** Ángulo de la velocidad con la horizontal: número y una flecha que gira. */
+	private renderAngle(speed: number, angleDeg: number) {
+		const still = speed < 1e-6;
+		const a = (angleDeg * Math.PI) / 180;
+		const thetaTxt = still ? '—' : `${fmt(Math.abs(angleDeg) < 0.05 ? 0 : angleDeg, 1)}°`;
+		const desc = still
+			? 'en reposo: no hay dirección'
+			: Math.abs(angleDeg) < 0.05
+				? 'horizontal'
+				: Math.abs(angleDeg) > 89.95
+					? angleDeg > 0
+						? 'vertical, hacia arriba'
+						: 'vertical, hacia abajo'
+					: angleDeg > 0
+						? 'sobre la horizontal'
+						: 'bajo la horizontal';
+		this.q('[data-out="theta"]').textContent = thetaTxt;
+		this.q('[data-out="theta-desc"]').textContent = desc;
+		// Esfera: la flecha apunta como la velocidad; el arco marca θ desde la horizontal
+		const c = 24,
+			L = 17,
+			r = 10;
+		const ex = c + L * Math.cos(a),
+			ey = c - L * Math.sin(a);
+		const dial = this.q<SVGSVGElement>('.theta-dial');
+		set(dial.querySelector('.td-v')!, { x2: still ? c : ex, y2: still ? c : ey });
+		set(dial.querySelector('.td-head')!, { d: still ? '' : arrowHead(c, c, ex, ey, 7) });
+		const showArc = !still && Math.abs(angleDeg) > 0.5;
+		set(dial.querySelector('.td-arc')!, {
+			d: showArc ? `M${c + r} ${c} A${r} ${r} 0 0 ${a > 0 ? 0 : 1} ${(c + r * Math.cos(a)).toFixed(2)} ${(c - r * Math.sin(a)).toFixed(2)}` : '',
+		});
+	}
+
 	private updateNumbers() {
 		const l = this.launch;
 		const v0x = velocityAt(l, 0).vx,

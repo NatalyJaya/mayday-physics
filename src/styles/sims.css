@@ -586,6 +586,7 @@ projectile-lab .results dd {
 	font-weight: 700;
 	font-size: 0.98rem;
 }
+projectile-lab .instant .wide-row,
 projectile-lab .results .wide-row {
 	grid-column: 1 / -1;
 }
@@ -1045,5 +1046,63 @@ velocity-triangle[data-focus='tan'] .vt-tri :is(.s-hyp, .l-hyp) {
 	}
 	.sim-svg.vt-scene .tick {
 		font-size: 16px;
+	}
+}
+
+/* Ángulo de la velocidad en «En el instante» */
+projectile-lab .instant .angle-row {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+}
+projectile-lab .instant .angle-row dt {
+	font-style: normal;
+}
+projectile-lab .instant .angle-row .hint {
+	margin-left: 0.3rem;
+	font-size: 0.78rem;
+	font-weight: 600;
+	color: var(--ink-3);
+}
+projectile-lab .instant .angle-row .nw {
+	white-space: nowrap;
+}
+projectile-lab .theta-desc {
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: var(--ink-3);
+}
+.theta-dial {
+	flex: none;
+	width: 54px;
+	height: 54px;
+}
+.theta-dial .td-ring {
+	fill: var(--surface);
+	stroke: var(--line);
+}
+.theta-dial .td-ref {
+	stroke: var(--ink-3);
+	stroke-width: 1;
+	stroke-dasharray: 2 2;
+}
+.theta-dial .td-arc {
+	fill: none;
+	stroke: var(--ink-2);
+	stroke-width: 1.3;
+}
+.theta-dial .td-v {
+	stroke: var(--q-v);
+	stroke-width: 2.6;
+	stroke-linecap: round;
+}
+.theta-dial .td-head,
+.theta-dial .td-dot {
+	fill: var(--q-v);
+}
+@media (max-width: 720px) {
+	projectile-lab .instant .angle-row .hint {
+		display: block;
+		margin: 0.1rem 0 0.15rem;
 	}
 }
