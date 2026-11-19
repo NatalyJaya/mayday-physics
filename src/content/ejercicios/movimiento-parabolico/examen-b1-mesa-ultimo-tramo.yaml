@@ -1,0 +1,116 @@
+titulo: El último tramo de la caída
+tema: movimiento-parabolico
+orden: 111
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 1 del examen de práctica B. Amplía el problema 2 de la hoja cooperativa del 28/10 (la bola que cae de la mesa).
+coleccion: examen-parabolico-b
+dificultad: examen
+habilidades: [planteamiento, matematicas, multipaso, vectores]
+resumen: No dan la altura ni la velocidad final. Solo lo que baja la bola en la última décima de segundo.
+enunciado: |
+  Una bola sale horizontalmente del borde de una mesa a **2,0 m/s**. Un sensor colocado junto a la mesa registra que, durante la **última décima de segundo** antes de tocar el suelo, la bola desciende **0,45 m**. Desprecia el rozamiento con el aire.
+
+  a) ¿Cuánto dura la caída y qué altura tiene la mesa? b) ¿A qué distancia de la mesa cae? c) ¿Con qué velocidad (módulo) y qué ángulo llega al suelo?
+figura:
+  tipo: lanzamiento
+  v0: 2
+  angulo: 0
+  h0: 1.2704
+  soporte: mesa
+  etiquetas: { v0: '2,0 m/s', h0: 'h = ?', alcance: 'x = ?' }
+  claves:
+    - { t: 0.4092, etiqueta: 'faltan 0,1 s: quedan 0,45 m' }
+datos:
+  - { simbolo: '\cx{v_{0x}}', valor: '2,0\un{m/s}', significado: 'sale en horizontal' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'no tiene velocidad vertical al salir' }
+  - { simbolo: '\Delta y', valor: '0,45\un{m}', significado: 'lo que baja entre $t - 0,1$ y $t$ (el instante en que llega)' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'El tiempo de caída $t$ y la altura $h$ de la mesa.'
+  - La distancia horizontal recorrida.
+  - El módulo y el ángulo de la velocidad al llegar.
+interpretacion: |
+  Si la caída dura $t$, la bola está en el suelo en el instante $t$ y, una décima antes, en el instante $t - 0,1$, estaba 0,45 m más arriba. Escribiendo la posición vertical en esos dos instantes y restando, la altura de la mesa desaparece y queda una ecuación con una sola incógnita: $t$.
+conceptos:
+  - '$\cy{y}(t) = h - 4,9\,t^2$ vale para **cualquier** instante del vuelo.'
+  - 'Lo que baja entre dos instantes es la diferencia de alturas: $\Delta y = \cy{y}(t - 0,1) - \cy{y}(t)$.'
+  - '$(t - 0,1)^2 = t^2 - 0,2\,t + 0,01$.'
+apartados:
+  - id: a
+    enunciado: ¿Cuánto dura la caída? ¿Qué altura tiene la mesa?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 0.5092 }
+        - { simbolo: 'h', etiqueta: 'Altura de la mesa', unidad: m, valor: 1.270 }
+    pistas:
+      - 'Escribe la altura de la bola en el instante $t$ (está en el suelo) y en el instante $t - 0,1$.'
+      - '$\big[h - 4,9\,(t-0,1)^2\big] - \big[h - 4,9\,t^2\big] = 0,45$. La $h$ se va.'
+      - 'Desarrolla el cuadrado: los $t^2$ también se cancelan y queda una ecuación de primer grado.'
+    pasos:
+      - titulo: Posición vertical en los dos instantes
+        piensa: '¿Qué ecuación da la altura de la bola en cualquier instante?'
+        desarrollo: |
+          $$\cy{y}(t) = h - 4,9\,t^2 = 0 \qquad \cy{y}(t - 0,1) = h - 4,9\,(t - 0,1)^2$$
+        porque: 'En el instante $t$ la bola llega al suelo. Una décima antes estaba más arriba.'
+      - titulo: Lo que baja en la última décima
+        desarrollo: |
+          $$\cy{y}(t - 0,1) - \cy{y}(t) = 0,45 \;\Rightarrow\; 4,9\,t^2 - 4,9\,(t - 0,1)^2 = 0,45$$
+
+          $$4,9\,(t^2 - t^2 + 0,2\,t - 0,01) = 0,45 \;\Rightarrow\; 0,98\,t - 0,049 = 0,45 \;\Rightarrow\; t = 0,509\un{s}$$
+        porque: 'La $h$ y los $t^2$ se cancelan. Queda una ecuación de primer grado.'
+      - titulo: Altura de la mesa
+        desarrollo: |
+          $$0 = h - 4,9\cdot 0,509^2 \;\Rightarrow\; h = 1,27\un{m}$$
+        porque: 'Comprobación: en $t = 0,409$ s la bola estaba a $1,27 - 4,9\cdot 0,409^2 = 0,45$ m del suelo. ✓'
+    resultado: 'La caída dura **0,509 s** y la mesa mide **1,27 m**.'
+  - id: b
+    enunciado: ¿A qué distancia de la mesa cae?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{x}', etiqueta: 'Distancia horizontal', unidad: m, valor: 1.018 }
+    pistas:
+      - 'Eje X: MRU con el tiempo de caída.'
+    pasos:
+      - titulo: Eje X (MRU)
+        desarrollo: |
+          $$\cx{x} = 2,0\cdot 0,509 = 1,02\un{m}$$
+    resultado: 'Cae a **1,02 m** del borde de la mesa.'
+  - id: c
+    enunciado: ¿Con qué velocidad (módulo) y qué ángulo bajo la horizontal llega al suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical al llegar', unidad: m/s, valor: -4.990 }
+        - { simbolo: 'v', etiqueta: 'Módulo de la velocidad', unidad: m/s, valor: 5.376 }
+        - simbolo: '\alpha'
+          etiqueta: Ángulo bajo la horizontal (sin signo)
+          unidad: '°'
+          valor: 68.16
+          trampas:
+            - { valor: 2.495, explicacion: 'Eso es el valor de la **tangente**. Aplica el arcotangente para obtener el ángulo.' }
+            - { valor: 21.84, explicacion: 'Has calculado el ángulo con la **vertical** ($\arctan(v_x/v_y)$). Se pide con la horizontal.' }
+    pistas:
+      - '$v_y = 0 - 9,8\cdot 0,509$; $v_x = 2,0$ m/s no cambia.'
+    pasos:
+      - titulo: Componentes al llegar
+        desarrollo: |
+          $$\cx{v_x} = 2,0\un{m/s} \qquad \cy{v_y} = -9,8\cdot 0,509 = -4,99\un{m/s}$$
+      - titulo: Módulo y ángulo
+        desarrollo: |
+          $$v = \sqrt{2,0^2 + 4,99^2} = 5,38\un{m/s} \qquad \tan\alpha = \frac{-4,99}{2,0} = -2,50 \;\Rightarrow\; \alpha = -68,2^\circ$$
+    resultado: 'Llega a **5,38 m/s** formando **68,2° por debajo** de la horizontal.'
+errores:
+  - error: 'Calcular 0,45 / 0,1 = 4,5 m/s y tomarlo como la velocidad final'
+    explicacion: 'Eso es la velocidad **media** en la última décima, no la velocidad al llegar: durante esa décima la bola sigue acelerando. Hay que plantear las posiciones en los dos instantes.'
+  - error: 'Escribir (t − 0,1)² = t² − 0,01'
+    explicacion: 'Falta el doble producto: $(t - 0,1)^2 = t^2 - 0,2\,t + 0,01$. Sin él, la ecuación no tiene solución.'
+  - error: 'Confundir el instante t − 0,1 con t = 0,1'
+    explicacion: 'La décima es la **última** de la caída, no la primera. En la primera décima la bola solo baja $4,9\cdot 0,1^2 = 0,049$ m.'
+alternativas:
+  - titulo: Con la velocidad media (no visto en clase)
+    desarrollo: |
+      En un MRUA, la velocidad media en un intervalo es la velocidad en su instante central. La velocidad vertical media en la última décima es $0,45/0,1 = 4,5$ m/s, que es $|v_y|$ en $t - 0,05$. Así, $9,8\,(t - 0,05) = 4,5$ y $t = 0,509$ s. Sirve para comprobar.
+laboratorio: { v0: 2, angulo: 0, h0: 1.27 }

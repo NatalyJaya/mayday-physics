@@ -10,3 +10,58 @@
   descripcion: Los tres problemas de lanzamientos del Tema 2 que se trabajaron en grupo, con las correcciones del profesor, y tres variantes de cada uno para practicar de más fácil a más difícil.
   fuente: hoja-cooperativa-2026-10-28
   principales: [saltador-longitud, bola-mesa, moto-rampas]
+
+# ─── Exámenes de práctica ───
+# Tres exámenes de 3 ejercicios cada uno, de dificultad igual o superior a los
+# problemas de la bola de la mesa y la moto entre rampas de la hoja del 28/10.
+
+- id: examen-parabolico-a
+  tipo: examen
+  titulo: 'Examen de práctica A: lanzamientos'
+  corto: Examen A
+  tema: movimiento-parabolico
+  fecha: '2026-11-19'
+  minutos: 55
+  basada_en: cooperativa-2026-10-28
+  descripcion: La bola que cae de una mesa y la moto entre rampas, pero sin datos directos. Hay que deducir la velocidad de salida a partir del ángulo de llegada, saltar entre rampas de distinta altura y acertar dentro de una caja.
+  fuente: hoja-cooperativa-2026-10-28
+  principales: [examen-a1-mesa-angulo, examen-a2-moto-desnivel, examen-a3-mesa-caja]
+  instrucciones:
+    - 'Toma g = 9,8 m/s² y desprecia el rozamiento con el aire.'
+    - 'Usa el método de clase: escribe las ecuaciones de cada eje y conecta los ejes con el tiempo.'
+    - Trabaja con al menos tres decimales en los senos y cosenos.
+    - Contesta todo lo que pide cada apartado, con unidades.
+
+- id: examen-parabolico-b
+  tipo: examen
+  titulo: 'Examen de práctica B: lanzamientos'
+  corto: Examen B
+  tema: movimiento-parabolico
+  fecha: '2026-11-19'
+  minutos: 55
+  basada_en: cooperativa-2026-10-28
+  descripcion: Una bola de la que solo conoces el último tramo de la caída, una moto que tiene que aterrizar sobre una rampa de longitud limitada y una moto con dos ángulos posibles para el mismo salto.
+  fuente: hoja-cooperativa-2026-10-28
+  principales: [examen-b1-mesa-ultimo-tramo, examen-b2-moto-margen, examen-b3-moto-dos-angulos]
+  instrucciones:
+    - 'Toma g = 9,8 m/s² y desprecia el rozamiento con el aire.'
+    - 'Usa el método de clase: escribe las ecuaciones de cada eje y conecta los ejes con el tiempo.'
+    - Trabaja con al menos tres decimales en los senos y cosenos.
+    - Contesta todo lo que pide cada apartado, con unidades.
+
+- id: examen-parabolico-c
+  tipo: examen
+  titulo: 'Examen de práctica C: lanzamientos'
+  corto: Examen C
+  tema: movimiento-parabolico
+  fecha: '2026-11-19'
+  minutos: 55
+  basada_en: cooperativa-2026-10-28
+  descripcion: Una bola de la que conoces un instante intermedio, una moto que salta hacia una rampa más alta por encima de un cartel y una bola que llega al suelo al doble de su velocidad de salida.
+  fuente: hoja-cooperativa-2026-10-28
+  principales: [examen-c1-mesa-45-grados, examen-c2-moto-cartel, examen-c3-mesa-doble-velocidad]
+  instrucciones:
+    - 'Toma g = 9,8 m/s² y desprecia el rozamiento con el aire.'
+    - 'Usa el método de clase: escribe las ecuaciones de cada eje y conecta los ejes con el tiempo.'
+    - Trabaja con al menos tres decimales en los senos y cosenos.
+    - Contesta todo lo que pide cada apartado, con unidades.

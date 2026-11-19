@@ -8,6 +8,7 @@ import ExerciseMeta from '../../../../components/exercises/ExerciseMeta.astro';
 import Icon from '../../../../components/ui/Icon.astro';
 import {
 	blockUrl,
+	collectionUrl,
 	exerciseUrl,
 	getCollections,
 	getExercise,
@@ -41,6 +42,9 @@ const groups = await Promise.all(
 const total = groups.reduce((n, g) => n + 1 + g.variants.length, 0);
 const fecha = new Date(col.data.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 const LEVEL = ['Más fácil', 'Un paso más', 'Reto'];
+const exam = col.data.tipo === 'examen';
+const base = col.data.basada_en ? await getEntry('colecciones', col.data.basada_en) : undefined;
+const siblings = exam ? (await getCollections(topic.id)).filter((c) => c.data.tipo === 'examen') : [];
 ---
 
 <BaseLayout title={col.data.titulo} description={col.data.descripcion}>
@@ -53,12 +57,59 @@ const LEVEL = ['Más fácil', 'Un paso más', 'Reto'];
 				{ label: col.data.corto },
 			]}
 		/>
-		<p class="eyebrow"><Icon name="layers" size={14} /> Colección de clase · {fecha}</p>
+		{
+			exam ? (
+				<p class="eyebrow">
+					<Icon name="clock" size={14} /> Examen de práctica{col.data.minutos && ` · ${col.data.minutos} min`}
+				</p>
+			) : (
+				<p class="eyebrow"><Icon name="layers" size={14} /> Colección de clase · {fecha}</p>
+			)
+		}
 		<h1>{col.data.titulo}</h1>
 		<p class="lead">{col.data.descripcion}</p>
-		<p class="muted count">
-			{groups.length} problemas y {total - groups.length} variantes. Empieza por el problema; cuando lo entiendas, haz sus variantes en orden.
-		</p>
+		{
+			exam ? (
+				<p class="muted count">
+					{groups.length} ejercicios de nivel examen
+					{base && (
+						<>
+							{' '}basados en la <a href={collectionUrl(topic, base.id)}>{base.data.titulo.charAt(0).toLowerCase() + base.data.titulo.slice(1)}</a>
+						</>
+					)}
+					. Cada uno tiene pistas y la solución explicada, pero intenta resolverlo entero antes de mirarlas.
+				</p>
+			) : (
+				<p class="muted count">
+					{groups.length} problemas y {total - groups.length} variantes. Empieza por el problema; cuando lo entiendas, haz sus variantes en orden.
+				</p>
+			)
+		}
+		{
+			exam && col.data.instrucciones.length > 0 && (
+				<div class="card rules">
+					<strong>Antes de empezar</strong>
+					<ul>
+						{col.data.instrucciones.map((i) => (
+							<li>{i}</li>
+						))}
+					</ul>
+				</div>
+			)
+		}
+		{
+			siblings.length > 1 && (
+				<nav class="siblings" aria-label="Otros exámenes">
+					{siblings.map((c) =>
+						c.id === col.id ? (
+							<span class="sib current" aria-current="page">{c.data.corto}</span>
+						) : (
+							<a class="sib" href={collectionUrl(topic, c.id)}>{c.data.corto}</a>
+						),
+					)}
+				</nav>
+			)
+		}
 	</div>
 
 	<div class="container">
@@ -67,7 +118,7 @@ const LEVEL = ['Más fácil', 'Un paso más', 'Reto'];
 				groups.map((g, i) => (
 					<li class="group">
 						<a class="main card" href={exerciseUrl(topic, g.main)} data-solved-id={g.main.id}>
-							<span class="n">P{i + 1}</span>
+							<span class="n">{exam ? i + 1 : `P${i + 1}`}</span>
 							<span class="body">
 								<span class="solved-mark">
 									<Icon name="check" size={14} /> Resuelto
@@ -122,6 +173,36 @@ const LEVEL = ['Más fácil', 'Un paso más', 'Reto'];
 	}
 	.count {
 		margin-top: 0.75rem;
+	}
+	.rules {
+		margin-top: 1.1rem;
+		padding: 0.95rem 1.2rem;
+		font-size: 0.94rem;
+	}
+	.rules ul {
+		margin: 0.4rem 0 0;
+		padding-left: 1.2rem;
+		color: var(--ink-2);
+	}
+	.siblings {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 1.1rem;
+	}
+	.sib {
+		padding: 0.35rem 0.85rem;
+		border: 1px solid var(--line-strong);
+		border-radius: 999px;
+		font-size: 0.88rem;
+		font-weight: 650;
+		text-decoration: none;
+		color: var(--ink);
+	}
+	.sib.current {
+		background: var(--ink);
+		color: var(--bg);
+		border-color: var(--ink);
 	}
 	.groups {
 		list-style: none;

@@ -1,0 +1,116 @@
+titulo: La bola que solo deja su huella
+tema: movimiento-parabolico
+orden: 101
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 1 del examen de práctica A. Amplía el problema 2 de la hoja cooperativa del 28/10 (la bola que cae de la mesa).
+coleccion: examen-parabolico-a
+dificultad: examen
+habilidades: [planteamiento, vectores, matematicas, multipaso]
+resumen: No conoces ni la velocidad de salida ni la altura. Solo dónde cae y con qué ángulo llega.
+enunciado: |
+  Una bola rueda por una mesa horizontal y cae al suelo. La marca que deja en el suelo está a **1,20 m** de la base de la mesa, y un vídeo a cámara lenta muestra que llega al suelo con una velocidad que forma **60° por debajo de la horizontal**. Determina la **velocidad** con la que la bola sale de la mesa, la **altura** de la mesa y el **módulo de la velocidad** al llegar al suelo. Desprecia el rozamiento con el aire.
+figura:
+  tipo: lanzamiento
+  v0: 2.6057
+  angulo: 0
+  h0: 1.0392
+  soporte: mesa
+  etiquetas: { v0: 'v₀ = ?', h0: 'h = ?', alcance: '1,20 m' }
+  claves:
+    - { t: 0.4605, etiqueta: 'llega a 60° bajo la horizontal' }
+datos:
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'sale rodando en horizontal' }
+  - { simbolo: '\cx{x}', valor: '1,20\un{m}', significado: 'distancia horizontal hasta la marca' }
+  - { simbolo: '\alpha', valor: '60^\circ', significado: 'ángulo de la velocidad al llegar, por debajo de la horizontal' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'La velocidad de salida $v_0$.'
+  - 'La altura $h$ de la mesa.'
+  - 'El módulo de la velocidad al llegar al suelo.'
+interpretacion: |
+  Es un lanzamiento horizontal en el que faltan **dos** datos ($v_0$ y $h$). El ángulo de llegada relaciona las dos componentes de la velocidad final, y la distancia relaciona $v_0$ con el tiempo. Con esas dos relaciones se forma un sistema cuyas incógnitas son $v_0$ y $t$.
+conceptos:
+  - '$\tan\alpha = \dfrac{|\cy{v_y}|}{\cx{v_x}}$, con $\cx{v_x} = v_0$ (MRU) y $|\cy{v_y}| = 9,8\,t$.'
+  - '$\cx{x} = v_0\,t$ e $\cy{y} = h - 4,9\,t^2$.'
+  - 'Sistema de dos ecuaciones: despeja una incógnita y sustitúyela en la otra.'
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad sale la bola de la mesa? Calcula antes el tiempo de caída.
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 0.4605 }
+        - simbolo: 'v_0'
+          etiqueta: Velocidad de salida
+          unidad: m/s
+          valor: 2.606
+          trampas:
+            - { valor: 4.513, explicacion: 'Has usado $\tan 30^\circ$: has tomado el ángulo con la **vertical**. El enunciado da 60° con la horizontal, así que $\tan 60^\circ = |v_y|/v_x$.' }
+    pistas:
+      - 'Escribe dos ecuaciones: la del ángulo, $\tan 60^\circ = \dfrac{9,8\,t}{v_0}$, y la de la distancia, $1,20 = v_0\,t$.'
+      - 'Despeja $v_0 = 1,20/t$ en la segunda y sustitúyelo en la primera. La $t$ queda al cuadrado.'
+    pasos:
+      - titulo: Dos relaciones entre v₀ y t
+        piensa: '¿Qué dos datos conectan $v_0$ con el tiempo?'
+        desarrollo: |
+          Ángulo de llegada: $$\tan 60^\circ = \frac{|\cy{v_y}|}{\cx{v_x}} = \frac{9,8\,t}{v_0} \qquad (1)$$
+
+          Distancia (MRU): $$1,20 = v_0\,t \qquad (2)$$
+        porque: '$v_x$ no cambia en todo el vuelo (vale $v_0$), y $v_y$ crece hacia abajo como $9,8\,t$.'
+      - titulo: Sustitución
+        desarrollo: |
+          De (2), $v_0 = \dfrac{1,20}{t}$. En (1):
+
+          $$1,732 = \frac{9,8\,t}{1,20/t} = \frac{9,8\,t^2}{1,20} \;\Rightarrow\; t^2 = \frac{1,732\cdot 1,20}{9,8} = 0,2121 \;\Rightarrow\; t = 0,461\un{s}$$
+        porque: 'Dividir entre una fracción es multiplicar por la inversa: las dos $t$ se juntan en $t^2$.'
+      - titulo: Velocidad de salida
+        desarrollo: |
+          $$v_0 = \frac{1,20}{0,461} = 2,61\un{m/s}$$
+    resultado: 'La bola sale de la mesa a **2,61 m/s** y tarda 0,46 s en caer.'
+  - id: b
+    enunciado: ¿Qué altura tiene la mesa?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'h', etiqueta: 'Altura de la mesa', unidad: m, valor: 1.039 }
+    pistas:
+      - 'Eje Y en el instante en que llega: $0 = h - 4,9\,t^2$.'
+    pasos:
+      - titulo: Eje Y en la llegada
+        desarrollo: |
+          $$0 = h - 4,9\cdot 0,461^2 \;\Rightarrow\; h = 1,04\un{m}$$
+    resultado: 'La mesa mide **1,04 m** de alto.'
+  - id: c
+    enunciado: ¿Con qué velocidad (módulo) llega la bola al suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'v'
+          etiqueta: Módulo de la velocidad al llegar
+          unidad: m/s
+          valor: 5.211
+          trampas:
+            - { valor: 4.513, explicacion: 'Eso es solo la componente **vertical**. El módulo junta las dos componentes con Pitágoras.' }
+            - { valor: 2.606, explicacion: 'Esa es la velocidad de salida (la componente horizontal). Al llegar se le suma la vertical.' }
+    pistas:
+      - '$v_y = -9,8\cdot 0,461$ y $v_x = 2,61$ m/s. Junta las dos con Pitágoras.'
+    pasos:
+      - titulo: Componentes al llegar
+        desarrollo: |
+          $$\cx{v_x} = 2,61\un{m/s} \qquad \cy{v_y} = 0 - 9,8\cdot 0,461 = -4,51\un{m/s}$$
+      - titulo: Módulo
+        desarrollo: |
+          $$v = \sqrt{2,61^2 + 4,51^2} = 5,21\un{m/s}$$
+        porque: 'Comprobación: $\cos 60^\circ = v_x/v = 2,61/5,21 = 0,50$. Cuadra.'
+    resultado: 'Llega al suelo a **5,21 m/s**.'
+errores:
+  - error: 'Confundir el ángulo con la horizontal y con la vertical'
+    explicacion: 'Si el ángulo es con la horizontal, $\tan\alpha = |v_y|/v_x$. Si fuera con la vertical, sería al revés. Haz siempre el triángulo de velocidades.'
+  - error: 'Escribir $\tan 60^\circ = \dfrac{1,20}{h}$ (usar las distancias en lugar de las velocidades)'
+    explicacion: 'La trayectoria es curva: el ángulo de la **velocidad** al llegar no coincide con el de la recta que une la mesa con la marca. Usa las componentes de la velocidad.'
+alternativas:
+  - titulo: Comprobación con un resultado conocido
+    desarrollo: |
+      En un lanzamiento horizontal se cumple que $\tan\alpha = \dfrac{2h}{x}$ al llegar (la tangente del ángulo de la velocidad es el doble que la de la recta mesa–marca). Con $h = 1,04$ m: $\dfrac{2\cdot 1,04}{1,20} = 1,73 = \tan 60^\circ$. ✓
+laboratorio: { v0: 2.61, angulo: 0, h0: 1.04 }

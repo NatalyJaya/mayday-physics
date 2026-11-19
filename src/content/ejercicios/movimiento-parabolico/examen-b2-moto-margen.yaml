@@ -1,0 +1,133 @@
+titulo: Una rampa de llegada de 8 metros
+tema: movimiento-parabolico
+orden: 112
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 2 del examen de práctica B. Amplía el problema 3 de la hoja cooperativa del 28/10 (la moto entre rampas).
+coleccion: examen-parabolico-b
+dificultad: examen
+habilidades: [planteamiento, matematicas, multipaso, unidades, conceptual]
+resumen: La rampa de llegada tiene longitud limitada. Hay que comprobar si la moto aterriza y hallar el margen de velocidades seguras.
+enunciado: |
+  En un espectáculo, una moto sale de una rampa inclinada **30°** cuyo extremo está a **2,5 m** del suelo. La parte plana de la rampa de llegada está a la misma altura y empieza a **30 m** del extremo de salida. Mide **8 m** de largo, así que acaba a **38 m**. Trata la moto como un punto y desprecia el rozamiento con el aire.
+
+  a) Si la moto sale a **72 km/h**, ¿aterriza sobre la rampa? b) ¿Entre qué velocidades, en km/h, debe salir para aterrizar sobre ella? c) A 72 km/h, ¿qué altura máxima alcanza sobre el suelo?
+figura:
+  tipo: lanzamiento
+  v0: 20
+  angulo: 30
+  h0: 2.5
+  llegada: 2.5
+  soporte: rampa
+  etiquetas: { v0: '72 km/h', angulo: '30°', h0: '2,5 m', alcance: '' }
+  marcas:
+    - { tipo: rampa, x: 30, altura: 2.5, etiqueta: 'de 30 m a 38 m' }
+  ancho: 42
+datos:
+  - { simbolo: 'y_0', valor: '2,5\un{m}', significado: 'altura de salida y de llegada' }
+  - { simbolo: '\alpha', valor: '30^\circ', significado: 'inclinación de la rampa de salida' }
+  - { simbolo: 'v_0', valor: '72\un{km/h}', significado: 'apartados a y c; hay que pasarla a m/s' }
+  - { simbolo: '\cx{x}_{\text{llegada}}', valor: '30 \text{ a } 38\un{m}', significado: 'zona donde puede aterrizar' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'La distancia del salto a 72 km/h.'
+  - 'La velocidad mínima y la máxima para aterrizar en la rampa.'
+  - 'La altura máxima a 72 km/h.'
+interpretacion: |
+  En a) se conoce $v_0$ y se busca dónde llega la moto a $y = 2,5$ m, como en la variante de la moto que calcula la distancia. En b) es al revés, como en la hoja: se fija el punto de llegada (30 m o 38 m) y se busca $v_0$ resolviendo el sistema **dos veces**, una para cada extremo de la rampa.
+conceptos:
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2$.'
+  - 'Sistema: despeja $v_0$ en una ecuación y sustitúyelo solo donde aparece en la otra.'
+  - 'Más velocidad, más distancia (con el mismo ángulo): las velocidades válidas forman un intervalo.'
+apartados:
+  - id: a
+    enunciado: 'Si sale a 72 km/h, ¿a qué distancia aterriza? ¿Lo hace sobre la rampa?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'v_0', etiqueta: 'Velocidad en m/s', unidad: m/s, valor: 20 }
+        - { simbolo: 't', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 2.041 }
+        - simbolo: '\cx{x}'
+          etiqueta: Distancia del salto
+          unidad: m
+          valor: 35.35
+          trampas:
+            - { valor: 42.36, explicacion: 'Así llegaría al **suelo** ($y = 0$). La rampa de llegada está a 2,5 m: la condición es $y = 2,5$.' }
+    pistas:
+      - '72 km/h ÷ 3,6. La condición de llegada es $y = 2,5$ m.'
+    pasos:
+      - titulo: Unidades y componentes
+        desarrollo: |
+          $$72\un{km/h} = 20\un{m/s} \qquad \cx{v_{0x}} = 20\cdot 0,866 = 17,32\un{m/s} \qquad \cy{v_{0y}} = 20\cdot 0,5 = 10\un{m/s}$$
+      - titulo: 'Llegada: y = 2,5'
+        desarrollo: |
+          $$2,5 = 2,5 + 10\,t - 4,9\,t^2 \;\Rightarrow\; 0 = t\,(10 - 4,9\,t) \;\Rightarrow\; t = 2,04\un{s}$$
+
+          $$\cx{x} = 17,32\cdot 2,04 = 35,3\un{m}$$
+        porque: '$t = 0$ es el instante de salida; el que interesa es el otro.'
+    resultado: 'Aterriza a **35,3 m**, entre 30 m y 38 m: **sí**, cae sobre la rampa.'
+  - id: b
+    enunciado: ¿Entre qué velocidades debe salir para aterrizar sobre la rampa? Dalas en m/s y en km/h.
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'v_{\text{mín}}', etiqueta: 'Velocidad mínima', unidad: m/s, valor: 18.43 }
+        - { simbolo: 'v_{\text{mín}}', etiqueta: 'Velocidad mínima', unidad: km/h, valor: 66.33 }
+        - { simbolo: 'v_{\text{máx}}', etiqueta: 'Velocidad máxima', unidad: m/s, valor: 20.74 }
+        - simbolo: 'v_{\text{máx}}'
+          etiqueta: Velocidad máxima
+          unidad: km/h
+          valor: 74.65
+          trampas:
+            - { valor: 5.760, explicacion: 'De m/s a km/h se **multiplica** por 3,6.' }
+    pistas:
+      - 'Para cada extremo de la rampa escribe el sistema: $x = 0,866\,v_0\,t$ y $2,5 = 2,5 + 0,5\,v_0\,t - 4,9\,t^2$.'
+      - 'De la ecuación Y (sin el $t = 0$): $t = \dfrac{0,5\,v_0}{4,9}$. Sustitúyelo en la X.'
+      - 'Te queda $x = \dfrac{0,866\cdot 0,5}{4,9}\,v_0^2 = 0,0884\,v_0^2$.'
+    pasos:
+      - titulo: Sistema general
+        piensa: 'Ahora la incógnita es $v_0$, como en la hoja. ¿Qué dos ecuaciones tienes?'
+        desarrollo: |
+          $$(1)\quad x = 0,866\,v_0\,t \qquad\qquad (2)\quad 0 = 0,5\,v_0\,t - 4,9\,t^2 \;\Rightarrow\; t = \frac{0,5\,v_0}{4,9} = 0,102\,v_0$$
+        porque: 'Las dos alturas son iguales y se cancelan. Se descarta $t = 0$.'
+      - titulo: Sustitución
+        desarrollo: |
+          $$x = 0,866\,v_0\cdot 0,102\,v_0 = 0,0884\,v_0^2 \;\Rightarrow\; v_0 = \sqrt{\frac{x}{0,0884}}$$
+      - titulo: Los dos extremos
+        desarrollo: |
+          $$x = 30\un{m}: \quad v_{\text{mín}} = \sqrt{\frac{30}{0,0884}} = 18,4\un{m/s} = 66,3\un{km/h}$$
+
+          $$x = 38\un{m}: \quad v_{\text{máx}} = \sqrt{\frac{38}{0,0884}} = 20,7\un{m/s} = 74,7\un{km/h}$$
+        porque: 'Comprobación: 72 km/h está dentro del intervalo, como se vio en a).'
+    resultado: 'Debe salir **entre 66,3 km/h y 74,7 km/h**. El margen es de solo unos 8 km/h.'
+  - id: c
+    enunciado: 'A 72 km/h, ¿qué altura máxima alcanza sobre el suelo?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'y_{\text{máx}}'
+          etiqueta: Altura máxima desde el suelo
+          unidad: m
+          valor: 7.602
+          trampas:
+            - { valor: 5.102, explicacion: 'Eso es lo que sube **sobre la rampa**. Desde el suelo hay que sumar los 2,5 m.' }
+    pistas:
+      - '$v_y = 10 - 9,8\,t = 0$ y sustituye en la ecuación de $y$.'
+    pasos:
+      - titulo: 'vᵧ = 0 y sustituir'
+        desarrollo: |
+          $$0 = 10 - 9,8\,t \Rightarrow t = 1,02\un{s} \qquad \cy{y} = 2,5 + 10\cdot 1,02 - 4,9\cdot 1,02^2 = 7,60\un{m}$$
+        porque: 'Comprobación: 1,02 s es la mitad del vuelo (2,04 s), porque sale y llega a la misma altura.'
+    resultado: 'Sube hasta **7,60 m** del suelo.'
+errores:
+  - error: 'Imponer y = 0 en lugar de y = 2,5'
+    explicacion: 'La moto aterriza en la rampa, no en el suelo. La condición de llegada es la altura de la rampa.'
+  - error: 'Pensar que v₀ y la distancia son proporcionales'
+    explicacion: 'La distancia crece con $v_0^2$. Por eso, para pasar de 30 m a 38 m (un 27 % más) basta con un 13 % más de velocidad.'
+  - error: 'Redondear t = 0,1 v₀'
+    explicacion: '$0,5/4,9 = 0,102$. Con 0,1 los resultados se desvían más de un 1 %. Usa al menos tres decimales.'
+alternativas:
+  - titulo: Atajo para comprobar (no visto en clase)
+    desarrollo: |
+      Con salida y llegada a la misma altura, $R = \dfrac{v_0^2\operatorname{sen}2\alpha}{g}$. Con $\operatorname{sen}60^\circ = 0,866$: $v_0^2 = \dfrac{9,8\,R}{0,866}$, que da 18,4 m/s para 30 m y 20,7 m/s para 38 m.
+laboratorio: { v0: 20, angulo: 30, h0: 2.5 }

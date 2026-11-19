@@ -1,0 +1,109 @@
+titulo: Llega al doble de rápido
+tema: movimiento-parabolico
+orden: 123
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 3 del examen de práctica C. Amplía el problema 2 de la hoja cooperativa del 28/10 (la bola que cae de la mesa).
+coleccion: examen-parabolico-c
+dificultad: examen
+habilidades: [planteamiento, vectores, matematicas, multipaso]
+resumen: Como la bola de la hoja «al revés», pero la velocidad final no es un número sino una relación con v₀.
+enunciado: |
+  Una bola sale horizontalmente de una mesa de **0,90 m** de altura y llega al suelo con una velocidad cuyo módulo es **el doble** que la velocidad con la que salió. Desprecia el rozamiento con el aire.
+
+  a) ¿Cuánto tarda en caer y qué velocidad vertical tiene al llegar? b) ¿Con qué velocidad salió de la mesa? c) ¿A qué distancia cae y con qué ángulo llega al suelo?
+figura:
+  tipo: triangulo
+  vx: 2.4249
+  vy: -4.2
+  etiquetas: { vx: 'vₓ = v₀', vy: 'vᵧ', v: 'v = 2 v₀', angulo: 'α = ?' }
+datos:
+  - { simbolo: 'h', valor: '0,90\un{m}', significado: 'altura de la mesa' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'sale rodando en horizontal' }
+  - { simbolo: 'v', valor: '2\,v_0', significado: 'módulo de la velocidad al llegar' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'El tiempo de caída y $v_y$ al llegar.'
+  - 'La velocidad de salida $v_0$.'
+  - 'La distancia y el ángulo de llegada.'
+interpretacion: |
+  En la hoja se conocían $v_0$ y $v$, y faltaba la altura. Aquí se conoce la altura, y $v_0$ y $v$ son incógnitas relacionadas: $v = 2\,v_0$. La altura da el tiempo y $v_y$; después, Pitágoras con $v = 2\,v_0$ da una ecuación con una sola incógnita.
+conceptos:
+  - '$\cy{y} = h - 4,9\,t^2$ y $\cy{v_y} = -9,8\,t$.'
+  - 'Pitágoras: $v^2 = \cx{v_x}^2 + \cy{v_y}^2$, con $\cx{v_x} = v_0$.'
+  - '$\cos\alpha = \dfrac{v_x}{v}$.'
+apartados:
+  - id: a
+    enunciado: ¿Cuánto tarda en caer y qué velocidad vertical tiene al llegar?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 0.4286 }
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical al llegar', unidad: m/s, valor: -4.2 }
+    pistas:
+      - 'Empieza por lo que sí sabes: la altura. $0 = 0,90 - 4,9\,t^2$.'
+    pasos:
+      - titulo: Tiempo de caída
+        desarrollo: |
+          $$0 = 0,90 - 4,9\,t^2 \;\Rightarrow\; t = \sqrt{\frac{0,90}{4,9}} = 0,429\un{s}$$
+      - titulo: Velocidad vertical
+        desarrollo: |
+          $$\cy{v_y} = 0 - 9,8\cdot 0,429 = -4,20\un{m/s}$$
+    resultado: 'Tarda **0,429 s** y llega con $v_y =$ **−4,20 m/s**.'
+  - id: b
+    enunciado: ¿Con qué velocidad salió de la mesa? ¿Con qué velocidad llega?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'v_0'
+          etiqueta: Velocidad de salida
+          unidad: m/s
+          valor: 2.425
+          trampas:
+            - { valor: 2.1, explicacion: 'Has tomado $v_y = 2\,v_0$. El enunciado dice que el **módulo** de la velocidad final es el doble: $v = 2\,v_0$, y $v$ es la hipotenusa.' }
+            - { valor: 4.2, explicacion: 'Esa es $|v_y|$. La velocidad de salida es la componente horizontal.' }
+        - { simbolo: 'v', etiqueta: 'Módulo de la velocidad al llegar', unidad: m/s, valor: 4.850 }
+    pistas:
+      - 'Escribe Pitágoras al llegar con $v = 2\,v_0$ y $v_x = v_0$.'
+      - '$(2\,v_0)^2 = v_0^2 + 4,20^2 \;\Rightarrow\; 3\,v_0^2 = 4,20^2$.'
+    pasos:
+      - titulo: Pitágoras con la condición
+        piensa: '¿Qué lado del triángulo es $2\,v_0$ y qué lado es $v_0$?'
+        desarrollo: |
+          $$v^2 = \cx{v_x}^2 + \cy{v_y}^2 \;\Rightarrow\; (2\,v_0)^2 = v_0^2 + 4,20^2 \;\Rightarrow\; 4\,v_0^2 - v_0^2 = 17,64$$
+
+          $$3\,v_0^2 = 17,64 \;\Rightarrow\; v_0 = \sqrt{5,88} = 2,42\un{m/s} \qquad v = 2\cdot 2,42 = 4,85\un{m/s}$$
+        porque: 'La velocidad final es la hipotenusa; $v_x = v_0$ (no cambia) y $|v_y| = 4,20$ m/s son los catetos.'
+    resultado: 'Sale a **2,42 m/s** y llega a **4,85 m/s**.'
+  - id: c
+    enunciado: ¿A qué distancia cae? ¿Con qué ángulo bajo la horizontal llega al suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cx{x}', etiqueta: 'Distancia horizontal', unidad: m, valor: 1.039 }
+        - simbolo: '\alpha'
+          etiqueta: Ángulo bajo la horizontal (sin signo)
+          unidad: '°'
+          valor: 60
+          trampas:
+            - { valor: 30, explicacion: 'Has calculado el ángulo con la vertical. Con la horizontal, $\cos\alpha = v_x/v = 1/2$.' }
+    pistas:
+      - '$x = v_0\,t$.'
+      - 'Para el ángulo no hace falta la calculadora: $\cos\alpha = \dfrac{v_0}{2\,v_0}$.'
+    pasos:
+      - titulo: Distancia (MRU)
+        desarrollo: |
+          $$\cx{x} = 2,42\cdot 0,429 = 1,04\un{m}$$
+      - titulo: Ángulo
+        desarrollo: |
+          $$\cos\alpha = \frac{\cx{v_x}}{v} = \frac{v_0}{2\,v_0} = \frac{1}{2} \;\Rightarrow\; \alpha = 60^\circ$$
+        porque: 'Comprobación con la tangente: $\tan\alpha = 4,20/2,42 = 1,73 = \tan 60^\circ$. ✓ El ángulo no depende de la altura: cualquier bola que llegue al doble de rápido de lo que sale lo hace a 60°.'
+    resultado: 'Cae a **1,04 m** y llega **60° por debajo** de la horizontal.'
+errores:
+  - error: 'Escribir vᵧ = 2 v₀'
+    explicacion: 'El doble es el **módulo** de la velocidad, que es la hipotenusa del triángulo, no la componente vertical.'
+  - error: 'Escribir 2 v₀² en lugar de (2 v₀)²'
+    explicacion: 'El cuadrado afecta también al 2: $(2\,v_0)^2 = 4\,v_0^2$.'
+  - error: 'Pensar que no se puede resolver porque «faltan datos»'
+    explicacion: 'La relación $v = 2\,v_0$ es un dato: sustituye a un número. Con la altura y esa relación hay suficiente.'
+laboratorio: { v0: 2.42, angulo: 0, h0: 0.9 }

@@ -1,0 +1,120 @@
+titulo: Encestar la bola en la caja
+tema: movimiento-parabolico
+orden: 103
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 3 del examen de práctica A. Amplía el problema 2 de la hoja cooperativa del 28/10 (la bola que cae de la mesa).
+coleccion: examen-parabolico-a
+dificultad: examen
+habilidades: [planteamiento, conceptual, multipaso]
+resumen: No basta con un valor de v₀. Hay un intervalo de velocidades válidas y hay que razonar dónde choca la bola si sale demasiado lenta.
+enunciado: |
+  Una bola sale rodando horizontalmente del borde de una mesa de **1,00 m** de altura. En el suelo hay una caja abierta por arriba de **0,35 m** de altura cuya pared más cercana está a **0,60 m** de la base de la mesa y la más lejana, a **1,00 m**. Desprecia el tamaño de la bola y el rozamiento con el aire.
+
+  a) ¿Cuánto tarda la bola en bajar hasta la altura del borde de la caja? b) ¿Entre qué velocidades debe salir de la mesa para entrar en la caja? c) Si sale a **1,5 m/s**, ¿a qué altura choca con la pared exterior de la caja?
+figura:
+  tipo: lanzamiento
+  v0: 2.2
+  angulo: 0
+  h0: 1
+  soporte: mesa
+  etiquetas: { v0: 'v₀ = ?', h0: '1,00 m', alcance: '' }
+  marcas:
+    - { tipo: muro, x: 0.6, altura: 0.35, etiqueta: '0,60 m' }
+    - { tipo: muro, x: 1.0, altura: 0.35, etiqueta: '1,00 m' }
+  ancho: 1.3
+datos:
+  - { simbolo: 'h', valor: '1,00\un{m}', significado: 'altura de la mesa' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'sale rodando en horizontal' }
+  - { simbolo: 'y_{\text{caja}}', valor: '0,35\un{m}', significado: 'altura del borde de la caja' }
+  - { simbolo: '\cx{x}', valor: '0,60 \text{ a } 1,00\un{m}', significado: 'posición de las paredes de la caja' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'El tiempo hasta $y = 0,35$ m.'
+  - 'La velocidad mínima y la máxima para entrar en la caja.'
+  - 'La altura del choque si sale a 1,5 m/s.'
+interpretacion: |
+  Para entrar en la caja, la bola tiene que pasar por la **abertura de arriba**: cuando baja a 0,35 m de altura, su posición horizontal debe estar entre 0,60 m y 1,00 m. Si sale muy despacio, choca con la pared cercana por fuera; si sale muy deprisa, pasa por encima de la caja.
+conceptos:
+  - '$\cy{y} = h - 4,9\,t^2$: en un lanzamiento horizontal el tiempo de caída no depende de $v_0$.'
+  - '$\cx{x} = v_0\,t$: con el mismo tiempo, cada $v_0$ da una posición distinta.'
+  - 'La condición física decide la ecuación: aquí la condición es $y = 0,35$ m, no $y = 0$.'
+apartados:
+  - id: a
+    enunciado: ¿Cuánto tarda la bola en bajar hasta la altura del borde de la caja?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't'
+          etiqueta: Tiempo hasta y = 0,35 m
+          unidad: s
+          valor: 0.3642
+          trampas:
+            - { valor: 0.4518, explicacion: 'Ese es el tiempo hasta el **suelo**. La bola entra en la caja cuando está a 0,35 m de altura: la condición es $y = 0,35$.' }
+    pistas:
+      - '¿En qué instante está la bola a la altura del borde de la caja? Escribe $y = 0,35$.'
+    pasos:
+      - titulo: 'Condición: y = 0,35 m'
+        desarrollo: |
+          $$0,35 = 1,00 - 4,9\,t^2 \;\Rightarrow\; t^2 = \frac{0,65}{4,9} = 0,1327 \;\Rightarrow\; t = 0,364\un{s}$$
+        porque: 'Como sale horizontal, $v_{0y} = 0$ y este tiempo es el mismo sea cual sea $v_0$.'
+    resultado: 'Tarda **0,364 s** en bajar hasta el borde de la caja.'
+  - id: b
+    enunciado: ¿Entre qué velocidades debe salir de la mesa para entrar en la caja?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'v_{\text{mín}}'
+          etiqueta: Velocidad mínima
+          unidad: m/s
+          valor: 1.647
+          trampas:
+            - { valor: 1.328, explicacion: 'Has usado el tiempo hasta el suelo. Con esa velocidad la bola llegaría a $x = 0,60$ m a nivel del suelo, es decir, chocaría antes con la pared de la caja.' }
+        - simbolo: 'v_{\text{máx}}'
+          etiqueta: Velocidad máxima
+          unidad: m/s
+          valor: 2.746
+          trampas:
+            - { valor: 2.213, explicacion: 'Has usado el tiempo hasta el suelo. Hay que imponer que pase por el borde lejano **a 0,35 m de altura**.' }
+    pistas:
+      - 'Con el tiempo del apartado a: $0,60 = v_{\text{mín}}\,t$ y $1,00 = v_{\text{máx}}\,t$.'
+    pasos:
+      - titulo: Los dos casos límite
+        desarrollo: |
+          Rozando la pared cercana: $$0,60 = v_{\text{mín}}\cdot 0,364 \;\Rightarrow\; v_{\text{mín}} = 1,65\un{m/s}$$
+
+          Rozando la pared lejana: $$1,00 = v_{\text{máx}}\cdot 0,364 \;\Rightarrow\; v_{\text{máx}} = 2,75\un{m/s}$$
+        porque: 'Todas las velocidades intermedias hacen que la bola pase entre las dos paredes cuando está a la altura del borde.'
+    resultado: 'Entra en la caja si sale **entre 1,65 m/s y 2,75 m/s**.'
+  - id: c
+    enunciado: 'Si sale a 1,5 m/s, ¿a qué altura sobre el suelo choca con la pared exterior de la caja?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo hasta llegar a x = 0,60 m', unidad: s, valor: 0.4 }
+        - simbolo: 'y'
+          etiqueta: Altura del choque
+          unidad: m
+          valor: 0.216
+          trampas:
+            - { valor: 0.784, explicacion: 'Eso es lo que **ha bajado** la bola ($4,9\,t^2$). La altura sobre el suelo es $1,00 - 0,784$.' }
+    pistas:
+      - 'Ahora sabes $x$ (la pared está en 0,60 m) y $v_0$: saca el tiempo del eje X.'
+      - 'Con ese tiempo, el eje Y te da la altura.'
+    pasos:
+      - titulo: El tiempo sale del eje X
+        desarrollo: |
+          $$0,60 = 1,5\,t \;\Rightarrow\; t = 0,40\un{s}$$
+      - titulo: Altura en ese instante
+        desarrollo: |
+          $$\cy{y} = 1,00 - 4,9\cdot 0,40^2 = 1,00 - 0,784 = 0,216\un{m}$$
+        porque: '0,216 m < 0,35 m: la bola ya está por debajo del borde cuando llega a la pared, así que choca con ella por fuera. Era de esperar, porque 1,5 m/s < 1,65 m/s.'
+    resultado: 'Choca con la pared exterior a **0,22 m** del suelo.'
+errores:
+  - error: 'Imponer y = 0 (el suelo)'
+    explicacion: 'La bola tiene que entrar por la abertura, que está a 0,35 m. Cada problema tiene su condición: decide primero **dónde** tiene que estar la bola.'
+  - error: 'Dar un solo valor de v₀'
+    explicacion: 'La caja tiene anchura: cualquier velocidad entre la mínima y la máxima sirve. Hay que dar el intervalo.'
+  - error: 'Pensar que una bola más rápida tarda menos en caer'
+    explicacion: 'En un lanzamiento horizontal el tiempo de caída solo depende de la altura. La velocidad horizontal solo cambia **dónde** cae.'
+laboratorio: { v0: 2.2, angulo: 0, h0: 1 }

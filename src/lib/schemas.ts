@@ -245,6 +245,8 @@ export type TriangleFigure = Extract<Figure, { tipo: 'triangulo' }>;
 export type FlowFigure = Extract<Figure, { tipo: 'flujo' }>;
 
 export const collectionSchema = z.object({
+	/** clase: hoja de clase con variantes · examen: examen de práctica (ejercicios sueltos, sin variantes). */
+	tipo: z.enum(['clase', 'examen']).default('clase'),
 	titulo: z.string(),
 	/** Nombre corto para la etiqueta. */
 	corto: z.string(),
@@ -254,4 +256,10 @@ export const collectionSchema = z.object({
 	fuente: z.string().optional(),
 	/** Ejercicios principales de la colección, en orden (nombres de archivo). Sus variantes se agrupan debajo. */
 	principales: z.array(z.string()).min(1),
+	/** Exámenes: duración orientativa en minutos. */
+	minutos: z.number().int().positive().optional(),
+	/** Exámenes: colección de la que parten (p. ej., la hoja de clase cuyos problemas amplían). */
+	basada_en: z.string().optional(),
+	/** Exámenes: instrucciones que se muestran antes de empezar. */
+	instrucciones: z.array(z.string()).default([]),
 });

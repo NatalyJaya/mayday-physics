@@ -73,16 +73,20 @@ const map = [
 	{
 		cols.length > 0 && (
 			<section class="container section-tight" id="colecciones">
-				<h2>Colecciones de clase</h2>
-				<p class="muted cols-intro">Los problemas de tus hojas de clase, resueltos y con variantes para practicar.</p>
+				<h2>Colecciones de clase y exámenes</h2>
+				<p class="muted cols-intro">Los problemas de tus hojas de clase, resueltos y con variantes para practicar, y exámenes de práctica para ponerte a prueba.</p>
 				<div class="cols">
 					{cols.map((c) => (
 						<a class="col-card" href={collectionUrl(topic, c.id)}>
-							<Icon name="layers" size={26} />
+							<Icon name={c.data.tipo === 'examen' ? 'clock' : 'layers'} size={26} />
 							<span>
-								<span class="col-k">Hoja de clase · {c.fecha}</span>
+								<span class="col-k">{c.data.tipo === 'examen' ? `Examen de práctica${c.data.minutos ? ` · ${c.data.minutos} min` : ''}` : `Hoja de clase · ${c.fecha}`}</span>
 								<strong>{c.data.titulo}</strong>
-								<span class="col-d">{c.data.principales.length} problemas con explicación en dibujos y {c.n - c.data.principales.length} variantes</span>
+								<span class="col-d">
+									{c.data.tipo === 'examen'
+										? `${c.data.principales.length} ejercicios de nivel examen con pistas y solución explicada`
+										: `${c.data.principales.length} problemas con explicación en dibujos y ${c.n - c.data.principales.length} variantes`}
+								</span>
 							</span>
 							<Icon name="arrow-right" />
 						</a>

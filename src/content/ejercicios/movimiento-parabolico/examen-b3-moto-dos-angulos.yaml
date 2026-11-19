@@ -1,0 +1,142 @@
+titulo: ¿Qué inclinación debe tener la rampa?
+tema: movimiento-parabolico
+orden: 113
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 3 del examen de práctica B. Amplía el problema 3 de la hoja cooperativa del 28/10 (la moto entre rampas).
+coleccion: examen-parabolico-b
+dificultad: examen
+habilidades: [planteamiento, matematicas, multipaso, conceptual, unidades]
+resumen: La incógnita es el ángulo de la rampa. Salen dos soluciones y hay que decidir cuál tiene sentido.
+enunciado: |
+  Un especialista quiere saltar con su moto entre dos rampas de **3 m** de altura separadas **50 m**. Su moto alcanza como mucho **90 km/h** al salir de la rampa, y quiere saltar exactamente a esa velocidad. Trata la moto como un punto y desprecia el rozamiento con el aire.
+
+  a) ¿Qué inclinación debe tener la rampa de salida? Hay dos soluciones. b) Para cada una, calcula el tiempo de vuelo y la altura máxima sobre el suelo. c) ¿Cuál elegirías?
+figura:
+  tipo: lanzamiento
+  v0: 25
+  angulo: 25.814
+  h0: 3
+  llegada: 3
+  soporte: rampa
+  etiquetas: { v0: '90 km/h', angulo: 'α = ?', h0: '3 m', alcance: '50 m' }
+  marcas:
+    - { tipo: rampa, x: 50, altura: 3 }
+  ancho: 56
+datos:
+  - { simbolo: 'v_0', valor: '90\un{km/h} = 25\un{m/s}', significado: 'velocidad de salida' }
+  - { simbolo: 'y_0', valor: '3\un{m}', significado: 'altura de salida y de llegada' }
+  - { simbolo: '\cx{x}_{\text{llegada}}', valor: '50\un{m}', significado: 'distancia del salto' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'El ángulo $\alpha$ de la rampa (dos soluciones).'
+  - 'El tiempo de vuelo y la altura máxima de cada salto.'
+interpretacion: |
+  Ahora se conoce $v_0$ y la llegada, y lo que falta es el **ángulo**. Las incógnitas del sistema son $\alpha$ y $t$. Al despejar aparece $\operatorname{sen}\alpha\cos\alpha$, que se resuelve con el seno del ángulo doble. Como el seno toma el mismo valor para dos ángulos, hay **dos** inclinaciones que dan el mismo salto: una rasante y otra muy alta.
+conceptos:
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2$.'
+  - '$2\operatorname{sen}\alpha\cos\alpha = \operatorname{sen}2\alpha$.'
+  - '$\operatorname{sen}\theta = \operatorname{sen}(180^\circ - \theta)$: dos ángulos con el mismo seno.'
+apartados:
+  - id: a
+    enunciado: ¿Qué inclinación debe tener la rampa? Da las dos soluciones, de menor a mayor.
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\alpha_1'
+          etiqueta: Ángulo menor
+          unidad: '°'
+          valor: 25.81
+          trampas:
+            - { valor: 51.63, explicacion: 'Eso es $2\alpha$. Divide entre 2.' }
+        - simbolo: '\alpha_2'
+          etiqueta: Ángulo mayor
+          unidad: '°'
+          valor: 64.19
+          trampas:
+            - { valor: 128.37, explicacion: 'Eso es $2\alpha$ (la segunda solución de $\operatorname{sen}2\alpha = 0,784$). Divide entre 2.' }
+    pistas:
+      - 'Escribe el sistema en la llegada: $50 = 25\cos\alpha\cdot t$ y $3 = 3 + 25\operatorname{sen}\alpha\cdot t - 4,9\,t^2$.'
+      - 'De la ecuación Y (sin el $t = 0$): $t = \dfrac{25\operatorname{sen}\alpha}{4,9}$. Sustitúyelo en la X.'
+      - 'Te queda $\operatorname{sen}\alpha\cos\alpha = 0,392$. Multiplica por 2 y usa el ángulo doble.'
+    pasos:
+      - titulo: Sistema con α y t como incógnitas
+        desarrollo: |
+          $$(1)\quad 50 = 25\cos\alpha\cdot t \qquad\qquad (2)\quad 0 = 25\operatorname{sen}\alpha\cdot t - 4,9\,t^2$$
+
+          De (2), descartando $t = 0$: $$t = \frac{25\operatorname{sen}\alpha}{4,9}$$
+        porque: 'Las dos alturas (3 m) se cancelan, como en la hoja.'
+      - titulo: Sustitución
+        desarrollo: |
+          $$50 = 25\cos\alpha\cdot\frac{25\operatorname{sen}\alpha}{4,9} \;\Rightarrow\; \operatorname{sen}\alpha\cos\alpha = \frac{50\cdot 4,9}{625} = 0,392$$
+      - titulo: Ángulo doble
+        piensa: '¿Qué identidad convierte $\operatorname{sen}\alpha\cos\alpha$ en una sola razón trigonométrica?'
+        desarrollo: |
+          $$\operatorname{sen}2\alpha = 2\operatorname{sen}\alpha\cos\alpha = 0,784$$
+
+          $$2\alpha = 51,63^\circ \;\Rightarrow\; \alpha_1 = 25,8^\circ \qquad 2\alpha = 180^\circ - 51,63^\circ = 128,37^\circ \;\Rightarrow\; \alpha_2 = 64,2^\circ$$
+        porque: 'La calculadora solo da la primera solución. La segunda sale de $\operatorname{sen}\theta = \operatorname{sen}(180^\circ - \theta)$. Fíjate en que los dos ángulos son **complementarios**: suman 90°.'
+    resultado: 'Sirven dos inclinaciones: **25,8°** y **64,2°**.'
+  - id: b
+    enunciado: Para cada ángulo, ¿cuánto dura el vuelo y qué altura máxima alcanza sobre el suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_1', etiqueta: 'Tiempo de vuelo con α₁', unidad: s, valor: 2.222 }
+        - { simbolo: 't_2', etiqueta: 'Tiempo de vuelo con α₂', unidad: s, valor: 4.593 }
+        - simbolo: 'y_{\text{máx},1}'
+          etiqueta: Altura máxima con α₁ (desde el suelo)
+          unidad: m
+          valor: 9.047
+          trampas:
+            - { valor: 6.047, explicacion: 'Eso es lo que sube sobre la rampa: suma los 3 m.' }
+        - simbolo: 'y_{\text{máx},2}'
+          etiqueta: Altura máxima con α₂ (desde el suelo)
+          unidad: m
+          valor: 28.84
+          trampas:
+            - { valor: 25.84, explicacion: 'Eso es lo que sube sobre la rampa: suma los 3 m.' }
+    pistas:
+      - '$t = \dfrac{25\operatorname{sen}\alpha}{4,9}$ para cada ángulo.'
+      - 'Altura máxima: $v_y = 0$ en la mitad del vuelo; sustituye ese instante en la ecuación de $y$.'
+    pasos:
+      - titulo: Tiempos de vuelo
+        desarrollo: |
+          $$t_1 = \frac{25\cdot 0,4355}{4,9} = 2,22\un{s} \qquad t_2 = \frac{25\cdot 0,9002}{4,9} = 4,59\un{s}$$
+      - titulo: Alturas máximas
+        desarrollo: |
+          Con $\alpha_1$: $\cy{v_{0y}} = 10,89$ m/s, $v_y = 0$ en $t = 1,11$ s:
+          $$\cy{y} = 3 + 10,89\cdot 1,11 - 4,9\cdot 1,11^2 = 9,05\un{m}$$
+
+          Con $\alpha_2$: $\cy{v_{0y}} = 22,50$ m/s, $v_y = 0$ en $t = 2,30$ s:
+          $$\cy{y} = 3 + 22,50\cdot 2,30 - 4,9\cdot 2,30^2 = 28,8\un{m}$$
+    resultado: 'Con 25,8°: **2,22 s** y **9,05 m**. Con 64,2°: **4,59 s** y **28,8 m**.'
+  - id: c
+    enunciado: ¿Qué inclinación elegirías para la rampa?
+    respuesta:
+      tipo: opciones
+      opciones:
+        - texto: 'La de 25,8°: el vuelo es más corto y la moto sube mucho menos.'
+          correcta: true
+          explicacion: 'Correcto. Llega al mismo sitio en la mitad de tiempo y sin subir a casi 29 m, y aterriza con una inclinación mucho más suave.'
+        - texto: 'La de 64,2°: al subir más, el salto es más largo.'
+          explicacion: 'No: los dos saltos miden exactamente 50 m. Subir más no da más distancia, solo más tiempo en el aire y una caída más vertical.'
+        - texto: 'Da igual: llegan al mismo sitio con la misma velocidad.'
+          explicacion: 'Llegan al mismo sitio y con el mismo módulo de velocidad (25 m/s), pero no de la misma forma: con 64,2° caería desde 28,8 m casi en vertical.'
+    pasos:
+      - titulo: Comparar los dos saltos
+        desarrollo: |
+          Los dos llegan a 50 m a 25 m/s. Pero con 64,2° la moto pasa el doble de tiempo en el aire, sube a 28,8 m (un noveno piso) y aterriza con un ángulo de 64° con la horizontal. Con 25,8° el aterrizaje es mucho más suave.
+    resultado: 'La rampa de **25,8°** es la razonable.'
+errores:
+  - error: 'Quedarse solo con la solución de la calculadora'
+    explicacion: '$\arcsen 0,784$ da 51,63°, pero 128,37° tiene el mismo seno. Cuando el ángulo es la incógnita, busca siempre la segunda solución.'
+  - error: 'Olvidar dividir entre 2'
+    explicacion: 'Lo que se obtiene con el arcoseno es $2\alpha$, no $\alpha$.'
+  - error: 'Dividir toda la expresión al sustituir'
+    explicacion: 'Es el error de la hoja: sustituye $t$ solo donde aparece. Aquí además conviene sacar $t$ de la ecuación Y, que es la que se factoriza.'
+alternativas:
+  - titulo: Atajo para comprobar (no visto en clase)
+    desarrollo: |
+      Con $R = \dfrac{v_0^2\operatorname{sen}2\alpha}{g}$: $\operatorname{sen}2\alpha = \dfrac{50\cdot 9,8}{25^2} = 0,784$. Los dos ángulos complementarios dan el mismo alcance.
+laboratorio: { v0: 25, angulo: 25.81, h0: 3 }
