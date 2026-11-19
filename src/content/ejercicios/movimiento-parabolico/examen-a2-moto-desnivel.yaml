@@ -1,0 +1,141 @@
+titulo: Salto hacia una rampa más baja
+tema: movimiento-parabolico
+orden: 102
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 2 del examen de práctica A. Amplía el problema 3 de la hoja cooperativa del 28/10 (la moto entre rampas).
+coleccion: examen-parabolico-a
+dificultad: examen
+habilidades: [planteamiento, matematicas, multipaso, unidades, vectores]
+resumen: Como la moto de la hoja, pero las rampas tienen alturas distintas. Los términos de altura ya no se cancelan.
+enunciado: |
+  Un especialista salta con su moto desde una rampa inclinada **20°** cuyo extremo está a **5,0 m** del suelo. Debe aterrizar en otra rampa cuyo borde está a **2,0 m** del suelo y a **40 m** de distancia horizontal. Trata la moto como un punto y desprecia el rozamiento con el aire.
+
+  a) ¿Con qué velocidad debe salir, en m/s y en km/h? b) ¿Qué altura máxima alcanza sobre el suelo? c) ¿Con qué velocidad y qué ángulo llega a la segunda rampa?
+figura:
+  tipo: lanzamiento
+  v0: 22.4866
+  angulo: 20
+  h0: 5
+  llegada: 2
+  soporte: rampa
+  etiquetas: { v0: 'v₀ = ?', angulo: '20°', h0: '5,0 m', alcance: '40 m' }
+  marcas:
+    - { tipo: rampa, x: 40, altura: 2 }
+  claves:
+    - { t: 0.7848, etiqueta: 'altura máx. = ?' }
+  ancho: 46
+datos:
+  - { simbolo: 'y_0', valor: '5,0\un{m}', significado: 'altura de la rampa de salida' }
+  - { simbolo: '(x,\ y)_{\text{llegada}}', valor: '(40;\ 2,0)\un{m}', significado: 'borde de la rampa de llegada' }
+  - { simbolo: '\alpha', valor: '20^\circ', significado: 'inclinación de la rampa de salida' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'La velocidad inicial $v_0$ (en m/s y km/h).'
+  - La altura máxima desde el suelo.
+  - 'El módulo y el ángulo de la velocidad al aterrizar.'
+interpretacion: |
+  Igual que en la hoja, conocemos el punto de llegada y buscamos $v_0$: dos incógnitas ($v_0$ y $t$) y dos ecuaciones. La diferencia es que ahora la moto **baja 3 m** durante el salto, así que en la ecuación del eje Y los términos de altura ya no se cancelan.
+conceptos:
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2$.'
+  - 'En el punto más alto, $\cy{v_y} = 0$.'
+  - 'Velocidad en un instante: $\cx{v_x} = v_0\cos\alpha$, $\cy{v_y} = v_0\operatorname{sen}\alpha - 9,8\,t$; módulo con Pitágoras y ángulo con el arcotangente.'
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad debe salir la moto? Dala en m/s y en km/h.
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't'
+          etiqueta: Tiempo de vuelo
+          unidad: s
+          valor: 1.893
+          trampas:
+            - { valor: 1.724, explicacion: 'Has cancelado las alturas como en la hoja. Aquí sale de 5 m y llega a 2 m: la ecuación es $2 = 5 + 0,342\,v_0\,t - 4,9\,t^2$.' }
+        - simbolo: 'v_0'
+          etiqueta: Velocidad inicial
+          unidad: m/s
+          valor: 22.49
+          trampas:
+            - { valor: 24.69, explicacion: 'Has cancelado las alturas como en la hoja. Aquí sale de 5 m y llega a 2 m: los términos de altura no se van.' }
+        - { simbolo: 'v_0', etiqueta: 'La misma velocidad', unidad: km/h, valor: 80.95 }
+    pistas:
+      - 'Ecuaciones en el punto de llegada: $40 = 0,940\,v_0\,t$ y $2 = 5 + 0,342\,v_0\,t - 4,9\,t^2$.'
+      - 'De la primera, $v_0\,t = 42,57$. Sustitúyelo en la segunda: el producto $v_0\,t$ aparece entero.'
+    pasos:
+      - titulo: Ecuaciones con v₀ como incógnita
+        desarrollo: |
+          $$\cos 20^\circ = 0,940 \qquad \operatorname{sen}20^\circ = 0,342$$
+
+          $$(1)\quad 40 = 0,940\,v_0\,t \qquad\qquad (2)\quad 2 = 5 + 0,342\,v_0\,t - 4,9\,t^2$$
+        porque: 'En el instante del aterrizaje la moto está en $(40;\ 2)$.'
+      - titulo: Sustitución
+        piensa: '¿Qué aparece en la ecuación (2) que puedas sacar entero de la (1)?'
+        desarrollo: |
+          De (1), $v_0\,t = \dfrac{40}{0,940} = 42,57$. En (2):
+
+          $$2 = 5 + 0,342\cdot 42,57 - 4,9\,t^2 = 5 + 14,56 - 4,9\,t^2 \;\Rightarrow\; 4,9\,t^2 = 17,56 \;\Rightarrow\; t = 1,89\un{s}$$
+        porque: 'Es lo mismo que despejar $v_0 = 42,57/t$ y sustituir solo donde aparece $v_0$: la $t$ se simplifica.'
+      - titulo: v₀ y paso a km/h
+        desarrollo: |
+          $$v_0 = \frac{42,57}{1,893} = 22,49\un{m/s} \qquad 22,49\cdot 3,6 = 81,0\un{km/h}$$
+    resultado: 'Tiene que salir a **22,5 m/s = 81 km/h**. El vuelo dura 1,89 s.'
+  - id: b
+    enunciado: ¿Qué altura máxima alcanza, medida desde el suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'y_{\text{máx}}'
+          etiqueta: Altura máxima desde el suelo
+          unidad: m
+          valor: 8.018
+          trampas:
+            - { valor: 3.018, explicacion: 'Eso es lo que sube **por encima de la rampa de salida**. Desde el suelo hay que sumar los 5 m.' }
+    pistas:
+      - '$v_{0y} = 22,49\cdot 0,342$. En el punto más alto, $v_y = 0$.'
+    pasos:
+      - titulo: 'Punto más alto: vᵧ = 0'
+        desarrollo: |
+          $$\cy{v_{0y}} = 22,49\cdot 0,342 = 7,69\un{m/s} \qquad 0 = 7,69 - 9,8\,t \;\Rightarrow\; t = 0,785\un{s}$$
+      - titulo: Sustituye en y
+        desarrollo: |
+          $$\cy{y} = 5 + 7,69\cdot 0,785 - 4,9\cdot 0,785^2 = 8,02\un{m}$$
+        porque: 'Ojo: aquí 0,785 s **no** es la mitad del vuelo (1,89 s), porque salida y llegada están a alturas distintas.'
+    resultado: 'Llega a **8,02 m** del suelo.'
+  - id: c
+    enunciado: ¿Con qué velocidad (módulo) y con qué ángulo por debajo de la horizontal llega a la segunda rampa?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical al aterrizar', unidad: m/s, valor: -10.86 }
+        - simbolo: 'v'
+          etiqueta: Módulo de la velocidad al aterrizar
+          unidad: m/s
+          valor: 23.76
+          trampas:
+            - { valor: 22.49, explicacion: 'Esa es la velocidad de salida. Como llega 3 m más abajo, aterriza algo más rápido.' }
+        - simbolo: '\beta'
+          etiqueta: Ángulo bajo la horizontal (sin signo)
+          unidad: '°'
+          valor: 27.20
+          trampas:
+            - { valor: 20, explicacion: 'Solo llegaría con 20° si saliera y llegara a la misma altura. Aquí baja 3 m: calcula el ángulo con las componentes.' }
+    pistas:
+      - '$v_x = 22,49\cdot 0,940$ no cambia. $v_y = 7,69 - 9,8\cdot 1,893$.'
+    pasos:
+      - titulo: Componentes en el aterrizaje
+        desarrollo: |
+          $$\cx{v_x} = 22,49\cdot 0,940 = 21,13\un{m/s} \qquad \cy{v_y} = 7,69 - 9,8\cdot 1,893 = -10,86\un{m/s}$$
+      - titulo: Módulo y ángulo
+        desarrollo: |
+          $$v = \sqrt{21,13^2 + 10,86^2} = 23,8\un{m/s} \qquad \tan\beta = \frac{-10,86}{21,13} \Rightarrow \beta = -27,2^\circ$$
+        porque: 'El signo menos indica que la velocidad apunta por debajo de la horizontal.'
+    resultado: 'Aterriza a **23,8 m/s** formando **27,2° por debajo** de la horizontal.'
+errores:
+  - error: 'Cancelar las alturas como en la hoja'
+    explicacion: 'En la hoja los 3,75 m se iban porque salida y llegada estaban a la misma altura. Aquí $2 \neq 5$: queda $-3 = 14,56 - 4,9\,t^2$.'
+  - error: 'Dividir toda la expresión al sustituir'
+    explicacion: 'Es el mismo error de la hoja. $v_0$ solo se sustituye en el término que lo contiene; el $-4,9\,t^2$ no se toca.'
+  - error: 'Suponer que el punto más alto está a mitad del vuelo'
+    explicacion: 'Eso solo ocurre si sale y llega a la misma altura. Calcula siempre el instante con $v_y = 0$.'
+laboratorio: { v0: 22.49, angulo: 20, h0: 5 }

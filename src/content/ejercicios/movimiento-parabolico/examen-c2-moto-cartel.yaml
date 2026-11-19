@@ -1,0 +1,125 @@
+titulo: Por encima del cartel
+tema: movimiento-parabolico
+orden: 122
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 2 del examen de práctica C. Amplía el problema 3 de la hoja cooperativa del 28/10 (la moto entre rampas).
+coleccion: examen-parabolico-c
+dificultad: examen
+habilidades: [planteamiento, matematicas, multipaso, unidades, conceptual]
+resumen: La rampa de llegada está más alta que la de salida y hay un cartel en medio. Sistema, comprobación de un obstáculo y sentido de la velocidad.
+enunciado: |
+  Una moto salta desde una rampa inclinada **30°** cuyo extremo está a **4,0 m** del suelo hacia una plataforma **más alta**, cuyo borde está a **5,5 m** del suelo y a **25 m** de distancia horizontal. A mitad de camino, a **12,5 m** de la rampa, hay un cartel publicitario de **7,5 m** de altura. Trata la moto como un punto y desprecia el rozamiento con el aire.
+
+  a) ¿Con qué velocidad debe salir, en m/s y en km/h, para llegar justo al borde de la plataforma? b) ¿Pasa por encima del cartel? ¿Con qué margen? c) Cuando llega a la plataforma, ¿está subiendo o bajando?
+figura:
+  tipo: lanzamiento
+  v0: 17.7683
+  angulo: 30
+  h0: 4
+  llegada: 5.5
+  soporte: rampa
+  etiquetas: { v0: 'v₀ = ?', angulo: '30°', h0: '4,0 m', alcance: '25 m' }
+  marcas:
+    - { tipo: muro, x: 12.5, altura: 7.5, etiqueta: 'cartel 7,5 m' }
+    - { tipo: rampa, x: 25, altura: 5.5 }
+  ancho: 30
+datos:
+  - { simbolo: 'y_0', valor: '4,0\un{m}', significado: 'altura de la rampa de salida' }
+  - { simbolo: '(x,\ y)_{\text{llegada}}', valor: '(25;\ 5,5)\un{m}', significado: 'borde de la plataforma' }
+  - { simbolo: '\alpha', valor: '30^\circ', significado: 'inclinación de la rampa' }
+  - { simbolo: '(x,\ y)_{\text{cartel}}', valor: '(12,5;\ 7,5)\un{m}', significado: 'posición y altura del cartel' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'La velocidad inicial $v_0$ (en m/s y km/h).'
+  - 'La altura de la moto al pasar por $x = 12,5$ m.'
+  - 'El signo de $v_y$ al aterrizar.'
+interpretacion: |
+  Es el sistema de la hoja, pero la moto llega **1,5 m más arriba** de donde sale, así que en la ecuación Y queda un término que no se cancela. Después hay que comprobar un punto intermedio: en el instante en que $x = 12,5$ m, la moto debe estar por encima de 7,5 m.
+conceptos:
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = y_0 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2$.'
+  - 'Para saber la altura en una posición $x$ conocida, el tiempo sale del eje X.'
+  - 'El signo de $\cy{v_y}$ dice si sube ($+$) o baja ($-$).'
+apartados:
+  - id: a
+    enunciado: ¿Con qué velocidad debe salir para llegar justo al borde de la plataforma? Dala en m/s y en km/h.
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de vuelo', unidad: s, valor: 1.625 }
+        - simbolo: 'v_0'
+          etiqueta: Velocidad inicial
+          unidad: m/s
+          valor: 17.77
+          trampas:
+            - { valor: 16.82, explicacion: 'Has cancelado las alturas como en la hoja. Aquí sale de 4,0 m y llega a 5,5 m: queda $1,5 = 0,5\,v_0\,t - 4,9\,t^2$.' }
+        - { simbolo: 'v_0', etiqueta: 'La misma velocidad', unidad: km/h, valor: 63.97 }
+    pistas:
+      - '$25 = 0,866\,v_0\,t$ y $5,5 = 4 + 0,5\,v_0\,t - 4,9\,t^2$.'
+      - 'De la primera, $v_0\,t = 28,87$. Sustitúyelo en la segunda.'
+    pasos:
+      - titulo: Sistema en el punto de llegada
+        desarrollo: |
+          $$(1)\quad 25 = 0,866\,v_0\,t \qquad\qquad (2)\quad 5,5 = 4 + 0,5\,v_0\,t - 4,9\,t^2$$
+      - titulo: Sustitución
+        desarrollo: |
+          De (1), $v_0\,t = 28,87$. En (2):
+
+          $$5,5 = 4 + 0,5\cdot 28,87 - 4,9\,t^2 = 4 + 14,43 - 4,9\,t^2 \;\Rightarrow\; 4,9\,t^2 = 12,93 \;\Rightarrow\; t = 1,62\un{s}$$
+        porque: 'Sustituye solo donde aparece $v_0$; el $-4,9\,t^2$ no se toca.'
+      - titulo: v₀ y km/h
+        desarrollo: |
+          $$v_0 = \frac{28,87}{1,625} = 17,77\un{m/s} \qquad 17,77\cdot 3,6 = 64,0\un{km/h}$$
+    resultado: 'Debe salir a **17,8 m/s = 64,0 km/h**. El vuelo dura 1,62 s.'
+  - id: b
+    enunciado: ¿A qué altura pasa la moto por la posición del cartel? ¿Lo supera?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_c', etiqueta: 'Instante en que pasa por x = 12,5 m', unidad: s, valor: 0.8123 }
+        - simbolo: 'y_c'
+          etiqueta: Altura de la moto en x = 12,5 m
+          unidad: m
+          valor: 7.983
+          trampas:
+            - { valor: 3.983, explicacion: 'Has olvidado los 4,0 m de la rampa de salida en la ecuación de $y$.' }
+    pistas:
+      - 'El tiempo sale del eje X: $12,5 = 17,77\cdot 0,866\,t$.'
+      - 'Con ese tiempo, calcula $y$ y compáralo con 7,5 m.'
+    pasos:
+      - titulo: El tiempo sale del eje X
+        desarrollo: |
+          $$\cx{v_{0x}} = 17,77\cdot 0,866 = 15,39\un{m/s} \qquad 12,5 = 15,39\,t_c \;\Rightarrow\; t_c = 0,812\un{s}$$
+        porque: 'Como $x$ avanza a ritmo constante y el cartel está a mitad de distancia, la moto pasa por él a mitad del vuelo. Pero ese **no** es el punto más alto: con alturas distintas, el punto más alto llega en $t = 8,88/9,8 = 0,91$ s.'
+      - titulo: Altura en ese instante
+        desarrollo: |
+          $$\cy{v_{0y}} = 17,77\cdot 0,5 = 8,88\un{m/s} \qquad \cy{y} = 4 + 8,88\cdot 0,812 - 4,9\cdot 0,812^2 = 7,98\un{m}$$
+        porque: '7,98 m > 7,5 m: lo supera, pero con un margen de menos de medio metro.'
+    resultado: 'Pasa a **7,98 m**: supera el cartel por solo **0,48 m**.'
+  - id: c
+    enunciado: 'Cuando llega a la plataforma, ¿cuánto vale vᵧ? ¿Está subiendo o bajando?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: '\cy{v_y}'
+          etiqueta: Componente vertical al aterrizar
+          unidad: m/s
+          valor: -7.038
+          trampas:
+            - { valor: 24.80, explicacion: 'Has sumado en lugar de restar: $v_y = v_{0y} - 9,8\,t$.' }
+    pistas:
+      - '$v_y = 8,88 - 9,8\cdot 1,625$. Mira el signo.'
+    pasos:
+      - titulo: Velocidad vertical en el aterrizaje
+        desarrollo: |
+          $$\cy{v_y} = 8,88 - 9,8\cdot 1,625 = -7,04\un{m/s}$$
+        porque: 'Negativa: la moto ya ha pasado por el punto más alto (en $t = 8,88/9,8 = 0,91$ s) y **baja** al llegar, aunque la plataforma esté más alta que la salida.'
+    resultado: '$v_y = -7,04$ m/s: está **bajando** cuando aterriza.'
+errores:
+  - error: 'Cancelar las alturas como en la hoja'
+    explicacion: 'Solo se cancelan si salida y llegada están a la misma altura. Aquí $5,5 - 4 = 1,5$ m se queda en la ecuación.'
+  - error: 'Usar la mitad del tiempo de vuelo como instante del punto más alto'
+    explicacion: 'Con alturas distintas no es así. El punto más alto está en $t = 0,91$ s, no en 0,81 s.'
+  - error: 'Pensar que, si la plataforma está más alta, la moto llega subiendo'
+    explicacion: 'Depende de la trayectoria. Aquí el punto más alto (8,03 m) está antes de la plataforma, así que llega bajando.'
+laboratorio: { v0: 17.77, angulo: 30, h0: 4 }

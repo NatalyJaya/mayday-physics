@@ -1,0 +1,118 @@
+titulo: La foto a 45°
+tema: movimiento-parabolico
+orden: 121
+procedencia: original
+inspirado_en: [hoja-cooperativa-2026-10-28]
+nota_fuente: Ejercicio 1 del examen de práctica C. Amplía el problema 2 de la hoja cooperativa del 28/10 (la bola que cae de la mesa).
+coleccion: examen-parabolico-c
+dificultad: examen
+habilidades: [planteamiento, vectores, conceptual, multipaso]
+resumen: El dato es un instante intermedio del vuelo. Hay que traducir «velocidad a 45°» en una ecuación.
+enunciado: |
+  Una bola sale horizontalmente de una mesa de **1,25 m** de altura. Una serie de fotos muestra que, en el instante en que su velocidad forma **45°** con la horizontal, la bola ha descendido **0,20 m** desde el tablero. Desprecia el rozamiento con el aire.
+
+  a) ¿Con qué velocidad sale de la mesa? b) ¿A qué distancia de la mesa cae? c) ¿Con qué velocidad (módulo) y qué ángulo llega al suelo?
+figura:
+  tipo: lanzamiento
+  v0: 1.9799
+  angulo: 0
+  h0: 1.25
+  soporte: mesa
+  etiquetas: { v0: 'v₀ = ?', h0: '1,25 m', alcance: 'x = ?' }
+  claves:
+    - { t: 0.2020, etiqueta: '45°: ha bajado 0,20 m' }
+datos:
+  - { simbolo: 'h', valor: '1,25\un{m}', significado: 'altura de la mesa' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'sale rodando en horizontal' }
+  - { simbolo: '\Delta y_1', valor: '0,20\un{m}', significado: 'lo que ha bajado en el instante $t_1$' }
+  - { simbolo: '\alpha_1', valor: '45^\circ', significado: 'ángulo de la velocidad en el instante $t_1$' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'hacia abajo' }
+incognitas:
+  - 'La velocidad de salida $v_0$.'
+  - La distancia horizontal hasta el suelo.
+  - El módulo y el ángulo de la velocidad al llegar.
+interpretacion: |
+  La foto da información de un instante intermedio $t_1$. Que la velocidad forme 45° significa que, en ese instante, la componente vertical es igual de grande que la horizontal: $|v_y| = v_x$. Y saber cuánto ha bajado permite calcular $t_1$ sin conocer $v_0$.
+conceptos:
+  - '$\tan 45^\circ = 1$, así que $|\cy{v_y}| = \cx{v_x}$ en ese instante.'
+  - '$\cy{y} = h - 4,9\,t^2$ y $\cy{v_y} = -9,8\,t$; $\cx{v_x} = v_0$ siempre.'
+  - 'El tiempo de caída solo depende de la altura (lanzamiento horizontal).'
+apartados:
+  - id: a
+    enunciado: ¿En qué instante se hace la foto y con qué velocidad sale la bola de la mesa?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't_1', etiqueta: 'Instante de la foto', unidad: s, valor: 0.2020 }
+        - simbolo: 'v_0'
+          etiqueta: Velocidad de salida
+          unidad: m/s
+          valor: 1.980
+          trampas:
+            - { valor: 0.990, explicacion: 'Has usado la velocidad **media** de bajada ($0,20/t_1$). La condición de 45° compara la velocidad vertical **en ese instante**, $9,8\,t_1$, con $v_0$.' }
+    pistas:
+      - 'Primero el instante: en $t_1$ la bola ha bajado 0,20 m, así que $4,9\,t_1^2 = 0,20$.'
+      - 'A 45°, $\tan 45^\circ = |v_y|/v_x = 1$: $v_0 = 9,8\,t_1$.'
+    pasos:
+      - titulo: Instante de la foto
+        desarrollo: |
+          $$\cy{y} = 1,25 - 4,9\,t_1^2 = 1,25 - 0,20 \;\Rightarrow\; t_1^2 = \frac{0,20}{4,9} \;\Rightarrow\; t_1 = 0,202\un{s}$$
+        porque: 'Como $v_{0y} = 0$, lo que ha bajado no depende de $v_0$.'
+      - titulo: 'La condición de 45°'
+        piensa: '¿Qué relación hay entre las componentes de la velocidad cuando forma 45°?'
+        desarrollo: |
+          $$\tan 45^\circ = \frac{|\cy{v_y}|}{\cx{v_x}} = 1 \;\Rightarrow\; v_0 = |\cy{v_y}| = 9,8\cdot 0,202 = 1,98\un{m/s}$$
+    resultado: 'La foto es a los **0,202 s** y la bola sale a **1,98 m/s**.'
+  - id: b
+    enunciado: ¿A qué distancia de la mesa cae?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: 'Tiempo de caída', unidad: s, valor: 0.5051 }
+        - { simbolo: '\cx{x}', etiqueta: 'Distancia horizontal', unidad: m, valor: 1.000 }
+    pistas:
+      - 'Tiempo de caída: $0 = 1,25 - 4,9\,t^2$. Luego $x = v_0\,t$.'
+    pasos:
+      - titulo: Tiempo de caída
+        desarrollo: |
+          $$0 = 1,25 - 4,9\,t^2 \;\Rightarrow\; t = 0,505\un{s}$$
+      - titulo: Eje X (MRU)
+        desarrollo: |
+          $$\cx{x} = 1,98\cdot 0,505 = 1,00\un{m}$$
+    resultado: 'Cae a **1,00 m** de la mesa.'
+  - id: c
+    enunciado: ¿Con qué velocidad (módulo) y qué ángulo bajo la horizontal llega al suelo?
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: '\cy{v_y}', etiqueta: 'Componente vertical al llegar', unidad: m/s, valor: -4.950 }
+        - { simbolo: 'v', etiqueta: 'Módulo de la velocidad', unidad: m/s, valor: 5.331 }
+        - simbolo: '\alpha'
+          etiqueta: Ángulo bajo la horizontal (sin signo)
+          unidad: '°'
+          valor: 68.20
+          trampas:
+            - { valor: 45, explicacion: '45° era el ángulo en el instante de la foto. La bola sigue acelerando hacia abajo, así que al llegar la velocidad está más inclinada.' }
+            - { valor: 2.5, explicacion: 'Eso es el valor de la **tangente**. Aplica el arcotangente.' }
+    pistas:
+      - '$v_y = -9,8\cdot 0,505$, $v_x = 1,98$ m/s.'
+    pasos:
+      - titulo: Componentes al llegar
+        desarrollo: |
+          $$\cx{v_x} = 1,98\un{m/s} \qquad \cy{v_y} = -9,8\cdot 0,505 = -4,95\un{m/s}$$
+      - titulo: Módulo y ángulo
+        desarrollo: |
+          $$v = \sqrt{1,98^2 + 4,95^2} = 5,33\un{m/s} \qquad \tan\alpha = \frac{-4,95}{1,98} = -2,50 \;\Rightarrow\; \alpha = -68,2^\circ$$
+    resultado: 'Llega a **5,33 m/s** formando **68,2° por debajo** de la horizontal.'
+errores:
+  - error: 'Pensar que «45°» significa que ha bajado lo mismo que ha avanzado'
+    explicacion: 'El ángulo es el de la **velocidad**, no el de la posición. En $t_1$ la bola ha avanzado $1,98\cdot 0,202 = 0,40$ m y solo ha bajado 0,20 m: la mitad.'
+  - error: 'Usar 0,20 m como altura de la mesa'
+    explicacion: '0,20 m es lo que ha bajado hasta la foto. La mesa mide 1,25 m.'
+  - error: 'Suponer que el ángulo no cambia durante la caída'
+    explicacion: '$v_x$ es constante pero $|v_y|$ crece, así que la velocidad cada vez apunta más hacia abajo.'
+alternativas:
+  - titulo: Una propiedad curiosa
+    desarrollo: |
+      En un lanzamiento horizontal, cuando la velocidad forma 45° la bola ha bajado exactamente la mitad de lo que ha avanzado: $\dfrac{4,9\,t_1^2}{v_0\,t_1} = \dfrac{9,8\,t_1}{2\,v_0} = \dfrac{1}{2}$. Con los datos: 0,20 m frente a 0,40 m. ✓
+laboratorio: { v0: 1.98, angulo: 0, h0: 1.25 }

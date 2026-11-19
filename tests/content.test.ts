@@ -155,6 +155,76 @@ const expected: Record<string, number[]> = {
 		const l = { v0: 20, angleDeg: 20, h0: 3 };
 		return [P.flightTime(l), P.range(l), P.maxHeight(l)];
 	})(),
+	// ─── Exámenes de práctica (basados en la hoja del 28/10) ───
+	[`${mp}/examen-a1-mesa-angulo`]: (() => {
+		const t = Math.sqrt((1.2 * Math.tan(P.toRad(60))) / 9.8);
+		const l = { v0: 1.2 / t, angleDeg: 0, h0: 4.9 * t * t };
+		const i = P.impact(l);
+		expect(P.flightTime(l)).toBeCloseTo(t, 9);
+		expect(P.range(l)).toBeCloseTo(1.2, 9);
+		expect(i.angleBelowDeg).toBeCloseTo(60, 9);
+		return [t, l.v0, l.h0, i.speed];
+	})(),
+	[`${mp}/examen-a2-moto-desnivel`]: (() => {
+		const a = P.toRad(20);
+		const t = Math.sqrt((5 - 2 + 40 * Math.tan(a)) / 4.9);
+		const l = { v0: 40 / (Math.cos(a) * t), angleDeg: 20, h0: 5 };
+		expect(P.timesAtHeight(l, 2).at(-1)!).toBeCloseTo(t, 9);
+		const v = P.velocityAt(l, t);
+		return [t, l.v0, l.v0 * 3.6, P.maxHeight(l), v.vy, v.speed, deg(Math.atan(-v.vy / v.vx))];
+	})(),
+	[`${mp}/examen-a3-mesa-caja`]: (() => {
+		const t = P.timesAtHeight({ v0: 1, angleDeg: 0, h0: 1 }, 0.35).at(-1)!;
+		const l = { v0: 1.5, angleDeg: 0, h0: 1 };
+		return [t, 0.6 / t, 1.0 / t, 0.6 / 1.5, P.heightAtX(l, 0.6)];
+	})(),
+	[`${mp}/examen-b1-mesa-ultimo-tramo`]: (() => {
+		const t = (0.45 + 4.9 * 0.01) / (4.9 * 0.2);
+		const l = { v0: 2, angleDeg: 0, h0: 4.9 * t * t };
+		expect(P.positionAt(l, t - 0.1).y).toBeCloseTo(0.45, 9);
+		const i = P.impact(l);
+		return [t, l.h0, P.range(l), i.vy, i.speed, i.angleBelowDeg];
+	})(),
+	[`${mp}/examen-b2-moto-margen`]: (() => {
+		const l = { v0: 20, angleDeg: 30, h0: 2.5 };
+		const t = P.timesAtHeight(l, 2.5).at(-1)!;
+		const vmin = P.speedToReach(30, 30, 0)!;
+		const vmax = P.speedToReach(30, 38, 0)!;
+		return [20, t, P.positionAt(l, t).x, vmin, vmin * 3.6, vmax, vmax * 3.6, P.maxHeight(l)];
+	})(),
+	[`${mp}/examen-b3-moto-dos-angulos`]: (() => {
+		const [a1, a2] = P.anglesForLevelRange(25, 50);
+		const l1 = { v0: 25, angleDeg: a1, h0: 3 },
+			l2 = { v0: 25, angleDeg: a2, h0: 3 };
+		const T = (l: P.Launch) => P.timesAtHeight(l, 3).at(-1)!;
+		expect(P.positionAt(l1, T(l1)).x).toBeCloseTo(50, 9);
+		expect(P.positionAt(l2, T(l2)).x).toBeCloseTo(50, 9);
+		return [a1, a2, T(l1), T(l2), P.maxHeight(l1), P.maxHeight(l2)];
+	})(),
+	[`${mp}/examen-c1-mesa-45-grados`]: (() => {
+		const t1 = Math.sqrt(0.2 / 4.9);
+		const l = { v0: 9.8 * t1, angleDeg: 0, h0: 1.25 };
+		const v1 = P.velocityAt(l, t1);
+		expect(-v1.vy / v1.vx).toBeCloseTo(1, 9);
+		const i = P.impact(l);
+		return [t1, l.v0, P.flightTime(l), P.range(l), i.vy, i.speed, i.angleBelowDeg];
+	})(),
+	[`${mp}/examen-c2-moto-cartel`]: (() => {
+		const a = P.toRad(30);
+		const t = Math.sqrt((4 - 5.5 + 25 * Math.tan(a)) / 4.9);
+		const l = { v0: 25 / (Math.cos(a) * t), angleDeg: 30, h0: 4 };
+		expect(P.timesAtHeight(l, 5.5).at(-1)!).toBeCloseTo(t, 9);
+		const tc = 12.5 / P.components(l.v0, 30).vx;
+		return [t, l.v0, l.v0 * 3.6, tc, P.heightAtX(l, 12.5), P.velocityAt(l, t).vy];
+	})(),
+	[`${mp}/examen-c3-mesa-doble-velocidad`]: (() => {
+		const t = P.flightTime({ v0: 0, angleDeg: 0, h0: 0.9 });
+		const v0 = (9.8 * t) / Math.sqrt(3);
+		const l = { v0, angleDeg: 0, h0: 0.9 };
+		const i = P.impact(l);
+		expect(i.speed).toBeCloseTo(2 * v0, 9);
+		return [t, i.vy, v0, i.speed, P.range(l), i.angleBelowDeg];
+	})(),
 	[`${mp}/pase-carrera`]: (() => {
 		const l = { v0: 15, angleDeg: 45 };
 		const T = P.flightTime(l),
