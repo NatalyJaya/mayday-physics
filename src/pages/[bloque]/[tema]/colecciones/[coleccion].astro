@@ -43,6 +43,7 @@ const total = groups.reduce((n, g) => n + 1 + g.variants.length, 0);
 const fecha = new Date(col.data.fecha).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 const LEVEL = ['Más fácil', 'Un paso más', 'Reto'];
 const exam = col.data.tipo === 'examen';
+const review = col.data.tipo === 'repaso';
 const base = col.data.basada_en ? await getEntry('colecciones', col.data.basada_en) : undefined;
 const siblings = exam ? (await getCollections(topic.id)).filter((c) => c.data.tipo === 'examen') : [];
 ---
@@ -62,6 +63,8 @@ const siblings = exam ? (await getCollections(topic.id)).filter((c) => c.data.ti
 				<p class="eyebrow">
 					<Icon name="clock" size={14} /> Examen de práctica{col.data.minutos && ` · ${col.data.minutos} min`}
 				</p>
+			) : review ? (
+				<p class="eyebrow"><Icon name="book" size={14} /> Review · hoja de repaso</p>
 			) : (
 				<p class="eyebrow"><Icon name="layers" size={14} /> Colección de clase · {fecha}</p>
 			)
@@ -79,6 +82,10 @@ const siblings = exam ? (await getCollections(topic.id)).filter((c) => c.data.ti
 					)}
 					. Cada uno tiene pistas y la solución explicada, pero intenta resolverlo entero antes de mirarlas.
 				</p>
+			) : review ? (
+				<p class="muted count">
+					{groups.length} ejercicios. Cada uno tiene casillas para tus respuestas, pistas y la solución paso a paso.
+				</p>
 			) : (
 				<p class="muted count">
 					{groups.length} problemas y {total - groups.length} variantes. Empieza por el problema; cuando lo entiendas, haz sus variantes en orden.
@@ -86,7 +93,7 @@ const siblings = exam ? (await getCollections(topic.id)).filter((c) => c.data.ti
 			)
 		}
 		{
-			exam && col.data.instrucciones.length > 0 && (
+			(exam || review) && col.data.instrucciones.length > 0 && (
 				<div class="card rules">
 					<strong>Antes de empezar</strong>
 					<ul>
@@ -118,7 +125,7 @@ const siblings = exam ? (await getCollections(topic.id)).filter((c) => c.data.ti
 				groups.map((g, i) => (
 					<li class="group">
 						<a class="main card" href={exerciseUrl(topic, g.main)} data-solved-id={g.main.id}>
-							<span class="n">{exam ? i + 1 : `P${i + 1}`}</span>
+							<span class="n">{exam || review ? i + 1 : `P${i + 1}`}</span>
 							<span class="body">
 								<span class="solved-mark">
 									<Icon name="check" size={14} /> Resuelto

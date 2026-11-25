@@ -1,4 +1,4 @@
-// Huella de los esquemas (la actualiza src/integrations/content-schema-guard.mjs): 224c1dc78add4ec1
+// Huella de los esquemas (la actualiza src/integrations/content-schema-guard.mjs): 577d3287379e0638
 // Colecciones de contenido. El contenido educativo (temario, lecciones,
 // ejercicios y fuentes) vive en src/content/ y está separado de la
 // presentación (src/components/). Ver docs/CONTENIDO.md.

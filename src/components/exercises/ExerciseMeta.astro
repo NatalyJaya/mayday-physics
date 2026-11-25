@@ -21,8 +21,8 @@ const col = ex.coleccion ? await getEntry('colecciones', ex.coleccion) : undefin
 	</span>
 	{
 		col && (
-			<span class="tag col" title={col.data.titulo}>
-				<Icon name="layers" size={13} /> {col.data.corto}
+			<span class:list={['tag', 'col', { review: col.data.tipo === 'repaso' }]} title={col.data.titulo}>
+				<Icon name={col.data.tipo === 'repaso' ? 'book' : 'layers'} size={13} /> {col.data.corto}
 			</span>
 		)
 	}
@@ -79,6 +79,12 @@ const col = ex.coleccion ? await getEntry('colecciones', ex.coleccion) : undefin
 		background: var(--ink);
 		color: var(--bg);
 		border-color: var(--ink);
+	}
+	.col.review {
+		background: var(--warn-soft);
+		color: var(--warn);
+		border-color: color-mix(in srgb, var(--warn) 35%, transparent);
+		font-weight: 700;
 	}
 	.skill {
 		background: transparent;

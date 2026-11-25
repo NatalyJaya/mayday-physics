@@ -65,3 +65,28 @@
     - 'Usa el método de clase: escribe las ecuaciones de cada eje y conecta los ejes con el tiempo.'
     - Trabaja con al menos tres decimales en los senos y cosenos.
     - Contesta todo lo que pide cada apartado, con unidades.
+
+# ─── Review ───
+# Hojas de ejercicios que se añaden tal cual (enunciados y resultados de la
+# hoja) para que el alumno compruebe sus respuestas.
+
+- id: review-parabolico-joan-oro
+  tipo: repaso
+  titulo: 'Review: ejercicios de movimiento parabólico'
+  corto: Review
+  tema: movimiento-parabolico
+  fecha: '2026-11-25'
+  descripcion: 'Los siete ejercicios de la hoja «Exercicis moviment parabòlic» de 1r de Batxillerat, tal cual: los enunciados están en catalán, como en la hoja. Resuélvelos en tu cuaderno y comprueba aquí tus resultados.'
+  fuente: joan-oro-parabolico
+  principales:
+    - review-1-avion-coche
+    - review-2-cingle
+    - review-3-proyectil-60
+    - review-4-pelota-arbol
+    - review-5-edificio-terrado
+    - review-6-rampa
+    - review-7-pau-penya-segat
+  instrucciones:
+    - 'Los resultados de la hoja salen con g = 10 m/s², salvo el ejercicio 6, que usa g = 9,8 m/s². Las casillas aceptan los dos valores siempre que el resultado no cambie de forma importante.'
+    - 'Desprecia el rozamiento con el aire.'
+    - 'Usa el método de clase: escribe las ecuaciones de cada eje y conecta los ejes con el tiempo.'

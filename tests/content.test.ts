@@ -225,6 +225,43 @@ const expected: Record<string, number[]> = {
 		expect(i.speed).toBeCloseTo(2 * v0, 9);
 		return [t, i.vy, v0, i.speed, P.range(l), i.angleBelowDeg];
 	})(),
+	// ─── Review: hoja del INS Joan Oró (g = 10 m/s², salvo el ejercicio 6) ───
+	[`${mp}/review-1-avion-coche`]: (() => {
+		const t = P.flightTime({ v0: 720 / 3.6, angleDeg: 0, h0: 200, g: 10 });
+		return [t, (200 - 108 / 3.6) * t, (200 + 108 / 3.6) * t];
+	})(),
+	[`${mp}/review-2-cingle`]: (() => {
+		const l = { v0: 40, angleDeg: 0, h0: 300, g: 10 };
+		return [P.flightTime(l), P.range(l)];
+	})(),
+	[`${mp}/review-3-proyectil-60`]: (() => {
+		const l = { v0: 100, angleDeg: 60, g: 10 };
+		const p = P.positionAt(l, 2),
+			v = P.velocityAt(l, 2);
+		return [P.range(l), P.maxHeight(l), p.x, p.y, v.vx, v.vy, -10];
+	})(),
+	[`${mp}/review-4-pelota-arbol`]: (() => {
+		const l = { v0: 16, angleDeg: 60, g: 10 };
+		const t = 20 / P.components(16, 60).vx;
+		expect(P.heightAtX(l, 20)).toBeLessThan(4);
+		expect(P.velocityAt(l, t).vy).toBeLessThan(0);
+		return [t, P.heightAtX(l, 20)];
+	})(),
+	[`${mp}/review-5-edificio-terrado`]: (() => {
+		const l = { v0: 20, angleDeg: 45, g: 10 };
+		const t = P.timesAtHeight(l, 8).at(-1)!;
+		return [22 / P.components(20, 45).vx, P.heightAtX(l, 22), t, P.positionAt(l, t).x];
+	})(),
+	[`${mp}/review-6-rampa`]: (() => {
+		const v = Math.sqrt(8 ** 2 - 2 * 6 * 4);
+		const a = deg(Math.asin(2 / 4));
+		const l = { v0: v, angleDeg: a, h0: 2 };
+		return [v, a, P.maxHeight(l), P.flightTime(l), P.range(l)];
+	})(),
+	[`${mp}/review-7-pau-penya-segat`]: (() => {
+		const l = { v0: 100, angleDeg: 30, h0: 120, g: 10 };
+		return [P.components(100, 30).vx, P.timesAtHeight(l, 80).at(-1)!];
+	})(),
 	[`${mp}/pase-carrera`]: (() => {
 		const l = { v0: 15, angleDeg: 45 };
 		const T = P.flightTime(l),

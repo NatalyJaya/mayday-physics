@@ -245,8 +245,8 @@ export type TriangleFigure = Extract<Figure, { tipo: 'triangulo' }>;
 export type FlowFigure = Extract<Figure, { tipo: 'flujo' }>;
 
 export const collectionSchema = z.object({
-	/** clase: hoja de clase con variantes · examen: examen de práctica (ejercicios sueltos, sin variantes). */
-	tipo: z.enum(['clase', 'examen']).default('clase'),
+	/** clase: hoja de clase con variantes · examen: examen de práctica · repaso: hoja de ejercicios «Review» (tal cual, con sus resultados). */
+	tipo: z.enum(['clase', 'examen', 'repaso']).default('clase'),
 	titulo: z.string(),
 	/** Nombre corto para la etiqueta. */
 	corto: z.string(),
