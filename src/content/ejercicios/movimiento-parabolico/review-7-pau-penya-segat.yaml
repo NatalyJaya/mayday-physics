@@ -1,13 +1,13 @@
-titulo: 'PAU: cuerpo lanzado desde un acantilado de 120 m'
+titulo: 'PAU: cos llançat des d’un penya-segat de 120 m'
 tema: movimiento-parabolico
 orden: 207
 procedencia: alumno
 fuente: joan-oro-parabolico
-nota_fuente: Ejercicio 7 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Es de la PAU de septiembre de 1998. Resultado de la hoja, con g = 10 m/s²; 86,6 m/s y 10,74 s.
+nota_fuente: Exercici 7 del full «Exercicis moviment parabòlic» (INS Joan Oró). És de la PAU de setembre de 1998. Resultat del full, amb g = 10 m/s²; 86,6 m/s i 10,74 s.
 coleccion: review-parabolico-joan-oro
 dificultad: examen
 habilidades: [vectores, planteamiento, matematicas]
-resumen: Lanzamiento oblicuo hacia arriba desde un acantilado. Velocidad horizontal al llegar al agua e instante en que pasa por 80 m.
+resumen: Llançament oblic cap amunt des d’un penya-segat. Velocitat horitzontal en arribar a l’aigua i instant en què passa per 80 m.
 enunciado: |
   (PAU setembre 98) Es llança un cos de **5 kg** des d’un penya-segat que està a una alçària de **120 m** sobre l’aigua. La velocitat inicial del cos té un mòdul de **100 m/s** i forma un angle de **30°** amb l’horitzontal. Si la fricció amb l’aire és negligible,
 
@@ -23,19 +23,19 @@ figura:
   etiquetas: { v0: '', angulo: '30°', h0: '120 m' }
   ancho: 140
 datos:
-  - { simbolo: 'm', valor: '5\un{kg}', significado: 'masa (no hace falta: sin rozamiento, no influye)' }
-  - { simbolo: 'y_0', valor: '120\un{m}', significado: 'altura del acantilado sobre el agua' }
-  - { simbolo: 'v_0', valor: '100\un{m/s}', significado: 'velocidad inicial' }
-  - { simbolo: '\alpha', valor: '30^\circ', significado: 'sobre la horizontal' }
-  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que usa la hoja' }
+  - { simbolo: 'm', valor: '5\un{kg}', significado: 'massa (no cal: sense fregament, no influeix)' }
+  - { simbolo: 'y_0', valor: '120\un{m}', significado: 'alçària del penya-segat sobre l’aigua' }
+  - { simbolo: 'v_0', valor: '100\un{m/s}', significado: 'velocitat inicial' }
+  - { simbolo: '\alpha', valor: '30^\circ', significado: 'sobre l’horitzontal' }
+  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que fa servir el full' }
 incognitas:
-  - 'La componente horizontal de la velocidad al llegar al agua.'
-  - 'El instante en que el cuerpo está a 80 m sobre el agua.'
+  - 'El component horitzontal de la velocitat en arribar a l’aigua.'
+  - 'L’instant en què el cos és a 80 m sobre l’aigua.'
 interpretacion: |
-  Es un lanzamiento oblicuo **hacia arriba** desde 120 m. El cuerpo sube, llega a un punto más alto y baja hasta el agua. Pasa por los 80 m **una sola vez**: cuando ya baja, por debajo del borde del acantilado. La masa no interviene: sin rozamiento, todos los cuerpos caen igual.
+  És un llançament oblic **cap amunt** des de 120 m. El cos puja, arriba a un punt més alt i baixa fins a l’aigua. Passa pels 80 m **una sola vegada**: quan ja baixa, per sota de la vora del penya-segat. La massa no hi intervé: sense fregament, tots els cossos cauen igual.
 conceptos:
-  - 'Sin rozamiento, $\cx{v_x}$ es constante durante todo el vuelo.'
-  - '$\cy{y} = 120 + v_0\operatorname{sen}\alpha\cdot t - 5\,t^2$ (con $g = 10\un{m/s^2}$).'
+  - 'Sense fregament, $\cx{v_x}$ és constant durant tot el vol.'
+  - '$\cy{y} = 120 + v_0\operatorname{sin}\alpha\cdot t - 5\,t^2$ (amb $g = 10\un{m/s^2}$).'
 apartados:
   - id: a
     enunciado: 'Quant valdrà el component horitzontal de la velocitat en el moment de l’impacte amb l’aigua?'
@@ -43,50 +43,50 @@ apartados:
       tipo: numerica
       campos:
         - simbolo: '\cx{v_x}'
-          etiqueta: Componente horizontal al llegar al agua
+          etiqueta: Component horitzontal en arribar a l’aigua
           unidad: m/s
           valor: 86.60
           trampas:
-            - { valor: 50, explicacion: 'Esa es la componente **vertical** inicial ($100\operatorname{sen}30^\circ$). La horizontal va con el coseno.' }
-            - { valor: 100, explicacion: 'Ese es el módulo de la velocidad inicial. Se pide solo la componente horizontal.' }
+            - { valor: 50, explicacion: 'Aquest és el component **vertical** inicial ($100\operatorname{sin}30^\circ$). L’horitzontal va amb el cosinus.' }
+            - { valor: 100, explicacion: 'Aquest és el mòdul de la velocitat inicial. Es demana només el component horitzontal.' }
     pistas:
-      - 'En el eje X no hay aceleración. ¿Cambia $v_x$ durante el vuelo?'
+      - 'A l’eix X no hi ha acceleració. Canvia $v_x$ durant el vol?'
     pasos:
-      - titulo: La componente horizontal no cambia
+      - titulo: El component horitzontal no canvia
         desarrollo: |
           $$\cx{v_x} = v_0\cos 30^\circ = 100\cdot 0,866 = 86,6\un{m/s}$$
-        porque: 'En horizontal no actúa ninguna fuerza (no hay rozamiento), así que $v_x$ es la misma al salir y al llegar al agua. No hace falta calcular el tiempo de vuelo.'
-    resultado: 'Al llegar al agua, $v_x = $ **86,6 m/s**, la misma que al principio.'
+        porque: 'En horitzontal no actua cap força (no hi ha fregament), així que $v_x$ és la mateixa en sortir i en arribar a l’aigua. No cal calcular el temps de vol.'
+    resultado: 'En arribar a l’aigua, $v_x = $ **86,6 m/s**, la mateixa que al principi.'
   - id: b
     enunciado: 'En quin instant, després de llançar-lo, el cos es troba a una altura de 80 metres sobre l’aigua?'
     respuesta:
       tipo: numerica
       campos:
         - simbolo: 't'
-          etiqueta: Instante en que está a 80 m
+          etiqueta: Instant en què és a 80 m
           unidad: s
           valor: 10.745
           trampas:
-            - { valor: 0.745, explicacion: 'Esa es la otra solución de la ecuación, pero es **negativa** (−0,745 s): sería antes de lanzarlo. Quédate con la positiva.' }
-            - { valor: 2.828, explicacion: 'Has planteado una caída libre de 40 m sin velocidad inicial. Pero el cuerpo sale hacia arriba con $v_{0y} = 50\un{m/s}$.' }
+            - { valor: 0.745, explicacion: 'Aquesta és l’altra solució de l’equació, però és **negativa** (−0,745 s): seria abans de llançar-lo. Queda’t amb la positiva.' }
+            - { valor: 2.828, explicacion: 'Has plantejat una caiguda lliure de 40 m sense velocitat inicial. Però el cos surt cap amunt amb $v_{0y} = 50\un{m/s}$.' }
     pistas:
-      - '$v_{0y} = 100\operatorname{sen}30^\circ = 50\un{m/s}$.'
-      - 'Plantea $80 = 120 + 50\,t - 5\,t^2$ y resuelve la ecuación de segundo grado.'
+      - '$v_{0y} = 100\operatorname{sin}30^\circ = 50\un{m/s}$.'
+      - 'Planteja $80 = 120 + 50\,t - 5\,t^2$ i resol l’equació de segon grau.'
     pasos:
-      - titulo: Ecuación del eje Y a 80 m
+      - titulo: Equació de l’eix Y a 80 m
         desarrollo: |
           $$80 = 120 + 50\,t - 5\,t^2 \;\Rightarrow\; 5\,t^2 - 50\,t - 40 = 0 \;\Rightarrow\; t^2 - 10\,t - 8 = 0$$
-      - titulo: Resuelve y elige la solución
-        piensa: 'Sale una solución positiva y otra negativa. ¿Cuál tiene sentido?'
+      - titulo: Resol i tria la solució
+        piensa: 'Surt una solució positiva i una altra de negativa. Quina té sentit?'
         desarrollo: |
-          $$t = \frac{10 \pm \sqrt{100 + 32}}{2} = \frac{10 \pm 11,49}{2} \;\Rightarrow\; t = 10,74\un{s}\quad(\text{la otra, } -0,74\un{s},\ \text{se descarta})$$
-        porque: '80 m está por debajo del punto de lanzamiento: el cuerpo solo pasa por ahí una vez, cuando ya baja.'
-    resultado: 'Está a 80 m sobre el agua a los **10,74 s** de lanzarlo.'
+          $$t = \frac{10 \pm \sqrt{100 + 32}}{2} = \frac{10 \pm 11,49}{2} \;\Rightarrow\; t = 10,74\un{s}\quad(\text{l’altra, } -0,74\un{s},\ \text{es descarta})$$
+        porque: '80 m és per sota del punt de llançament: el cos només hi passa una vegada, quan ja baixa.'
+    resultado: 'És a 80 m sobre l’aigua als **10,74 s** de llançar-lo.'
 errores:
-  - error: 'Pensar que la masa influye'
-    explicacion: 'Sin rozamiento, la masa no aparece en ninguna ecuación del movimiento. Los 5 kg son un dato de más.'
-  - error: 'Calcular el tiempo de vuelo para el apartado a)'
-    explicacion: 'No hace falta: la componente horizontal de la velocidad es constante.'
-  - error: 'Tomar y₀ = 0 y la altura final como 80 m'
-    explicacion: 'Si el origen está en el agua, el cuerpo empieza en $y_0 = 120\un{m}$ y buscamos cuándo $y = 80\un{m}$.'
+  - error: 'Pensar que la massa influeix'
+    explicacion: 'Sense fregament, la massa no apareix a cap equació del moviment. Els 5 kg són una dada de més.'
+  - error: 'Calcular el temps de vol per a l’apartat a)'
+    explicacion: 'No cal: el component horitzontal de la velocitat és constant.'
+  - error: 'Prendre y₀ = 0 i l’altura final com a 80 m'
+    explicacion: 'Si l’origen és a l’aigua, el cos comença a $y_0 = 120\un{m}$ i busquem quan $y = 80\un{m}$.'
 laboratorio: { v0: 100, angulo: 30, h0: 120, g: 10 }

@@ -1,108 +1,123 @@
-titulo: ¿Pasa la pelota por encima del árbol?
+titulo: Passa la pilota per sobre de l’arbre?
 tema: movimiento-parabolico
 orden: 204
 procedencia: alumno
 fuente: joan-oro-parabolico
-nota_fuente: Ejercicio 4 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Resultado de la hoja, con g = 10 m/s²; no pasa, 3,375 m.
+nota_fuente: Exercici 4 del full «Exercicis moviment parabòlic» (INS Joan Oró). Resultat del full, amb g = 10 m/s²; no passa, 3,375 m.
 coleccion: review-parabolico-joan-oro
 dificultad: avanzado
 habilidades: [planteamiento, conceptual, multipaso]
-resumen: Una pelota lanzada a 16 m/s y 60° frente a un árbol de 4 m a 20 m de distancia. ¿Pasa por encima o choca?
+resumen: Una pilota llançada a 16 m/s i 60° davant d’un arbre de 4 m a 20 m de distància. Passa per sobre o hi xoca?
 enunciado: |
   Llanço una pilota amb una velocitat de **16 m/s** i fent un angle de **60 graus** amb el terra. A **20 metres** hi ha un arbre de **4 metres** d’altura.
 
   a) Passarà la pilota per sobre d’aquest arbre? b) Si passa, a quina posició xocarà la pilota amb el terra? c) Si no passa, a quina alçada xocarà amb l’arbre? d) Si no passa, xocarà amb l’arbre pujant o baixant?
+representacion:
+  titulo: Representació gràfica del moviment
+  texto: 'La pilota surt de l’origen. Per saber si passa, cal mirar la seva altura $y$ just quan arriba a $x = 20\un{m}$, on hi ha l’arbre.'
+  figura:
+    tipo: lanzamiento
+    v0: 16
+    angulo: 60
+    g: 10
+    ejes: true
+    etiquetas: { v0: 'v₀ = 16 m/s' }
+    marcas:
+      - { tipo: arbol, x: 20, altura: 4, etiqueta: 'arbre (4 m)' }
+    claves:
+      - { t: 2.5, etiqueta: 'x = 20 m, y = ?' }
+    ancho: 26
 datos:
-  - { simbolo: 'v_0', valor: '16\un{m/s}', significado: 'velocidad inicial' }
-  - { simbolo: '\alpha', valor: '60^\circ', significado: 'ángulo con el suelo' }
-  - { simbolo: 'x_{\text{árbol}}', valor: '20\un{m}', significado: 'distancia al árbol' }
-  - { simbolo: 'h_{\text{árbol}}', valor: '4\un{m}', significado: 'altura del árbol' }
-  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que usa la hoja' }
+  - { simbolo: 'v_0', valor: '16\un{m/s}', significado: 'velocitat inicial' }
+  - { simbolo: '\alpha', valor: '60^\circ', significado: 'angle amb el terra' }
+  - { simbolo: 'x_{\text{arbre}}', valor: '20\un{m}', significado: 'distància a l’arbre' }
+  - { simbolo: 'h_{\text{arbre}}', valor: '4\un{m}', significado: 'altura de l’arbre' }
+  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que fa servir el full' }
 incognitas:
-  - 'La altura de la pelota cuando llega a $x = 20\un{m}$, para compararla con los 4 m del árbol.'
-  - 'Si va subiendo o bajando en ese instante.'
+  - 'L’altura de la pilota quan arriba a $x = 20\un{m}$, per comparar-la amb els 4 m de l’arbre.'
+  - 'Si va pujant o baixant en aquell instant.'
 interpretacion: |
-  La clave es **dónde está la pelota cuando llega a la vertical del árbol**. Con el eje X sabemos en qué instante llega a $x = 20\un{m}$; con ese tiempo, el eje Y nos da su altura. Si es mayor que 4 m, pasa por encima.
+  La clau és **on és la pilota quan arriba a la vertical de l’arbre**. Amb l’eix X sabem en quin instant arriba a $x = 20\un{m}$; amb aquest temps, l’eix Y ens dona la seva altura. Si és més gran que 4 m, passa per sobre.
 conceptos:
-  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = v_0\operatorname{sen}\alpha\cdot t - 5\,t^2$.'
-  - '$\cy{v_y} = v_0\operatorname{sen}\alpha - 10\,t$: si es positiva, sube; si es negativa, baja.'
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ i $\cy{y} = v_0\operatorname{sin}\alpha\cdot t - 5\,t^2$.'
+  - '$\cy{v_y} = v_0\operatorname{sin}\alpha - 10\,t$: si és positiva, puja; si és negativa, baixa.'
 apartados:
   - id: a
     enunciado: 'Passarà la pilota per sobre d’aquest arbre?'
     respuesta:
       tipo: opciones
       opciones:
-        - texto: Sí, pasa por encima.
-          explicacion: 'Calcula la altura de la pelota en $x = 20\un{m}$: con $g = 10\un{m/s^2}$ sale unos 3,4 m, menos que los 4 m del árbol.'
-        - texto: No, choca con el árbol.
+        - texto: Sí, passa per sobre.
+          explicacion: 'Calcula l’altura de la pilota a $x = 20\un{m}$: amb $g = 10\un{m/s^2}$ surt uns 3,4 m, menys que els 4 m de l’arbre.'
+        - texto: No, xoca amb l’arbre.
           correcta: true
-          explicacion: 'Correcto. Cuando llega a $x = 20\un{m}$ está a unos 3,4 m de altura, por debajo de la copa.'
+          explicacion: 'Correcte. Quan arriba a $x = 20\un{m}$ és a uns 3,4 m d’altura, per sota de la copa.'
     pistas:
-      - 'Con el eje X, busca en qué instante la pelota está en $x = 20\un{m}$.'
-      - 'Con ese instante, calcula la altura $y$ y compárala con 4 m.'
+      - 'Amb l’eix X, busca en quin instant la pilota és a $x = 20\un{m}$.'
+      - 'Amb aquest instant, calcula l’altura $y$ i compara-la amb 4 m.'
     pasos:
-      - titulo: Componentes
+      - titulo: Components
         desarrollo: |
-          $$\cx{v_{0x}} = 16\cos 60^\circ = 8\un{m/s} \qquad \cy{v_{0y}} = 16\operatorname{sen}60^\circ = 13,86\un{m/s}$$
-      - titulo: Instante en que llega al árbol (eje X)
+          $$\cx{v_{0x}} = 16\cos 60^\circ = 8\un{m/s} \qquad \cy{v_{0y}} = 16\operatorname{sin}60^\circ = 13,86\un{m/s}$$
+      - titulo: Instant en què arriba a l’arbre (eix X)
         desarrollo: |
           $$20 = 8\,t \;\Rightarrow\; t = 2,5\un{s}$$
-      - titulo: Altura en ese instante (eje Y)
+      - titulo: Altura en aquest instant (eix Y)
         desarrollo: |
           $$y = 13,86\cdot 2,5 - 5\cdot 2,5^2 = 34,64 - 31,25 = 3,39\un{m} < 4\un{m}$$
-        porque: 'La pelota llega a la vertical del árbol por debajo de su altura: choca.'
-    resultado: '**No pasa**: a 20 m está a 3,39 m de altura, por debajo de los 4 m del árbol.'
+        porque: 'La pilota arriba a la vertical de l’arbre per sota de la seva altura: hi xoca.'
+    resultado: '**No passa**: a 20 m és a 3,39 m d’altura, per sota dels 4 m de l’arbre.'
   - id: b
     enunciado: 'Si passa, a quina posició xocarà la pilota amb el terra?'
     respuesta:
       tipo: abierta
-      criterio: 'Como la pelota no pasa, este apartado no se aplica.'
+      criterio: 'Com que la pilota no passa, aquest apartat no s’aplica.'
     pasos:
-      - titulo: No se aplica
-        desarrollo: 'En el apartado a) hemos visto que la pelota **no pasa** por encima del árbol, así que no llega a caer al suelo al otro lado.'
-    resultado: 'No se aplica: la pelota choca con el árbol.'
+      - titulo: No s’aplica
+        desarrollo: 'A l’apartat a) hem vist que la pilota **no passa** per sobre de l’arbre, així que no arriba a caure a terra a l’altre costat.'
+    resultado: 'No s’aplica: la pilota xoca amb l’arbre.'
   - id: c
     enunciado: 'Si no passa, a quina alçada xocarà amb l’arbre?'
     respuesta:
       tipo: numerica
       campos:
-        - { simbolo: 't', etiqueta: 'Instante en que llega al árbol', unidad: s, valor: 2.5 }
+        - { simbolo: 't', etiqueta: 'Instant en què arriba a l’arbre', unidad: s, valor: 2.5 }
         - simbolo: 'y'
-          etiqueta: Altura del choque con el árbol
+          etiqueta: Altura del xoc amb l’arbre
           unidad: m
           valor: 3.39
           trampas:
-            - { valor: 4.02, explicacion: 'Has usado $g = 9,8\un{m/s^2}$. ¡Con ese valor la pelota pasa por encima por solo 2 cm! La hoja usa $g = 10\un{m/s^2}$, y con él choca a 3,39 m.' }
-            - { valor: 9.6, explicacion: 'Esa es la altura máxima de la pelota, pero cuando llega al árbol ya está bajando.' }
+            - { valor: 4.02, explicacion: 'Has fet servir $g = 9,8\un{m/s^2}$. Amb aquest valor la pilota passa per sobre per només 2 cm! El full fa servir $g = 10\un{m/s^2}$, i amb aquest valor xoca a 3,39 m.' }
+            - { valor: 9.6, explicacion: 'Aquesta és l’altura màxima de la pilota, però quan arriba a l’arbre ja està baixant.' }
     pistas:
-      - 'Ya lo tienes del apartado a): es la altura de la pelota en $t = 2,5\un{s}$.'
+      - 'Ja ho tens de l’apartat a): és l’altura de la pilota a $t = 2,5\un{s}$.'
     pasos:
-      - titulo: Altura en x = 20 m
+      - titulo: Altura a x = 20 m
         desarrollo: |
           $$y(2,5) = 13,86\cdot 2,5 - 5\cdot 2,5^2 = 3,39\un{m}$$
-        porque: 'La hoja da 3,375 m porque redondea $v_{0y}$ a 13,85 m/s. La casilla acepta los dos valores.'
-    resultado: 'Choca con el árbol a unos **3,39 m** de altura (la hoja da 3,375 m).'
+        porque: 'El full dona 3,375 m perquè arrodoneix $v_{0y}$ a 13,85 m/s. La casella accepta tots dos valors.'
+    resultado: 'Xoca amb l’arbre a uns **3,39 m** d’altura (el full dona 3,375 m).'
   - id: d
     enunciado: 'Si no passa, xocarà amb l’arbre pujant o baixant?'
     respuesta:
       tipo: opciones
       opciones:
-        - texto: Subiendo.
-          explicacion: 'Calcula $v_y$ en $t = 2,5\un{s}$: sale negativa, así que ya está bajando.'
-        - texto: Bajando.
+        - texto: Pujant.
+          explicacion: 'Calcula $v_y$ a $t = 2,5\un{s}$: surt negativa, així que ja està baixant.'
+        - texto: Baixant.
           correcta: true
-          explicacion: 'Correcto. En $t = 2,5\un{s}$, $v_y = 13,86 - 25 = -11,1\un{m/s}$: el signo menos indica que baja.'
+          explicacion: 'Correcte. A $t = 2,5\un{s}$, $v_y = 13,86 - 25 = -11,1\un{m/s}$: el signe menys indica que baixa.'
     pistas:
-      - 'Mira el signo de $v_y$ en el instante del choque.'
-      - 'Otra forma: ¿en qué instante llega al punto más alto? ¿Es antes o después de 2,5 s?'
+      - 'Mira el signe de $v_y$ en l’instant del xoc.'
+      - 'Una altra manera: en quin instant arriba al punt més alt? És abans o després de 2,5 s?'
     pasos:
-      - titulo: Signo de vᵧ en el choque
+      - titulo: Signe de vᵧ en el xoc
         desarrollo: |
           $$\cy{v_y} = 13,86 - 10\cdot 2,5 = -11,1\un{m/s}$$
-        porque: 'El punto más alto se alcanza en $t = 13,86/10 = 1,39\un{s}$. A los 2,5 s ya ha empezado a bajar.'
-    resultado: 'Choca con el árbol **bajando**.'
+        porque: 'El punt més alt s’assoleix a $t = 13,86/10 = 1,39\un{s}$. Als 2,5 s ja ha començat a baixar.'
+    resultado: 'Xoca amb l’arbre **baixant**.'
 errores:
-  - error: 'Comparar la altura máxima con el árbol'
-    explicacion: 'La altura máxima (9,6 m) no está encima del árbol. Lo que importa es la altura justo en $x = 20\un{m}$.'
-  - error: 'Usar g = 9,8 sin darse cuenta de que cambia la respuesta'
-    explicacion: 'Con $g = 9,8\un{m/s^2}$ la pelota llega a 4,02 m y pasaría rozando. El resultado está tan justo que el valor de $g$ decide. La hoja usa 10 m/s².'
+  - error: 'Comparar l’altura màxima amb l’arbre'
+    explicacion: 'L’altura màxima (9,6 m) no és a sobre de l’arbre. El que importa és l’altura just a $x = 20\un{m}$.'
+  - error: 'Fer servir g = 9,8 sense adonar-se que canvia la resposta'
+    explicacion: 'Amb $g = 9,8\un{m/s^2}$ la pilota arriba a 4,02 m i passaria fregant. El resultat és tan just que el valor de $g$ decideix. El full fa servir 10 m/s².'
