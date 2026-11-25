@@ -1,28 +1,40 @@
-titulo: Objeto lanzado desde un cortado de 300 m
+titulo: Objecte llançat des d’un cingle de 300 m
 tema: movimiento-parabolico
 orden: 202
 procedencia: alumno
 fuente: joan-oro-parabolico
-nota_fuente: Ejercicio 2 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Resultado de la hoja, con g = 10 m/s²; 7,75 s y 310 m.
+nota_fuente: Exercici 2 del full «Exercicis moviment parabòlic» (INS Joan Oró). Resultat del full, amb g = 10 m/s²; 7,75 s i 310 m.
 coleccion: review-parabolico-joan-oro
 dificultad: basico
 habilidades: [planteamiento]
-resumen: Lanzamiento horizontal desde lo alto de un cortado. Tiempo de caída y distancia a la base.
+resumen: Llançament horitzontal des de dalt d’un cingle. Temps de caiguda i distància a la base.
 enunciado: |
   De dalt d’un cingle de **300 m** d’altura llancem horitzontalment un objecte amb una velocitat de **40 m/s**.
 
   a) Quan tarda en arribar a terra? b) A quina distància de la base del cingle hi arriba?
+representacion:
+  titulo: Representació gràfica del moviment
+  texto: 'Llançament horitzontal des de 300 m. Posem l’origen a la base del cingle: l’objecte surt de $(0,\ 300)$ i arriba a terra a $(x,\ 0)$.'
+  figura:
+    tipo: lanzamiento
+    v0: 40
+    angulo: 0
+    h0: 300
+    g: 10
+    soporte: acantilado
+    ejes: true
+    etiquetas: { v0: 'v₀ = 40 m/s', h0: '300 m', alcance: 'x = ?' }
 datos:
-  - { simbolo: 'y_0', valor: '300\un{m}', significado: 'altura del cortado' }
-  - { simbolo: '\cx{v_{0x}}', valor: '40\un{m/s}', significado: 'lanzamiento horizontal' }
-  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'sale en horizontal' }
-  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que usa la hoja' }
+  - { simbolo: 'y_0', valor: '300\un{m}', significado: 'altura del cingle' }
+  - { simbolo: '\cx{v_{0x}}', valor: '40\un{m/s}', significado: 'llançament horitzontal' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'surt en horitzontal' }
+  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que fa servir el full' }
 incognitas:
-  - El tiempo de caída.
-  - La distancia horizontal desde la base del cortado.
+  - El temps de caiguda.
+  - La distància horitzontal des de la base del cingle.
 conceptos:
-  - '$\cx{x} = 40\,t$ e $\cy{y} = 300 - 5\,t^2$ (con $g = 10\un{m/s^2}$).'
-  - 'Llega al suelo cuando $y = 0$.'
+  - '$\cx{x} = 40\,t$ i $\cy{y} = 300 - 5\,t^2$ (amb $g = 10\un{m/s^2}$).'
+  - 'Arriba a terra quan $y = 0$.'
 apartados:
   - id: a
     enunciado: 'Quan tarda en arribar a terra?'
@@ -30,35 +42,35 @@ apartados:
       tipo: numerica
       campos:
         - simbolo: 't'
-          etiqueta: Tiempo de caída
+          etiqueta: Temps de caiguda
           unidad: s
           valor: 7.746
           trampas:
-            - { valor: 60, explicacion: 'Te has olvidado la raíz: $t^2 = 60$, así que $t = \sqrt{60}$.' }
-            - { valor: 7.5, explicacion: 'Parece que has dividido 300 entre 40. La velocidad de 40 m/s es horizontal: no influye en la caída.' }
+            - { valor: 60, explicacion: 'T’has oblidat l’arrel: $t^2 = 60$, així que $t = \sqrt{60}$.' }
+            - { valor: 7.5, explicacion: 'Sembla que has dividit 300 entre 40. La velocitat de 40 m/s és horitzontal: no influeix en la caiguda.' }
     pistas:
-      - 'El tiempo lo decide el eje Y. Al llegar al suelo, $y = 0$.'
+      - 'El temps el decideix l’eix Y. En arribar a terra, $y = 0$.'
       - '$0 = 300 - 5\,t^2$.'
     pasos:
-      - titulo: 'Eje Y: llega al suelo cuando y = 0'
+      - titulo: 'Eix Y: arriba a terra quan y = 0'
         desarrollo: |
           $$0 = 300 - 5\,t^2 \;\Rightarrow\; t^2 = 60 \;\Rightarrow\; t = 7,75\un{s}$$
-        porque: 'La velocidad vertical inicial es 0, así que cae igual que si lo dejáramos caer.'
-    resultado: 'Tarda **7,75 s** en llegar al suelo.'
+        porque: 'La velocitat vertical inicial és 0, així que cau igual que si el deixéssim caure.'
+    resultado: 'Tarda **7,75 s** a arribar a terra.'
   - id: b
     enunciado: 'A quina distància de la base del cingle hi arriba?'
     respuesta:
       tipo: numerica
       campos:
-        - { simbolo: 'x', etiqueta: Distancia a la base, unidad: m, valor: 309.8 }
+        - { simbolo: 'x', etiqueta: Distància a la base, unidad: m, valor: 309.8 }
     pistas:
-      - 'En el eje X la velocidad es constante: $x = 40\,t$.'
+      - 'A l’eix X la velocitat és constant: $x = 40\,t$.'
     pasos:
-      - titulo: 'Eje X con el tiempo de vuelo'
+      - titulo: 'Eix X amb el temps de vol'
         desarrollo: |
           $$x = 40\cdot 7,75 = 310\un{m}$$
-        porque: 'El tiempo es el mismo en los dos ejes: es lo que los conecta.'
-    resultado: 'Llega a **310 m** de la base.'
+        porque: 'El temps és el mateix als dos eixos: és el que els connecta.'
+    resultado: 'Arriba a **310 m** de la base.'
 errores:
-  - error: 'Usar la velocidad de 40 m/s en el eje Y'
-    explicacion: 'Se lanza en horizontal: $v_{0y} = 0$. Los 40 m/s solo aparecen en la ecuación del eje X.'
+  - error: 'Fer servir la velocitat de 40 m/s a l’eix Y'
+    explicacion: 'Es llança en horitzontal: $v_{0y} = 0$. Els 40 m/s només apareixen a l’equació de l’eix X.'

@@ -72,11 +72,11 @@
 
 - id: review-parabolico-joan-oro
   tipo: repaso
-  titulo: 'Review: ejercicios de movimiento parabólico'
+  titulo: 'Review: exercicis de moviment parabòlic'
   corto: Review
   tema: movimiento-parabolico
   fecha: '2026-11-25'
-  descripcion: 'Los siete ejercicios de la hoja «Exercicis moviment parabòlic» de 1r de Batxillerat, tal cual: los enunciados están en catalán, como en la hoja. Resuélvelos en tu cuaderno y comprueba aquí tus resultados.'
+  descripcion: 'Els set exercicis del full «Exercicis moviment parabòlic» de 1r de Batxillerat, tal com són. Resol-los al teu quadern i comprova aquí els teus resultats.'
   fuente: joan-oro-parabolico
   principales:
     - review-1-avion-coche
@@ -87,6 +87,7 @@
     - review-6-rampa
     - review-7-pau-penya-segat
   instrucciones:
-    - 'Los resultados de la hoja salen con g = 10 m/s², salvo el ejercicio 6, que usa g = 9,8 m/s². Las casillas aceptan los dos valores siempre que el resultado no cambie de forma importante.'
-    - 'Desprecia el rozamiento con el aire.'
-    - 'Usa el método de clase: escribe las ecuaciones de cada eje y conecta los ejes con el tiempo.'
+    - 'Els resultats del full surten amb g = 10 m/s², excepte l’exercici 6, que fa servir g = 9,8 m/s². Les caselles accepten tots dos valors sempre que el resultat no canviï gaire.'
+    - 'Menysprea el fregament amb l’aire.'
+    - 'Fes servir el mètode de classe: escriu les equacions de cada eix i connecta els eixos amb el temps.'
+    - 'Els exercicis sense dibuix al full tenen un desplegable amb la representació gràfica del moviment.'

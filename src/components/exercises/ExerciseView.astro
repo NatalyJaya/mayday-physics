@@ -44,6 +44,14 @@ const LEVEL = ['Más fácil', 'Un paso más', 'Reto'];
 	}
 	<div class="statement" set:html={R.enunciado} />
 	{ex.figura && <ExerciseFigure figura={ex.figura} titulo={ex.titulo} />}
+	{
+		R.representacion && (
+			<Reveal titulo={R.representacion.titulo}>
+				<ExerciseFigure figura={R.representacion.figura} titulo={ex.titulo} />
+				{R.representacion.texto && <div class="repr-text" set:html={R.representacion.texto} />}
+			</Reveal>
+		)
+	}
 
 	{
 		R.visual.length > 0 && (

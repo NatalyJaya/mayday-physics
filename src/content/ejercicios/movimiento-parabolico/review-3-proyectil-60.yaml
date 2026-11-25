@@ -1,120 +1,134 @@
-titulo: Proyectil a 100 m/s y 60°
+titulo: Projectil a 100 m/s i 60°
 tema: movimiento-parabolico
 orden: 203
 procedencia: alumno
 fuente: joan-oro-parabolico
-nota_fuente: Ejercicio 3 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Resultado de la hoja, con g = 10 m/s²; 866 m, 375 m, (100; 153,2) m, (50; 67) m/s y (0; −9,8) m/s².
+nota_fuente: Exercici 3 del full «Exercicis moviment parabòlic» (INS Joan Oró). Resultat del full, amb g = 10 m/s²; 866 m, 375 m, (100; 153,2) m, (50; 67) m/s i (0; −9,8) m/s².
 coleccion: review-parabolico-joan-oro
 dificultad: intermedio
 habilidades: [vectores, planteamiento, multipaso]
-resumen: Lanzamiento oblicuo desde el suelo. Alcance, altura máxima y estado del proyectil a los 2 s.
+resumen: Llançament oblic des de terra. Abast, altura màxima i estat del projectil als 2 s.
 enunciado: |
   Llancem un projectil amb una velocitat inicial de **100 m/s** en una direcció que forma un angle de **60°** amb l’horitzontal. Calcula:
 
   a) El seu abast. b) La seva altura màxima. c) La posició, la velocitat i l’acceleració que té quan al cap de 2 segons.
+representacion:
+  titulo: Representació gràfica del moviment
+  texto: 'Llançament oblic des de l’origen. La velocitat inicial es descompon en $\cx{v_{0x}}$ i $\cy{v_{0y}}$. Hi ha marcats el punt dels 2 s i el punt més alt.'
+  figura:
+    tipo: lanzamiento
+    v0: 100
+    angulo: 60
+    g: 10
+    ejes: true
+    componentes: true
+    etiquetas: { v0: 'v₀ = 100 m/s', alcance: 'abast = ?' }
+    claves:
+      - { t: 2, etiqueta: 't = 2 s' }
+      - { t: 8.66, etiqueta: 'altura màx. = ?' }
 datos:
-  - { simbolo: 'v_0', valor: '100\un{m/s}', significado: 'velocidad inicial' }
-  - { simbolo: '\alpha', valor: '60^\circ', significado: 'ángulo con la horizontal' }
-  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que usa la hoja' }
+  - { simbolo: 'v_0', valor: '100\un{m/s}', significado: 'velocitat inicial' }
+  - { simbolo: '\alpha', valor: '60^\circ', significado: 'angle amb l’horitzontal' }
+  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que fa servir el full' }
 incognitas:
-  - El alcance.
-  - La altura máxima.
-  - 'La posición, la velocidad y la aceleración en $t = 2\un{s}$.'
+  - L’abast.
+  - L’altura màxima.
+  - 'La posició, la velocitat i l’acceleració a $t = 2\un{s}$.'
 conceptos:
-  - '$\cx{v_{0x}} = v_0\cos\alpha$ y $\cy{v_{0y}} = v_0\operatorname{sen}\alpha$.'
+  - '$\cx{v_{0x}} = v_0\cos\alpha$ i $\cy{v_{0y}} = v_0\operatorname{sin}\alpha$.'
   - '$\cx{x} = \cx{v_{0x}}\,t$, $\cy{y} = \cy{v_{0y}}\,t - 5\,t^2$, $\cy{v_y} = \cy{v_{0y}} - 10\,t$.'
-  - 'En el punto más alto, $\cy{v_y} = 0$. Al volver al suelo, $\cy{y} = 0$.'
+  - 'Al punt més alt, $\cy{v_y} = 0$. En tornar a terra, $\cy{y} = 0$.'
 apartados:
   - id: a
     enunciado: 'El seu abast.'
     respuesta:
       tipo: numerica
       campos:
-        - simbolo: 'x_{\text{máx}}'
-          etiqueta: Alcance
+        - simbolo: 'x_{\text{màx}}'
+          etiqueta: Abast
           unidad: m
           valor: 866.0
           tolerancia: 0.025
           trampas:
-            - { valor: 433.0, explicacion: 'Eso es lo que avanza hasta el **punto más alto**. Para el alcance necesitas el tiempo total, el doble.' }
-            - { valor: 500, explicacion: 'Parece que has intercambiado seno y coseno. La componente horizontal es $v_0\cos 60^\circ = 50\un{m/s}$.' }
+            - { valor: 433.0, explicacion: 'Això és el que avança fins al **punt més alt**. Per a l’abast necessites el temps total, el doble.' }
+            - { valor: 500, explicacion: 'Sembla que has intercanviat sinus i cosinus. La component horitzontal és $v_0\cos 60^\circ = 50\un{m/s}$.' }
     pistas:
-      - '$v_{0x} = 100\cos 60^\circ = 50\un{m/s}$ y $v_{0y} = 100\operatorname{sen}60^\circ = 86,6\un{m/s}$.'
-      - 'Vuelve al suelo cuando $0 = 86,6\,t - 5\,t^2$. Saca factor común $t$.'
+      - '$v_{0x} = 100\cos 60^\circ = 50\un{m/s}$ i $v_{0y} = 100\operatorname{sin}60^\circ = 86,6\un{m/s}$.'
+      - 'Torna a terra quan $0 = 86,6\,t - 5\,t^2$. Treu factor comú $t$.'
     pasos:
-      - titulo: Componentes de la velocidad inicial
+      - titulo: Components de la velocitat inicial
         desarrollo: |
-          $$\cx{v_{0x}} = 100\cos 60^\circ = 50\un{m/s} \qquad \cy{v_{0y}} = 100\operatorname{sen}60^\circ = 86,6\un{m/s}$$
-      - titulo: Tiempo de vuelo (y = 0)
+          $$\cx{v_{0x}} = 100\cos 60^\circ = 50\un{m/s} \qquad \cy{v_{0y}} = 100\operatorname{sin}60^\circ = 86,6\un{m/s}$$
+      - titulo: Temps de vol (y = 0)
         desarrollo: |
           $$0 = 86,6\,t - 5\,t^2 = t\,(86,6 - 5\,t) \;\Rightarrow\; t = 17,32\un{s}$$
-        porque: 'La solución $t = 0$ es el instante del lanzamiento; la que buscamos es la otra.'
-      - titulo: Alcance (eje X)
+        porque: 'La solució $t = 0$ és l’instant del llançament; la que busquem és l’altra.'
+      - titulo: Abast (eix X)
         desarrollo: |
           $$x = 50\cdot 17,32 = 866\un{m}$$
-    resultado: 'El alcance es **866 m**.'
+    resultado: 'L’abast és **866 m**.'
   - id: b
     enunciado: 'La seva altura màxima.'
     respuesta:
       tipo: numerica
       campos:
-        - simbolo: 'y_{\text{máx}}'
-          etiqueta: Altura máxima
+        - simbolo: 'y_{\text{màx}}'
+          etiqueta: Altura màxima
           unidad: m
           valor: 375
           tolerancia: 0.025
     pistas:
-      - 'En el punto más alto, $v_y = 0$: $0 = 86,6 - 10\,t$.'
+      - 'Al punt més alt, $v_y = 0$: $0 = 86,6 - 10\,t$.'
     pasos:
-      - titulo: 'Punto más alto: vᵧ = 0'
+      - titulo: 'Punt més alt: vᵧ = 0'
         desarrollo: |
           $$0 = 86,6 - 10\,t \;\Rightarrow\; t = 8,66\un{s}$$
-        porque: 'Es justo la mitad del tiempo de vuelo, porque sale y llega a la misma altura.'
-      - titulo: Sustituye en y
+        porque: 'És just la meitat del temps de vol, perquè surt i arriba a la mateixa altura.'
+      - titulo: Substitueix a y
         desarrollo: |
           $$y = 86,6\cdot 8,66 - 5\cdot 8,66^2 = 750 - 375 = 375\un{m}$$
-    resultado: 'Sube hasta **375 m**.'
+    resultado: 'Puja fins a **375 m**.'
   - id: c
     enunciado: 'La posició, la velocitat i l’acceleració que té quan al cap de 2 segons.'
     respuesta:
       tipo: numerica
       campos:
-        - { simbolo: '\cx{x}', etiqueta: 'Posición x a los 2 s', unidad: m, valor: 100 }
-        - { simbolo: '\cy{y}', etiqueta: 'Posición y a los 2 s', unidad: m, valor: 153.2 }
-        - { simbolo: '\cx{v_x}', etiqueta: 'Velocidad vₓ a los 2 s', unidad: m/s, valor: 50 }
+        - { simbolo: '\cx{x}', etiqueta: 'Posició x als 2 s', unidad: m, valor: 100 }
+        - { simbolo: '\cy{y}', etiqueta: 'Posició y als 2 s', unidad: m, valor: 153.2 }
+        - { simbolo: '\cx{v_x}', etiqueta: 'Velocitat vₓ als 2 s', unidad: m/s, valor: 50 }
         - simbolo: '\cy{v_y}'
-          etiqueta: 'Velocidad vᵧ a los 2 s'
+          etiqueta: 'Velocitat vᵧ als 2 s'
           unidad: m/s
           valor: 66.6
           trampas:
-            - { valor: 86.6, explicacion: 'Esa es la velocidad vertical **inicial**. La gravedad la va frenando: $v_y = 86,6 - 10\cdot 2$.' }
+            - { valor: 86.6, explicacion: 'Aquesta és la velocitat vertical **inicial**. La gravetat la va frenant: $v_y = 86,6 - 10\cdot 2$.' }
         - simbolo: '\cg{a_y}'
-          etiqueta: 'Aceleración vertical (con signo)'
+          etiqueta: 'Acceleració vertical (amb signe)'
           unidad: m/s²
           valor: -10
           tolerancia: 0.025
           trampas:
-            - { valor: 0, explicacion: 'La aceleración horizontal sí es 0, pero la vertical es la de la gravedad, hacia abajo.' }
-            - { valor: 10, explicacion: 'La gravedad apunta hacia abajo: con el eje Y hacia arriba, el signo es negativo.' }
+            - { valor: 0, explicacion: 'L’acceleració horitzontal sí que és 0, però la vertical és la de la gravetat, cap avall.' }
+            - { valor: 10, explicacion: 'La gravetat apunta cap avall: amb l’eix Y cap amunt, el signe és negatiu.' }
     pistas:
-      - 'Sustituye $t = 2$ en $x = 50\,t$, $y = 86,6\,t - 5\,t^2$ y $v_y = 86,6 - 10\,t$.'
-      - 'La aceleración es siempre la misma en todo el vuelo.'
+      - 'Substitueix $t = 2$ a $x = 50\,t$, $y = 86,6\,t - 5\,t^2$ i $v_y = 86,6 - 10\,t$.'
+      - 'L’acceleració és sempre la mateixa durant tot el vol.'
     pasos:
-      - titulo: Posición
+      - titulo: Posició
         desarrollo: |
           $$\cx{x} = 50\cdot 2 = 100\un{m} \qquad \cy{y} = 86,6\cdot 2 - 5\cdot 2^2 = 153,2\un{m}$$
-      - titulo: Velocidad
+      - titulo: Velocitat
         desarrollo: |
           $$\cx{v_x} = 50\un{m/s} \qquad \cy{v_y} = 86,6 - 10\cdot 2 = 66,6\un{m/s}$$
-        porque: '$v_x$ no cambia nunca. $v_y$ todavía es positiva: el proyectil sigue subiendo.'
-      - titulo: Aceleración
+        porque: '$v_x$ no canvia mai. $v_y$ encara és positiva: el projectil continua pujant.'
+      - titulo: Acceleració
         desarrollo: |
           $$\vec a = (0,\ -10)\un{m/s^2}$$
-        porque: 'Solo actúa la gravedad. La hoja escribe $(0;\ -9,8)$: es el mismo vector con el valor exacto de $g$. Las casillas aceptan los dos.'
-    resultado: 'A los 2 s: posición **(100; 153,2) m**, velocidad **(50; 66,6) m/s** y aceleración **(0; −10) m/s²** (la hoja redondea $v_y$ a 67 m/s).'
+        porque: 'Només actua la gravetat. El full escriu $(0;\ -9,8)$: és el mateix vector amb el valor exacte de $g$. Les caselles accepten tots dos.'
+    resultado: 'Als 2 s: posició **(100; 153,2) m**, velocitat **(50; 66,6) m/s** i acceleració **(0; −10) m/s²** (el full arrodoneix $v_y$ a 67 m/s).'
 errores:
-  - error: 'Calcular el alcance con el tiempo hasta el punto más alto'
-    explicacion: 'Hasta el punto más alto solo ha hecho la mitad del vuelo. El alcance se calcula con el tiempo total.'
-  - error: 'Pensar que la aceleración es 0 en algún momento'
-    explicacion: 'En el punto más alto $v_y = 0$, pero la aceleración sigue siendo $-g$ durante todo el vuelo.'
+  - error: 'Calcular l’abast amb el temps fins al punt més alt'
+    explicacion: 'Fins al punt més alt només ha fet la meitat del vol. L’abast es calcula amb el temps total.'
+  - error: 'Pensar que l’acceleració és 0 en algun moment'
+    explicacion: 'Al punt més alt $v_y = 0$, però l’acceleració continua sent $-g$ durant tot el vol.'
 laboratorio: { v0: 100, angulo: 60, g: 10 }

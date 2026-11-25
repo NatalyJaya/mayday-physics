@@ -108,7 +108,7 @@ const partSchema = z.object({
 });
 
 const markSchema = z.object({
-	tipo: z.enum(['muro', 'porteria', 'punto', 'diana', 'persona', 'canasta', 'rampa']),
+	tipo: z.enum(['muro', 'porteria', 'punto', 'diana', 'persona', 'canasta', 'rampa', 'arbol', 'edificio']),
 	x: z.number(),
 	altura: z.number().default(0),
 	etiqueta: z.string().optional(),
@@ -141,6 +141,8 @@ const launchFigureSchema = z.object({
 	componentes: z.boolean().default(false),
 	/** Hasta qué x se dibuja la escena (por defecto, un poco más allá del alcance). */
 	ancho: z.number().optional(),
+	/** Dibuja los ejes X e Y con marcas en metros, con el origen al pie del punto de lanzamiento. */
+	ejes: z.boolean().default(false),
 });
 
 const graphFigureSchema = z.object({
@@ -219,6 +221,10 @@ export const exerciseBaseSchema = z
 		visual: z
 			.array(z.object({ titulo: z.string(), texto: z.string().optional(), figura: figureSchema.optional() }))
 			.default([]),
+		/** Representación gráfica en un desplegable (para ejercicios cuyo enunciado original no trae dibujo). */
+		representacion: z
+			.object({ titulo: z.string().default('Representación gráfica del movimiento'), texto: z.string().optional(), figura: figureSchema })
+			.optional(),
 		/** Parámetros para abrir la situación en el laboratorio. */
 		laboratorio: z
 			.object({ v0: z.number(), angulo: z.number(), h0: z.number().default(0), g: z.number().default(9.8) })

@@ -17,6 +17,9 @@ export async function renderExercise(ex: Exercise) {
 		interpretacion: await richText(ex.interpretacion),
 		visual: await all(ex.visual, async (v) => ({ titulo: await richInline(v.titulo), texto: await richText(v.texto), figura: v.figura })),
 		conceptos: await all(ex.conceptos, richInline),
+		representacion: ex.representacion
+			? { titulo: ex.representacion.titulo, texto: await richText(ex.representacion.texto), figura: ex.representacion.figura }
+			: null,
 		apartados: await all(ex.apartados, async (p) => ({
 			id: p.id,
 			enunciado: await richInline(p.enunciado),

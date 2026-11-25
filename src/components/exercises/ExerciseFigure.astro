@@ -30,10 +30,10 @@ if (f.tipo === 'lanzamiento') {
 	const W = 600;
 	const hasSupport = f.h0 > 0 && f.soporte !== 'ninguno' && f.soporte !== 'avion';
 	const isRamp = hasSupport && f.soporte === 'rampa';
-	const pl = f.h0 > 0 ? 112 : 34;
+	const pl = f.h0 > 0 ? 112 : f.ejes ? 58 : 34;
 	const pr = 26,
 		pt = 30,
-		pb = 46;
+		pb = f.ejes ? 66 : 46;
 	const s = Math.min((W - pl - pr) / xW, (330 - pt - pb) / yW);
 	const Ht = Math.round(pt + pb + yW * s);
 	const OX = pl,
@@ -70,8 +70,22 @@ if (f.tipo === 'lanzamiento') {
 		x2: OX + arrowLen * Math.cos(a),
 		y2: Y(f.h0) - arrowLen * Math.sin(a),
 	};
+	// Ejes con marcas (en metros), con el origen al pie del punto de lanzamiento.
+	const xStep = niceStep(xW, 6),
+		yStep = niceStep(yW, 5);
+	const axes = f.ejes
+		? {
+				xt: ticks(xStep, xW * 0.92, xStep).map((v) => ({ v, p: X(v), t: fmtTrim(v, xStep < 1 ? 1 : 0) })),
+				// Sin marca a la altura del lanzamiento: ahí ya están el objeto (o el avión) y la cota de h₀.
+				yt: ticks(yStep, yW * 0.9, yStep)
+					.filter((v) => f.h0 <= 0 || Math.abs(Y(v) - Y(f.h0)) > 12)
+					.map((v) => ({ v, p: Y(v), t: fmtTrim(v, yStep < 1 ? 1 : 0) })),
+				xEnd: W - pr + 4,
+				yEnd: pt - 14,
+			}
+		: null;
 	launch = {
-		isRamp, comp, rampLen,
+		isRamp, comp, rampLen, axes, dimY: f.ejes ? 46 : 26,
 		compHeads: {
 			x: head(OX, Y(f.h0), comp.x2, Y(f.h0), 8),
 			y: head(comp.x2, Y(f.h0), comp.x2, comp.y2, 8),
@@ -235,6 +249,15 @@ if (f.tipo === 'grafica') {
 							</g>
 						)}
 						{m.tipo === 'punto' && <circle cx={m.px} cy={m.py} r="5" class="pt" />}
+						{m.tipo === 'arbol' && (
+							<g>
+								<rect x={m.px - 3} y={m.py + 14} width="6" height={Math.max(0, launch.OY - m.py - 14)} class="trunk" />
+								<ellipse cx={m.px} cy={m.py + 14} rx="13" ry="14" class="crown" />
+							</g>
+						)}
+						{m.tipo === 'edificio' && (
+							<rect x={m.px} y={m.py} width={Math.max(0, launch.W - launch.pr - 40 - m.px)} height={launch.OY - m.py} class="support" />
+						)}
 						{m.tipo === 'rampa' && <path d={`M${m.px} ${m.py} L${m.px + m.len} ${launch.OY} L${m.px} ${launch.OY} Z`} class="support" />}
 						{m.tipo === 'diana' && (
 							<g>
@@ -264,12 +287,35 @@ if (f.tipo === 'grafica') {
 					</g>
 				))}
 
+				{launch.axes && (
+					<g class="axes">
+						<line x1={launch.OX} x2={launch.axes.xEnd - 8} y1={launch.OY} y2={launch.OY} class="ax-x" />
+						<path d={`M${launch.axes.xEnd} ${launch.OY}l-10 -5v10z`} class="ax-xh" />
+						<line x1={launch.OX} x2={launch.OX} y1={launch.OY} y2={launch.axes.yEnd + 8} class="ax-y" />
+						<path d={`M${launch.OX} ${launch.axes.yEnd}l-5 10h10z`} class="ax-yh" />
+						{launch.axes.xt.map((k: any) => (
+							<g>
+								<line x1={k.p} x2={k.p} y1={launch.OY - 4} y2={launch.OY + 4} class="ax-x" />
+								<text x={k.p} y={launch.OY + 20} text-anchor="middle" class="ax-tick">{k.t}</text>
+							</g>
+						))}
+						{launch.axes.yt.map((k: any) => (
+							<g>
+								<line x1={launch.OX - 4} x2={launch.OX + 4} y1={k.p} y2={k.p} class="ax-y" />
+								<text x={launch.OX - 8} y={k.p + 4} text-anchor="end" class="ax-tick">{k.t}</text>
+							</g>
+						))}
+						<text x={launch.OX - 8} y={launch.OY + 20} text-anchor="end" class="ax-tick">O</text>
+						<text x={launch.axes.xEnd} y={launch.OY - 10} text-anchor="end" class="ax-lx">x (m)</text>
+						<text x={launch.OX + 10} y={launch.axes.yEnd + 10} class="ax-ly">y (m)</text>
+					</g>
+				)}
 				{launch.lab.alcance && (
 					<g class="dim">
-						<line x1={launch.OX} x2={launch.X(launch.R)} y1={launch.OY + 26} y2={launch.OY + 26} />
-						<line x1={launch.OX} x2={launch.OX} y1={launch.OY + 20} y2={launch.OY + 32} />
-						<line x1={launch.X(launch.R)} x2={launch.X(launch.R)} y1={launch.OY + 20} y2={launch.OY + 32} />
-						<text x={(launch.OX + launch.X(launch.R)) / 2} y={launch.OY + 42} text-anchor="middle">
+						<line x1={launch.OX} x2={launch.X(launch.R)} y1={launch.OY + launch.dimY} y2={launch.OY + launch.dimY} />
+						<line x1={launch.OX} x2={launch.OX} y1={launch.OY + launch.dimY - 6} y2={launch.OY + launch.dimY + 6} />
+						<line x1={launch.X(launch.R)} x2={launch.X(launch.R)} y1={launch.OY + launch.dimY - 6} y2={launch.OY + launch.dimY + 6} />
+						<text x={(launch.OX + launch.X(launch.R)) / 2} y={launch.OY + launch.dimY + 16} text-anchor="middle">
 							{launch.lab.alcance}
 						</text>
 					</g>
@@ -500,6 +546,49 @@ if (f.tipo === 'grafica') {
 	}
 	.wall {
 		fill: var(--ink-2);
+	}
+	.trunk {
+		fill: var(--ink-3);
+	}
+	.crown {
+		fill: var(--q-g-soft);
+		stroke: var(--q-g);
+		stroke-width: 2;
+	}
+	.ax-x {
+		stroke: var(--q-x);
+		stroke-width: 1.6;
+	}
+	.ax-y {
+		stroke: var(--q-y);
+		stroke-width: 1.6;
+	}
+	.ax-xh {
+		fill: var(--q-x);
+	}
+	.ax-yh {
+		fill: var(--q-y);
+	}
+	.ax-tick {
+		font-size: 12px;
+		fill: var(--ink-3);
+		paint-order: stroke;
+		stroke: var(--surface);
+		stroke-width: 3px;
+	}
+	.ax-lx,
+	.ax-ly {
+		font-size: 13px;
+		font-weight: 700;
+		paint-order: stroke;
+		stroke: var(--surface);
+		stroke-width: 3px;
+	}
+	.ax-lx {
+		fill: var(--q-x-text);
+	}
+	.ax-ly {
+		fill: var(--q-y-text);
 	}
 	.post {
 		stroke: var(--ink);

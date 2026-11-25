@@ -1,106 +1,122 @@
-titulo: ¿Llega al terrado o choca con la pared?
+titulo: Arriba al terrat o xoca amb la paret?
 tema: movimiento-parabolico
 orden: 205
 procedencia: alumno
 fuente: joan-oro-parabolico
-nota_fuente: Ejercicio 5 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Resultado de la hoja; llega al terrado, 28 m.
+nota_fuente: Exercici 5 del full «Exercicis moviment parabòlic» (INS Joan Oró). Resultat del full; arriba al terrat, 28 m.
 coleccion: review-parabolico-joan-oro
 dificultad: avanzado
 habilidades: [planteamiento, matematicas, multipaso]
-resumen: Un objeto lanzado a 20 m/s y 45° hacia un edificio de 8 m a 22 m de distancia. ¿Dónde cae?
+resumen: Un objecte llançat a 20 m/s i 45° cap a un edifici de 8 m a 22 m de distància. On cau?
 enunciado: |
   Des de terra llenço un objecte amb una velocitat de **20 m/s** i amb un angle de **45 graus**. A **22 metres** hi ha un edifici de **8 metres** d’alçada amb un terrat molt ample i llarg.
 
   a) Arribarà aquest objecte al terrat o bé xocarà contra la paret vertical d’aquest edifici? b) Si arriba al terrat, a quin lloc del terrat caurà exactament l’objecte? c) Si xoca amb la paret, on tindrà lloc l’impacte?
+representacion:
+  titulo: Representació gràfica del moviment
+  texto: 'L’objecte surt de l’origen. Primer cal mirar la seva altura a $x = 22\un{m}$, on comença l’edifici de 8 m; si supera els 8 m, cau sobre el terrat quan torna a baixar a $y = 8\un{m}$.'
+  figura:
+    tipo: lanzamiento
+    v0: 20
+    angulo: 45
+    g: 10
+    llegada: 8
+    ejes: true
+    etiquetas: { v0: 'v₀ = 20 m/s' }
+    marcas:
+      - { tipo: edificio, x: 22, altura: 8 }
+    claves:
+      - { t: 1.5556, etiqueta: 'x = 22 m, y = ?' }
+    ancho: 36
 datos:
-  - { simbolo: 'v_0', valor: '20\un{m/s}', significado: 'velocidad inicial' }
-  - { simbolo: '\alpha', valor: '45^\circ', significado: 'ángulo de lanzamiento' }
-  - { simbolo: 'x_{\text{pared}}', valor: '22\un{m}', significado: 'distancia a la pared del edificio' }
-  - { simbolo: 'h', valor: '8\un{m}', significado: 'altura del edificio' }
-  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que usa la hoja' }
+  - { simbolo: 'v_0', valor: '20\un{m/s}', significado: 'velocitat inicial' }
+  - { simbolo: '\alpha', valor: '45^\circ', significado: 'angle de llançament' }
+  - { simbolo: 'x_{\text{paret}}', valor: '22\un{m}', significado: 'distància a la paret de l’edifici' }
+  - { simbolo: 'h', valor: '8\un{m}', significado: 'altura de l’edifici' }
+  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que fa servir el full' }
 incognitas:
-  - 'La altura del objeto al llegar a la pared ($x = 22\un{m}$).'
-  - 'Si llega al terrado, el punto donde cae ($y = 8\un{m}$ bajando).'
+  - 'L’altura de l’objecte en arribar a la paret ($x = 22\un{m}$).'
+  - 'Si arriba al terrat, el punt on cau ($y = 8\un{m}$ baixant).'
 interpretacion: |
-  Primero miramos a qué altura está el objeto cuando llega a la pared. Si está por encima de 8 m, la supera y acaba cayendo **sobre el terrado**: entonces el punto de caída es donde la trayectoria vuelve a bajar a $y = 8\un{m}$, no a $y = 0$.
+  Primer mirem a quina altura és l’objecte quan arriba a la paret. Si és per sobre de 8 m, la supera i acaba caient **sobre el terrat**: aleshores el punt de caiguda és on la trajectòria torna a baixar a $y = 8\un{m}$, no a $y = 0$.
 conceptos:
-  - '$\cx{x} = v_0\cos\alpha\cdot t$ e $\cy{y} = v_0\operatorname{sen}\alpha\cdot t - 5\,t^2$.'
-  - 'Una ecuación de segundo grado en $t$ da dos instantes a la misma altura: uno subiendo y otro bajando.'
+  - '$\cx{x} = v_0\cos\alpha\cdot t$ i $\cy{y} = v_0\operatorname{sin}\alpha\cdot t - 5\,t^2$.'
+  - 'Una equació de segon grau en $t$ dona dos instants a la mateixa altura: un pujant i un altre baixant.'
 apartados:
   - id: a
     enunciado: 'Arribarà aquest objecte al terrat o bé xocarà contra la paret vertical d’aquest edifici?'
     respuesta:
       tipo: numerica
       campos:
-        - { simbolo: 't', etiqueta: 'Instante en que llega a la pared', unidad: s, valor: 1.556 }
-        - { simbolo: 'y', etiqueta: 'Altura al llegar a la pared', unidad: m, valor: 9.90 }
+        - { simbolo: 't', etiqueta: 'Instant en què arriba a la paret', unidad: s, valor: 1.556 }
+        - { simbolo: 'y', etiqueta: 'Altura en arribar a la paret', unidad: m, valor: 9.90 }
     pistas:
       - '$v_{0x} = v_{0y} = 20\cos 45^\circ = 14,14\un{m/s}$.'
-      - 'Busca $t$ con $22 = 14,14\,t$ y sustitúyelo en la ecuación de $y$. Compara con 8 m.'
+      - 'Busca $t$ amb $22 = 14,14\,t$ i substitueix-lo a l’equació de $y$. Compara amb 8 m.'
     pasos:
-      - titulo: Componentes
+      - titulo: Components
         desarrollo: |
           $$\cx{v_{0x}} = \cy{v_{0y}} = 20\cos 45^\circ = 14,14\un{m/s}$$
-        porque: 'A 45° el seno y el coseno son iguales.'
-      - titulo: Instante en que llega a la pared
+        porque: 'A 45° el sinus i el cosinus són iguals.'
+      - titulo: Instant en què arriba a la paret
         desarrollo: |
           $$22 = 14,14\,t \;\Rightarrow\; t = 1,556\un{s}$$
-      - titulo: Altura en ese instante
+      - titulo: Altura en aquest instant
         desarrollo: |
           $$y = 14,14\cdot 1,556 - 5\cdot 1,556^2 = 22 - 12,1 = 9,90\un{m} > 8\un{m}$$
-        porque: 'Pasa 1,9 m por encima del borde: no choca con la pared, llega al terrado.'
-    resultado: '**Llega al terrado**: al pasar por la pared está a 9,90 m, por encima de los 8 m del edificio.'
+        porque: 'Passa 1,9 m per sobre de la vora: no xoca amb la paret, arriba al terrat.'
+    resultado: '**Arriba al terrat**: en passar per la paret és a 9,90 m, per sobre dels 8 m de l’edifici.'
   - id: b
     enunciado: 'Si arriba al terrat, a quin lloc del terrat caurà exactament l’objecte?'
     respuesta:
       tipo: numerica
       campos:
         - simbolo: 't'
-          etiqueta: Instante en que cae sobre el terrado
+          etiqueta: Instant en què cau sobre el terrat
           unidad: s
           valor: 2.047
           trampas:
-            - { valor: 0.782, explicacion: 'Esa es la solución en la que el objeto está a 8 m **subiendo**, antes de llegar a la pared. Necesitas la otra.' }
-            - { valor: 2.828, explicacion: 'Ese es el tiempo hasta volver a $y = 0$. Pero cae sobre el terrado, que está a 8 m.' }
+            - { valor: 0.782, explicacion: 'Aquesta és la solució en què l’objecte és a 8 m **pujant**, abans d’arribar a la paret. Necessites l’altra.' }
+            - { valor: 2.828, explicacion: 'Aquest és el temps fins a tornar a $y = 0$. Però cau sobre el terrat, que és a 8 m.' }
         - simbolo: 'x'
-          etiqueta: Distancia horizontal desde el lanzamiento
+          etiqueta: Distància horitzontal des del llançament
           unidad: m
           valor: 28.94
           tolerancia: 0.035
           trampas:
-            - { valor: 40, explicacion: 'Ese sería el alcance si cayera al suelo. Pero el terrado está a 8 m: busca cuándo $y = 8$.' }
-            - { valor: 6.94, explicacion: 'Esa es la distancia **desde la pared**. Aquí se pide desde el punto de lanzamiento: súmale los 22 m.' }
+            - { valor: 40, explicacion: 'Aquest seria l’abast si caigués a terra. Però el terrat és a 8 m: busca quan $y = 8$.' }
+            - { valor: 6.94, explicacion: 'Aquesta és la distància **des de la paret**. Aquí es demana des del punt de llançament: suma-hi els 22 m.' }
     pistas:
-      - 'Cae sobre el terrado cuando $y = 8\un{m}$: $8 = 14,14\,t - 5\,t^2$.'
-      - 'Salen dos soluciones. La buena es la mayor: la primera es cuando pasa por 8 m subiendo.'
+      - 'Cau sobre el terrat quan $y = 8\un{m}$: $8 = 14,14\,t - 5\,t^2$.'
+      - 'Surten dues solucions. La bona és la més gran: la primera és quan passa per 8 m pujant.'
     pasos:
-      - titulo: Ecuación del eje Y a 8 m
+      - titulo: Equació de l’eix Y a 8 m
         desarrollo: |
           $$8 = 14,14\,t - 5\,t^2 \;\Rightarrow\; 5\,t^2 - 14,14\,t + 8 = 0$$
 
           $$t = \frac{14,14 \pm \sqrt{14,14^2 - 4\cdot 5\cdot 8}}{2\cdot 5} = \frac{14,14 \pm 6,32}{10}$$
-      - titulo: Elige la solución
-        piensa: 'Las dos soluciones son momentos en los que el objeto está a 8 m. ¿Cuál es la caída sobre el terrado?'
+      - titulo: Tria la solució
+        piensa: 'Les dues solucions són moments en què l’objecte és a 8 m. Quina és la caiguda sobre el terrat?'
         desarrollo: |
-          $$t_1 = 0,78\un{s}\ \text{(subiendo)} \qquad t_2 = 2,05\un{s}\ \text{(bajando)}$$
-        porque: 'En $t_1$ todavía no ha llegado a la pared ($x = 11\un{m}$). La caída es en $t_2$.'
-      - titulo: Posición horizontal
+          $$t_1 = 0,78\un{s}\ \text{(pujant)} \qquad t_2 = 2,05\un{s}\ \text{(baixant)}$$
+        porque: 'A $t_1$ encara no ha arribat a la paret ($x = 11\un{m}$). La caiguda és a $t_2$.'
+      - titulo: Posició horitzontal
         desarrollo: |
           $$x = 14,14\cdot 2,047 = 28,9\un{m}$$
-        porque: 'Está más allá de la pared (22 m), así que es un punto del terrado, a 6,9 m del borde.'
-    resultado: 'Cae a unos **28,9 m** del punto de lanzamiento, es decir, a 6,9 m del borde del terrado. La hoja da **28 m**; la casilla acepta los dos.'
+        porque: 'És més enllà de la paret (22 m), així que és un punt del terrat, a 6,9 m de la vora.'
+    resultado: 'Cau a uns **28,9 m** del punt de llançament, és a dir, a 6,9 m de la vora del terrat. El full dona **28 m**; la casella accepta tots dos.'
   - id: c
     enunciado: 'Si xoca amb la paret, on tindrà lloc l’impacte?'
     respuesta:
       tipo: abierta
-      criterio: 'Como el objeto llega al terrado, este apartado no se aplica.'
+      criterio: 'Com que l’objecte arriba al terrat, aquest apartat no s’aplica.'
     pasos:
-      - titulo: No se aplica
-        desarrollo: 'En el apartado a) hemos visto que el objeto pasa por encima de la pared (a 9,90 m), así que **no choca** con ella.'
-    resultado: 'No se aplica: el objeto llega al terrado.'
+      - titulo: No s’aplica
+        desarrollo: 'A l’apartat a) hem vist que l’objecte passa per sobre de la paret (a 9,90 m), així que **no hi xoca**.'
+    resultado: 'No s’aplica: l’objecte arriba al terrat.'
 errores:
-  - error: 'Calcular dónde cae con y = 0'
-    explicacion: 'El objeto cae sobre el terrado, que está a 8 m. El punto de caída se busca con $y = 8\un{m}$.'
-  - error: 'Quedarse con la primera solución de la ecuación de segundo grado'
-    explicacion: 'Las dos soluciones son reales: una cuando sube y otra cuando baja. Comprueba siempre cuál tiene sentido.'
+  - error: 'Calcular on cau amb y = 0'
+    explicacion: 'L’objecte cau sobre el terrat, que és a 8 m. El punt de caiguda es busca amb $y = 8\un{m}$.'
+  - error: 'Quedar-se amb la primera solució de l’equació de segon grau'
+    explicacion: 'Les dues solucions són reals: una quan puja i una altra quan baixa. Comprova sempre quina té sentit.'
 laboratorio: { v0: 20, angulo: 45, g: 10 }
