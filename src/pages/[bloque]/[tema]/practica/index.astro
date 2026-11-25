@@ -57,14 +57,19 @@ const cols = (await getCollections(topic.id)).map((c) => ({
 			<section class="container cols" aria-label="Colecciones de clase y exámenes">
 				{cols.map((c) => (
 					<a class="col-card" href={collectionUrl(topic, c.id)}>
-						<Icon name={c.data.tipo === 'examen' ? 'clock' : 'layers'} size={22} />
+						<Icon name={c.data.tipo === 'examen' ? 'clock' : c.data.tipo === 'repaso' ? 'book' : 'layers'} size={22} />
 						<span>
-							<span class="col-k">{c.data.tipo === 'examen' ? 'Examen de práctica' : 'Colección de clase'}</span>
+							<span class="col-k">
+								{c.data.tipo === 'repaso' && <span class="review-badge">Review</span>}
+								{c.data.tipo === 'examen' ? 'Examen de práctica' : c.data.tipo === 'repaso' ? 'Hoja de repaso' : 'Colección de clase'}
+							</span>
 							<strong>{c.data.titulo}</strong>
 							<span class="col-d">
 								{c.data.tipo === 'examen'
 									? `${c.n} ejercicios de nivel examen${c.data.minutos ? `, ${c.data.minutos} min` : ''}`
-									: `${c.n} ejercicios: los problemas de la hoja con sus variantes, en orden`}
+									: c.data.tipo === 'repaso'
+										? `${c.n} ejercicios tal cual aparecen en la hoja, para comprobar tus resultados`
+										: `${c.n} ejercicios: los problemas de la hoja con sus variantes, en orden`}
 							</span>
 						</span>
 						<Icon name="arrow-right" />
@@ -269,6 +274,16 @@ const cols = (await getCollections(topic.id)).map((c) => ({
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		opacity: 0.7;
+	}
+	.review-badge {
+		display: inline-block;
+		margin-right: 0.45rem;
+		padding: 0.05rem 0.45rem;
+		border-radius: 999px;
+		background: var(--warn-soft);
+		color: var(--warn);
+		opacity: 1;
+		letter-spacing: 0.06em;
 	}
 	.col-card strong {
 		font-family: var(--font-display);

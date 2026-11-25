@@ -1,0 +1,120 @@
+titulo: Pelota que sube por una rampa y sale volando
+tema: movimiento-parabolico
+orden: 206
+procedencia: alumno
+fuente: joan-oro-parabolico
+nota_fuente: Ejercicio 6 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Resultado de la hoja, con g = 9,8 m/s²; 2,204 m y 3,028 m.
+coleccion: review-parabolico-joan-oro
+dificultad: avanzado
+habilidades: [planteamiento, vectores, multipaso, matematicas]
+resumen: Una pelota frena al subir por una rampa de 2 m de alto y sale lanzada desde el borde. Altura máxima y punto de caída.
+enunciado: |
+  Des de terra deixo anar una pilota amb una velocitat de **8 m/s** i puja per la rampa però frena amb una acceleració de **6 m/s²**. L’alçada del pla inclinat és de **2 metres** i la pilota recorre **4 metres** mentre el puja. Calcula:
+
+  a) Quina serà l’alçada màxima durant la caiguda lliure després d’abandonar la rampa? b) A quin lloc del terra caurà exactament aquesta pilota?
+figura:
+  tipo: lanzamiento
+  v0: 4
+  angulo: 30
+  h0: 2
+  soporte: rampa
+  etiquetas: { v0: '', angulo: '', h0: '' }
+datos:
+  - { simbolo: 'v_{\text{inicial}}', valor: '8\un{m/s}', significado: 'velocidad al empezar a subir la rampa' }
+  - { simbolo: 'a', valor: '-6\un{m/s^2}', significado: 'frenada a lo largo de la rampa' }
+  - { simbolo: 'h', valor: '2\un{m}', significado: 'altura de la rampa' }
+  - { simbolo: 'L', valor: '4\un{m}', significado: 'longitud de la rampa' }
+  - { simbolo: '\cg{g}', valor: '-9,8\un{m/s^2}', significado: 'en este ejercicio la hoja usa 9,8' }
+incognitas:
+  - 'La velocidad y el ángulo con los que la pelota sale de la rampa.'
+  - 'La altura máxima desde el suelo.'
+  - 'La distancia horizontal desde el final de la rampa hasta el punto de caída.'
+interpretacion: |
+  Hay **dos movimientos seguidos**. En la rampa, la pelota hace un MRUA en línea recta (frena). Al llegar arriba sale con la velocidad que le queda y en la dirección de la rampa: a partir de ahí es un **lanzamiento oblicuo desde 2 m** de altura. Lo que sale del primer tramo (velocidad y ángulo) es el dato del segundo.
+conceptos:
+  - 'MRUA sin tiempo: $v^2 = v_0^2 + 2\,a\,d$.'
+  - 'Ángulo de la rampa: $\operatorname{sen}\alpha = \dfrac{\text{altura}}{\text{longitud}}$.'
+  - '$\cx{x} = v_0\cos\alpha\cdot t$, $\cy{y} = 2 + v_0\operatorname{sen}\alpha\cdot t - 4,9\,t^2$, $\cy{v_y} = v_0\operatorname{sen}\alpha - 9,8\,t$.'
+apartados:
+  - id: a
+    enunciado: 'Quina serà l’alçada màxima durant la caiguda lliure després d’abandonar la rampa?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'v'
+          etiqueta: Velocidad al salir de la rampa
+          unidad: m/s
+          valor: 4
+          trampas:
+            - { valor: 2, explicacion: 'Has usado $v = v_0 + a\,t$ con algún tiempo inventado, o has olvidado elevar al cuadrado. Usa $v^2 = 8^2 - 2\cdot 6\cdot 4$.' }
+        - simbolo: '\alpha'
+          etiqueta: Ángulo de la rampa
+          unidad: '°'
+          valor: 30
+          trampas:
+            - { valor: 26.57, explicacion: 'Has usado la tangente (2/4). Pero 4 m es lo que **recorre** la pelota sobre la rampa: es la hipotenusa, así que $\operatorname{sen}\alpha = 2/4$.' }
+        - simbolo: 'y_{\text{máx}}'
+          etiqueta: Altura máxima desde el suelo
+          unidad: m
+          valor: 2.204
+          trampas:
+            - { valor: 0.204, explicacion: 'Eso es lo que sube **por encima del borde** de la rampa. Desde el suelo hay que sumarle los 2 m.' }
+    pistas:
+      - 'Primero la rampa: $v^2 = 8^2 + 2\cdot(-6)\cdot 4$.'
+      - 'Los 4 m son la longitud inclinada (hipotenusa) y los 2 m, la altura: $\operatorname{sen}\alpha = 2/4$.'
+      - 'Ya en el aire, en el punto más alto $v_y = 0$.'
+    pasos:
+      - titulo: 'Tramo 1: velocidad al final de la rampa'
+        desarrollo: |
+          $$v^2 = 8^2 + 2\cdot(-6)\cdot 4 = 64 - 48 = 16 \;\Rightarrow\; v = 4\un{m/s}$$
+        porque: 'En la rampa no conocemos el tiempo, así que usamos la ecuación del MRUA que no lo necesita.'
+      - titulo: Ángulo de salida
+        desarrollo: |
+          $$\operatorname{sen}\alpha = \frac{2}{4} = 0,5 \;\Rightarrow\; \alpha = 30^\circ$$
+        porque: 'La pelota sale en la dirección de la rampa, con su misma inclinación.'
+      - titulo: 'Tramo 2: componentes'
+        desarrollo: |
+          $$\cx{v_{0x}} = 4\cos 30^\circ = 3,46\un{m/s} \qquad \cy{v_{0y}} = 4\operatorname{sen}30^\circ = 2\un{m/s}$$
+      - titulo: 'Punto más alto: vᵧ = 0'
+        desarrollo: |
+          $$0 = 2 - 9,8\,t \;\Rightarrow\; t = 0,204\un{s}$$
+
+          $$y = 2 + 2\cdot 0,204 - 4,9\cdot 0,204^2 = 2,204\un{m}$$
+    resultado: 'Sale de la rampa a 4 m/s con 30° y sube hasta **2,204 m** del suelo.'
+  - id: b
+    enunciado: 'A quin lloc del terra caurà exactament aquesta pilota?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't'
+          etiqueta: Tiempo en el aire
+          unidad: s
+          valor: 0.875
+          trampas:
+            - { valor: 0.408, explicacion: 'Ese es el tiempo que tardaría en volver a la altura de la rampa. Pero sigue cayendo 2 m más, hasta el suelo.' }
+        - simbolo: 'x'
+          etiqueta: Distancia desde el final de la rampa
+          unidad: m
+          valor: 3.030
+          trampas:
+            - { valor: 6.494, explicacion: 'Has sumado la base de la rampa (3,46 m). Aquí se mide desde el final de la rampa, donde la pelota sale volando.' }
+    pistas:
+      - 'Llega al suelo cuando $y = 0$: $0 = 2 + 2\,t - 4,9\,t^2$.'
+      - 'De las dos soluciones, quédate con la positiva.'
+    pasos:
+      - titulo: 'Llega al suelo: y = 0'
+        desarrollo: |
+          $$0 = 2 + 2\,t - 4,9\,t^2 \;\Rightarrow\; t = \frac{2 + \sqrt{2^2 + 4\cdot 4,9\cdot 2}}{2\cdot 4,9} = \frac{2 + 6,57}{9,8} = 0,875\un{s}$$
+        porque: 'La otra solución es negativa: no tiene sentido físico.'
+      - titulo: Distancia horizontal
+        desarrollo: |
+          $$x = 3,46\cdot 0,875 = 3,03\un{m}$$
+    resultado: 'Cae a **3,03 m** del final de la rampa (la hoja da 3,028 m, por redondeo).'
+errores:
+  - error: 'Usar la tangente para el ángulo de la rampa'
+    explicacion: 'Los 4 m son lo que recorre la pelota sobre la rampa, es decir, la hipotenusa. Por eso es $\operatorname{sen}\alpha = 2/4$, no $\tan\alpha$.'
+  - error: 'Empezar el lanzamiento con los 8 m/s'
+    explicacion: 'La pelota pierde velocidad subiendo la rampa. El lanzamiento empieza con la velocidad que le queda arriba, 4 m/s.'
+  - error: 'Olvidar la altura de la rampa'
+    explicacion: 'La pelota sale a 2 m del suelo: la ecuación del eje Y empieza en $y_0 = 2$, y la altura máxima se mide desde el suelo.'
+laboratorio: { v0: 4, angulo: 30, h0: 2 }

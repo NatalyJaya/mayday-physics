@@ -1,0 +1,87 @@
+titulo: Paquete desde un avión a un coche
+tema: movimiento-parabolico
+orden: 201
+procedencia: alumno
+fuente: joan-oro-parabolico
+nota_fuente: Ejercicio 1 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Resultado de la hoja, con g = 10 m/s²; 1.075 m y 1.454 m.
+coleccion: review-parabolico-joan-oro
+dificultad: intermedio
+habilidades: [unidades, planteamiento, multipaso]
+resumen: Un avión suelta un paquete sobre un coche en marcha. ¿Desde qué distancia, si el coche va en el mismo sentido o en sentido contrario?
+enunciado: |
+  Des d’un avió que vola a **720 km/h** horitzontalment a **200 metres** d’altura s’ha de llançar un paquet a un cotxe que va per l’autopista a **108 km/h**. A quina distància del cotxe ha de deixar anar l’avió aquest objecte? A quina distància l’hauria de deixar anar si el cotxe circulés en sentit contrari?
+datos:
+  - { simbolo: 'y_0', valor: '200\un{m}', significado: 'altura del avión' }
+  - { simbolo: '\cx{v_{0x}}', valor: '720\un{km/h} = 200\un{m/s}', significado: 'el paquete sale con la velocidad del avión' }
+  - { simbolo: 'v_{\text{coche}}', valor: '108\un{km/h} = 30\un{m/s}', significado: 'velocidad constante del coche' }
+  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que usa la hoja' }
+incognitas:
+  - 'La distancia horizontal entre el avión y el coche al soltar el paquete (coche en el mismo sentido).'
+  - 'La misma distancia si el coche va en sentido contrario.'
+interpretacion: |
+  El paquete es un **lanzamiento horizontal**: sale con los 200 m/s del avión. Mientras cae, el coche también se mueve. Por eso no basta con saber cuánto avanza el paquete: hay que restarle (o sumarle) lo que avanza el coche en el mismo tiempo.
+conceptos:
+  - 'De km/h a m/s se divide entre 3,6.'
+  - '$\cx{x} = \cx{v_{0x}}\,t$ e $\cy{y} = 200 - 5\,t^2$ (con $g = 10\un{m/s^2}$).'
+  - 'El coche hace un MRU: $x_{\text{coche}} = v_{\text{coche}}\,t$.'
+apartados:
+  - id: a
+    enunciado: 'A quina distància del cotxe ha de deixar anar l’avió aquest objecte?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 't', etiqueta: Tiempo de caída del paquete, unidad: s, valor: 6.325 }
+        - simbolo: 'd'
+          etiqueta: Distancia al coche (mismo sentido)
+          unidad: m
+          valor: 1075.2
+          trampas:
+            - { valor: 1264.9, explicacion: 'Eso es lo que avanza el **paquete**. Mientras cae, el coche se aleja 190 m más: hay que restarlos.' }
+            - { valor: 4300, explicacion: 'Parece que has usado las velocidades en km/h. Pásalas antes a m/s (÷ 3,6).' }
+    pistas:
+      - 'Pasa las velocidades a m/s: $720/3,6$ y $108/3,6$.'
+      - 'El tiempo de caída solo depende de la altura: $0 = 200 - 5\,t^2$.'
+      - 'En ese tiempo el paquete avanza $200\,t$ y el coche $30\,t$. La distancia que buscas es la diferencia.'
+    pasos:
+      - titulo: Velocidades en m/s
+        desarrollo: |
+          $$\cx{v_{0x}} = \frac{720}{3,6} = 200\un{m/s} \qquad v_{\text{coche}} = \frac{108}{3,6} = 30\un{m/s}$$
+      - titulo: Tiempo de caída (eje Y)
+        desarrollo: |
+          $$0 = 200 - 5\,t^2 \;\Rightarrow\; t = \sqrt{40} = 6,32\un{s}$$
+        porque: 'La velocidad vertical inicial es 0: el avión vuela en horizontal.'
+      - titulo: Lo que avanza cada uno (eje X)
+        desarrollo: |
+          $$x_{\text{paquete}} = 200\cdot 6,32 = 1265\un{m} \qquad x_{\text{coche}} = 30\cdot 6,32 = 190\un{m}$$
+      - titulo: Distancia al soltar
+        piensa: 'Si el coche se aleja mientras el paquete cae, ¿el avión tiene que soltarlo más cerca o más lejos de lo que avanza el paquete?'
+        desarrollo: |
+          $$d = x_{\text{paquete}} - x_{\text{coche}} = (200 - 30)\cdot 6,32 = 1075\un{m}$$
+        porque: 'El paquete tiene que «alcanzar» al coche, que también avanza. Es lo mismo que usar la velocidad relativa, 200 − 30 = 170 m/s.'
+    resultado: 'Tiene que soltarlo cuando el coche esté **1.075 m** por delante (en horizontal).'
+  - id: b
+    enunciado: 'A quina distància l’hauria de deixar anar si el cotxe circulés en sentit contrari?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 'd'
+          etiqueta: Distancia al coche (sentido contrario)
+          unidad: m
+          valor: 1454.6
+          trampas:
+            - { valor: 1075.2, explicacion: 'Esa es la del apartado anterior. Ahora el coche viene hacia el avión: su desplazamiento se **suma**.' }
+            - { valor: 1264.9, explicacion: 'Eso es solo lo que avanza el paquete. Falta sumarle lo que se acerca el coche.' }
+    pistas:
+      - 'El tiempo de caída es el mismo: 6,32 s.'
+      - 'Ahora el coche se acerca: los dos recorridos se suman.'
+    pasos:
+      - titulo: Mismo tiempo, el coche se acerca
+        desarrollo: |
+          $$d = x_{\text{paquete}} + x_{\text{coche}} = (200 + 30)\cdot 6,32 = 1455\un{m}$$
+        porque: 'El tiempo de caída no depende del coche. Lo único que cambia es el sentido de su movimiento.'
+    resultado: 'Tendría que soltarlo con el coche a **1.455 m** (la hoja da 1.454 m, por redondeo).'
+errores:
+  - error: 'Olvidar que el coche se mueve'
+    explicacion: 'Los 1.265 m son lo que avanza el paquete respecto al suelo. El coche no está quieto: hay que restar o sumar su desplazamiento.'
+  - error: 'Mezclar km/h y m/s'
+    explicacion: 'Con $g$ en m/s² el tiempo sale en segundos; las velocidades también tienen que estar en m/s.'

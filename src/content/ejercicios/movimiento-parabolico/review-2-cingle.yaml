@@ -1,0 +1,64 @@
+titulo: Objeto lanzado desde un cortado de 300 m
+tema: movimiento-parabolico
+orden: 202
+procedencia: alumno
+fuente: joan-oro-parabolico
+nota_fuente: Ejercicio 2 de la hoja «Exercicis moviment parabòlic» (INS Joan Oró), enunciado en catalán, tal cual. Resultado de la hoja, con g = 10 m/s²; 7,75 s y 310 m.
+coleccion: review-parabolico-joan-oro
+dificultad: basico
+habilidades: [planteamiento]
+resumen: Lanzamiento horizontal desde lo alto de un cortado. Tiempo de caída y distancia a la base.
+enunciado: |
+  De dalt d’un cingle de **300 m** d’altura llancem horitzontalment un objecte amb una velocitat de **40 m/s**.
+
+  a) Quan tarda en arribar a terra? b) A quina distància de la base del cingle hi arriba?
+datos:
+  - { simbolo: 'y_0', valor: '300\un{m}', significado: 'altura del cortado' }
+  - { simbolo: '\cx{v_{0x}}', valor: '40\un{m/s}', significado: 'lanzamiento horizontal' }
+  - { simbolo: '\cy{v_{0y}}', valor: '0', significado: 'sale en horizontal' }
+  - { simbolo: '\cg{g}', valor: '-10\un{m/s^2}', significado: 'valor que usa la hoja' }
+incognitas:
+  - El tiempo de caída.
+  - La distancia horizontal desde la base del cortado.
+conceptos:
+  - '$\cx{x} = 40\,t$ e $\cy{y} = 300 - 5\,t^2$ (con $g = 10\un{m/s^2}$).'
+  - 'Llega al suelo cuando $y = 0$.'
+apartados:
+  - id: a
+    enunciado: 'Quan tarda en arribar a terra?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - simbolo: 't'
+          etiqueta: Tiempo de caída
+          unidad: s
+          valor: 7.746
+          trampas:
+            - { valor: 60, explicacion: 'Te has olvidado la raíz: $t^2 = 60$, así que $t = \sqrt{60}$.' }
+            - { valor: 7.5, explicacion: 'Parece que has dividido 300 entre 40. La velocidad de 40 m/s es horizontal: no influye en la caída.' }
+    pistas:
+      - 'El tiempo lo decide el eje Y. Al llegar al suelo, $y = 0$.'
+      - '$0 = 300 - 5\,t^2$.'
+    pasos:
+      - titulo: 'Eje Y: llega al suelo cuando y = 0'
+        desarrollo: |
+          $$0 = 300 - 5\,t^2 \;\Rightarrow\; t^2 = 60 \;\Rightarrow\; t = 7,75\un{s}$$
+        porque: 'La velocidad vertical inicial es 0, así que cae igual que si lo dejáramos caer.'
+    resultado: 'Tarda **7,75 s** en llegar al suelo.'
+  - id: b
+    enunciado: 'A quina distància de la base del cingle hi arriba?'
+    respuesta:
+      tipo: numerica
+      campos:
+        - { simbolo: 'x', etiqueta: Distancia a la base, unidad: m, valor: 309.8 }
+    pistas:
+      - 'En el eje X la velocidad es constante: $x = 40\,t$.'
+    pasos:
+      - titulo: 'Eje X con el tiempo de vuelo'
+        desarrollo: |
+          $$x = 40\cdot 7,75 = 310\un{m}$$
+        porque: 'El tiempo es el mismo en los dos ejes: es lo que los conecta.'
+    resultado: 'Llega a **310 m** de la base.'
+errores:
+  - error: 'Usar la velocidad de 40 m/s en el eje Y'
+    explicacion: 'Se lanza en horizontal: $v_{0y} = 0$. Los 40 m/s solo aparecen en la ecuación del eje X.'
